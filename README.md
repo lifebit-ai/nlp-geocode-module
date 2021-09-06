@@ -1,4 +1,4 @@
-###Geocoder module
+### Geocoder module
 
 This repository contains the code for the Geocoder module, that provides coordinates from the normalised name of a location, alongside with its country and the bounding box coordinates of its area (top left corner and bottom right corner). This class is an interface to the `Photon` geocoder; its entrypoint has to be provided in the config file used as input for the module (default `config.yaml`).
 
