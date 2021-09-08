@@ -1,0 +1,5 @@
+url_api: "http://34.105.131.180:2322/api?"
+url_reverse: "http://34.105.131.180:2322/reverse?"
+lang: "en"
+osm_keys:
+  - "place"
