@@ -2,8 +2,8 @@ import argparse
 import json
 import os
 import logging
-from geocoder import Geocoder
-from utils import str2bool
+from geocoder_module.geocoder import Geocoder
+from geocoder_module.utils import str2bool
 
 
 logging.basicConfig(
