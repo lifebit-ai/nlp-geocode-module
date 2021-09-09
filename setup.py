@@ -12,5 +12,5 @@ setup(
     author="ML Team | Lifebit",
     packages=["geocoder_module"],
     install_requires=requirements,
-    data_files=[("config", ["geocoder_module/config.yaml"])],
+    include_package_data=True,
 )
