@@ -16,7 +16,7 @@ logging.basicConfig(
 
 
 class Geocoder:
-    def __init__(self, config: str = "config.yaml") -> None:
+    def __init__(self) -> None:
         """
         This class creates the Geocoder module, that is an object
         to get coordinates from the normalised name of a location,
@@ -28,14 +28,12 @@ class Geocoder:
         :param config: string path for the config file
         """
 
-        try:
-            self.config = yaml.load(open(config, "r"), Loader=yaml.FullLoader)
-        except FileNotFoundError:
-            logging.error("The config file {} doesn't exist".format(config))
-            sys.exit(-1)
-        except:
-            logging.error("Error reading config file {}".format(config))
-            sys.exit(-1)
+        self.config = {
+            "url_api_endpoint": "/api?",
+            "url_reverse_endpoint": "/reverse?",
+            "lang": "en",
+            "osm_keys": "place",
+        }
 
         try:
             print(os.environ["PHOTON_SERVER"])

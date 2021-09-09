@@ -1,5 +1,0 @@
-url_api_endpoint: "/api?"
-url_reverse_endpoint: "/reverse?"
-lang: "en"
-osm_keys:
-  - "place"

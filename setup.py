@@ -12,5 +12,4 @@ setup(
     author="ML Team | Lifebit",
     packages=["geocoder_module"],
     install_requires=requirements,
-    include_package_data=True,
 )
