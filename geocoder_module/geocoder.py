@@ -16,7 +16,7 @@ logging.basicConfig(
 
 
 class Geocoder:
-    def __init__(self, config: str = "") -> None:
+    def __init__(self, config: str = "geocoder_module/config.yaml") -> None:
         """
         This class creates the Geocoder module, that is an object
         to get coordinates from the normalised name of a location,
