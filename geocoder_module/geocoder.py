@@ -2,7 +2,7 @@ import requests
 import yaml
 import logging
 import sys
-import math
+import os
 from collections import Counter
 from itertools import product
 from typing import Dict, List
@@ -37,6 +37,14 @@ class Geocoder:
             logging.error("Error reading config file {}".format(config))
             sys.exit(-1)
 
+        try:
+            print(os.environ["PHOTON_SERVER"])
+        except:
+            logging.error(
+                "The environment variable PHOTON_SERVER has not been specified"
+            )
+            sys.exit(-1)
+
     def get_location_info(
         self, location: str, best_matching: bool = True, country: str = None
     ) -> List[Dict[str, any]]:
@@ -61,8 +69,10 @@ class Geocoder:
         """
 
         try:
+            url_api = os.environ["PHOTON_SERVER"] + self.config["url_api_endpoint"]
+
             response = requests.get(
-                self.config["url_api"],
+                url_api,
                 params={
                     "q": location,
                     "lang": self.config["lang"],
