@@ -4,7 +4,6 @@ import logging
 import sys
 import os
 from collections import Counter
-from itertools import product
 from typing import Dict, List
 from geocoder_module.utils import calculate_distance
 

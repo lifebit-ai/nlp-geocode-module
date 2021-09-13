@@ -1,5 +1,6 @@
 import math
 import logging
+from itertools import product
 from typing import List, Union
 
 logging.basicConfig(
@@ -94,7 +95,7 @@ def calculate_distance(
         c = coordinates_2[:2]
         d = coordinates_2[2:]
 
-        corners = products([a, b], [c, d])
+        corners = product([a, b], [c, d])
         min_distance = 2 * math.pi * EARTH_RADIUS
 
         for corner in corners:
