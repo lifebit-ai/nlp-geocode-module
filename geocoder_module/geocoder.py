@@ -36,7 +36,7 @@ class Geocoder:
         }
 
         try:
-            print(os.environ["PHOTON_SERVER"])
+            print("Using Photon Geocoder server on: " + os.environ["PHOTON_SERVER"])
         except:
             logging.error(
                 "The environment variable PHOTON_SERVER has not been specified"
