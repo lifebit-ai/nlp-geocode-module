@@ -1,5 +1,4 @@
 import requests
-import yaml
 import logging
 import sys
 import os
@@ -131,7 +130,7 @@ class Geocoder:
         if possible.
 
         :param locations:      list of dictionaries that represents a location
-                               as produced by the get_coordinates method
+                               as produced by the get_location_info method
         :param top_countries:  integer that put a maximum bound on the
                                number of countries to check as a reference
         """
@@ -177,7 +176,7 @@ class Geocoder:
                     break
                 reference_country = reference_country[0]
                 if country != reference_country:
-                    new_location = self.get_coordinates(
+                    new_location = self.get_location_info(
                         name, country=reference_country, best_matching=True
                     )
 
