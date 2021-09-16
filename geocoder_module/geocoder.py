@@ -1,10 +1,8 @@
 import requests
-import yaml
 import logging
 import sys
-import math
+import os
 from collections import Counter
-from itertools import product
 from typing import Dict, List
 from geocoder_module.utils import calculate_distance
 
@@ -16,7 +14,7 @@ logging.basicConfig(
 
 
 class Geocoder:
-    def __init__(self, config: str = "") -> None:
+    def __init__(self) -> None:
         """
         This class creates the Geocoder module, that is an object
         to get coordinates from the normalised name of a location,
@@ -28,13 +26,19 @@ class Geocoder:
         :param config: string path for the config file
         """
 
+        self.config = {
+            "url_api_endpoint": "/api?",
+            "url_reverse_endpoint": "/reverse?",
+            "lang": "en",
+            "osm_keys": "place",
+        }
+
         try:
-            self.config = yaml.load(open(config, "r"), Loader=yaml.FullLoader)
-        except FileNotFoundError:
-            logging.error("The config file {} doesn't exist".format(config))
-            sys.exit(-1)
+            print("Using Photon Geocoder server on: " + os.environ["PHOTON_SERVER"])
         except:
-            logging.error("Error reading config file {}".format(config))
+            logging.error(
+                "The environment variable PHOTON_SERVER has not been specified"
+            )
             sys.exit(-1)
 
     def get_location_info(
@@ -61,8 +65,10 @@ class Geocoder:
         """
 
         try:
+            url_api = os.environ["PHOTON_SERVER"] + self.config["url_api_endpoint"]
+
             response = requests.get(
-                self.config["url_api"],
+                url_api,
                 params={
                     "q": location,
                     "lang": self.config["lang"],
@@ -124,7 +130,7 @@ class Geocoder:
         if possible.
 
         :param locations:      list of dictionaries that represents a location
-                               as produced by the get_coordinates method
+                               as produced by the get_location_info method
         :param top_countries:  integer that put a maximum bound on the
                                number of countries to check as a reference
         """
@@ -170,7 +176,7 @@ class Geocoder:
                     break
                 reference_country = reference_country[0]
                 if country != reference_country:
-                    new_location = self.get_coordinates(
+                    new_location = self.get_location_info(
                         name, country=reference_country, best_matching=True
                     )
 
