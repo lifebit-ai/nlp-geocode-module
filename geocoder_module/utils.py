@@ -114,3 +114,43 @@ def calculate_distance(
         )
     )
     return None
+
+
+def edit_bounding_box(
+    coordinates: List[float],
+    distance_to_add: float,
+    add: bool = True,
+) -> List[float]:
+    """
+    This function takes in input a list of coordinates representing a bounding
+    box, that is two sets of gps coordinates (longitude,latitudes) and increase
+    or decrease its diagonal by the distance passed in input returning
+    the new sets of coordinates.
+
+    :param coordinates:       list of floats representing the two sets of
+                              coordinates that define a bounding box
+    :param distance_to_reach: a float value that is the distance added or
+                              the diagonal of the bounding box should have
+    :param add:               bool value if True the distance is added
+                              otherwise is subtracted
+
+    """
+
+    scale = -1 if add else 1
+
+    dist = distance_to_add / 2
+    dx = dist / math.sqrt(2)
+    dy = dist / math.sqrt(2)
+
+    lon_1, lat_1, lon_2, lat_2 = coordinates
+
+    new_lat_1 = lat_1 + scale * (dy / EARTH_RADIUS) * (180 / math.pi)
+    new_lon_1 = lon_1 + scale * (dx / EARTH_RADIUS) * (-180 / math.pi) / math.cos(
+        lat_1 * math.pi / 180
+    )
+    new_lat_2 = lat_2 - scale * (dy / EARTH_RADIUS) * (180 / math.pi)
+    new_lon_2 = lon_2 - scale * (dx / EARTH_RADIUS) * (-180 / math.pi) / math.cos(
+        lat_2 * math.pi / 180
+    )
+
+    return [new_lon_1, new_lat_1, new_lon_2, new_lat_2]
