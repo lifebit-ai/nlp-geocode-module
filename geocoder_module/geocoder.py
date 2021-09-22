@@ -4,7 +4,8 @@ import sys
 import os
 from collections import Counter
 from typing import Dict, List
-from geocoder_module.utils import calculate_distance
+from geocoder_module.utils import calculate_distance, edit_bounding_box
+
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -219,3 +220,51 @@ class Geocoder:
         """
 
         return calculate_distance(*params)
+
+    def enlarge_bounding_box(
+        self, coordinates: List[float], distance: float
+    ) -> List[float]:
+        """
+        This function checks if a bounding box has a diagonal that is larger
+        than or equal to the distance passed in input. If it is not, the bounding
+        box is enlarged until it reaches the required distance and returned.
+
+        :param coordinates: list of floats representing the two sets of
+                            coordinates that define a bounding box
+        :param distance:    a float giving the required distance between
+                            the corners of the considered bounding box
+        """
+
+        diagonal = self.get_distance(coordinates[:2], coordinates[2:])
+        if diagonal > distance:
+            return coordinates
+
+        return edit_bounding_box(coordinates, distance - diagonal, add=True)
+
+    def check_intersection(
+        self, bounding_box_1: List[float], bounding_box_2: List[float]
+    ) -> bool:
+        """
+        This function takes in input two bounding boxes, represented by
+        two sets of coordinates, and checks if these two boxes have a not null
+        intersection, returning True if it is so, False otherwise.
+
+        :param bounding_box_1: list of floats representing the two sets of
+                               coordinates that define a bounding box
+        :param boundinb_box_2: list of floats representing the two sets of
+                               coordinates that define a bounding box
+        """
+
+        # lon lat lon lat
+        atlx, atly, abrx, abry = bounding_box_1
+        btlx, btly, bbrx, bbry = bounding_box_2
+
+        rabx = abs(atlx + abrx - btlx - bbrx)
+        raby = abs(atly + abry - btly - bbry)
+        raxPrbx = abrx - atlx + bbrx - btlx
+        rayPrby = atly - abry + btly - bbry
+
+        if rabx <= raxPrbx and raby <= rayPrby:
+            return True
+
+        return False
