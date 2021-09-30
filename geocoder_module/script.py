@@ -71,7 +71,8 @@ if __name__ == "__main__":
     logging.info(args)
 
     # create geocoder
-    geocoder = Geocoder(args.config_path)
+#    geocoder = Geocoder(args.config_path)
+    geocoder = Geocoder()
 
     # read data
     if os.path.isdir(args.data_path):
