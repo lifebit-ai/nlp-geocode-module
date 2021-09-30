@@ -32,3 +32,9 @@ script.py: error: the following arguments are required: -d/--data
 
 where `DATA_PATH` is the path of a `JSON` file or a folder containign `JSON` files. Every stored dictionary has to have a field `events` which contains a subfield `location`. `CONFIG_PATH` specifies the path where the configuration file for the geocoder is stored, by default is `config.yaml`. The `DOUBLE_CHECK` parameter is a bool value, if True the model tries to detect a reference set of countries from a list of locations, assigning misrepresented locations to them.
 In other words, if the locations are four cities in Texas, Houston, Sacramento, San Antonio and Paris, we want to avoid that the first three are assigned to the United States and the latter to France. To do this we try to assign every location to the most frequent countries in the list, if possible. `STRICT` is another bool parameter,if True the script will remove events where the query for the location has returned no results. Finally, `OUTPUT_PATH` is the path of the `JSON` file where to store the final results.
+
+
+### Added Features
+
+This current version of the Geocoder provides a way to extract countries which share a common border with one specified in input (```get_country_neighbors```), to extract all the country covered by a bounding box (```reverse_geocoding_bounding_box```), transform and modify a bounding box (```bounding_box_to_point```,```enlarge_bounding_box```,```merge_bounding_boxes```)
+
