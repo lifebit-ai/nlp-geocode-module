@@ -1,0 +1,4 @@
+include README.md
+include geocoder_module/countries_bbox.json
+include geocoder_module/country_neighbors.json
+

@@ -1,17 +1,25 @@
 import requests
 import logging
+import json
 import sys
 import os
 from collections import Counter
 from typing import Dict, List
-from geocoder_module.utils import calculate_distance, edit_bounding_box
-
+import geocoder_module
+from geocoder_module.utils import (
+    calculate_distance,
+    edit_bounding_box,
+    gps_sanity_check,
+    bbox2point_coord,
+)
 
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s.%(msecs)03d %(levelname)s: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
+
+_wrap_latitude = lambda x: x + 90
 
 
 class Geocoder:
@@ -32,7 +40,44 @@ class Geocoder:
             "url_reverse_endpoint": "/reverse?",
             "lang": "en",
             "osm_keys": "place",
+            "country_neighbors_path": "country_neighbors.json",
+            "country_bounding_box_path": "countries_bbox.json",
         }
+
+        try:
+            self.map_country_neighbors = json.load(
+                open(
+                    os.path.join(
+                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
+                        "geocoder_module",
+                        self.config["country_neighbors_path"],
+                    ),
+                    "r",
+                )
+            )
+        except:
+            logging.error(
+                "The json file {} specified in the configuration can't be read.".format(
+                    self.config["country_neighbors_path"]
+                )
+            )
+        try:
+            self.country_bbox = json.load(
+                open(
+                    os.path.join(
+                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
+                        "geocoder_module",
+                        self.config["country_bounding_box_path"],
+                    ),
+                    "r",
+                )
+            )
+        except:
+            logging.error(
+                "The json file {} specified in the configuration can't be read.".format(
+                    self.config["country_bounding_box_path"]
+                )
+            )
 
         try:
             print("Using Photon Geocoder server on: " + os.environ["PHOTON_SERVER"])
@@ -112,6 +157,27 @@ class Geocoder:
                 break
 
         return results
+
+    def get_country_neighbors(self, country: str) -> List[str]:
+        """
+        This function returns the countries that have a common
+        border with the country specified in input.
+
+        :param country: string of the country name to look for its
+                        neighbors.
+        """
+
+        return self.map_country_neighbors[country]
+
+    def reverse_geocode_bounding_box(self, bounding_box: List[float]) -> List[str]:
+
+        countries_in_bbox = []
+
+        for country in self.country_bbox.keys():
+            if self.check_intersection(bounding_box, self.country_bbox[country]):
+                countries_in_bbox.append(country)
+
+        return countries_in_bbox
 
     def double_check_countries(
         self, locations: List[Dict[str, any]], top_countries: int = None
@@ -221,6 +287,19 @@ class Geocoder:
 
         return calculate_distance(*params)
 
+    def bounding_box_to_point(self, *params):
+        """
+        This function is a wrapper of the calculate_distance
+        function from utils.
+
+        :params param: a list of four floats representing the
+                       bounding box to transform and an
+                       optional string that represents the
+                       transform function to use.
+        """
+
+        return bbox2point_coord(*params)
+
     def enlarge_bounding_box(
         self, coordinates: List[float], distance: float
     ) -> List[float]:
@@ -255,16 +334,55 @@ class Geocoder:
                                coordinates that define a bounding box
         """
 
-        # lon lat lon lat
-        atlx, atly, abrx, abry = bounding_box_1
-        btlx, btly, bbrx, bbry = bounding_box_2
+        # this is not ideal at the poles, but it is good for now
+        # who cares about penguins by the way?
 
-        rabx = abs(atlx + abrx - btlx - bbrx)
-        raby = abs(atly + abry - btly - bbry)
-        raxPrbx = abrx - atlx + bbrx - btlx
-        rayPrby = atly - abry + btly - bbry
+        if bounding_box_1 == bounding_box_2:
+            return True
 
-        if rabx <= raxPrbx and raby <= rayPrby:
+        bounding_box_1 = gps_sanity_check(bounding_box_1)
+        bounding_box_2 = gps_sanity_check(bounding_box_2)
+
+        dist1 = self.get_distance(bounding_box_1[:2], bounding_box_1[2:])
+        dist2 = self.get_distance(bounding_box_2[:2], bounding_box_2[2:])
+
+        # this is because if one bbox is contained in another
+        # this function is not symmetric anymore
+        if dist2 > dist1:
+            bounding_box_2, bounding_box_1 = bounding_box_1, bounding_box_2
+
+        minlon1, minlat1, maxlon1, maxlat1 = bounding_box_1
+        minlon2, minlat2, maxlon2, maxlat2 = bounding_box_2
+
+        minlat1 = _wrap_latitude(minlat1)
+        minlat2 = _wrap_latitude(minlat2)
+        maxlat1 = _wrap_latitude(maxlat1)
+        maxlat2 = _wrap_latitude(maxlat2)
+
+        rabx = abs(minlon1 + maxlon1 - minlon2 - maxlon2)
+        raby = abs(minlat1 - minlat2 + maxlat1 - minlat2)
+
+        rx = maxlon1 - minlon1 + maxlon2 - minlon2
+        ry = minlat1 - maxlat1 + minlat2 - maxlat2
+
+        if rabx <= rx and raby <= ry:
             return True
 
         return False
+
+    def merge_bounding_boxes(self, bounding_boxes: List[List[float]]) -> List[float]:
+        """
+        This function takes in input a list of bounding boxes and merges them
+        producing their union, the minimal bounding box that contains all the
+        others.
+
+        :param bounding_boxes: list of bounding boxes, each of them a list
+                               of four float (min_lon,min_lat,max_lon,max_lat)
+        """
+
+        min_lon = min([b[0] for b in bounding_boxes])
+        min_lat = max([b[1] for b in bounding_boxes])
+        max_lon = max([b[2] for b in bounding_boxes])
+        max_lat = min([b[3] for b in bounding_boxes])
+
+        return gps_sanity_check([min_lon, min_lat, max_lon, max_lat])
