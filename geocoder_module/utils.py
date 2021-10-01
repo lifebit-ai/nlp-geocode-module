@@ -74,29 +74,31 @@ def average(bounding_box: List[float]):
 
 
 def bbox2point_coord(
-    bounding_box: List[float], function: str = "average"
+    bounding_box: List[float], function_name: str = "average"
 ) -> List[float]:
     """
     This function transforms a bounding box in a single point
     coordinates using the function specified as input (default is the
-    avarege function)
+    average function)
 
-    :param boundinb_box: a list of 4 floats lon_min,lat_min,lon_max,lat_max
-    :param function:     a string representing the function used to transform
-                         the bounding box to a point coordinate
+    :param boundinb_box:  a list of 4 floats lon_min,lat_min,lon_max,lat_max
+    :param function_name: a string representing the function used to transform
+                          the bounding box to a point coordinate
 
     """
-    if not function in ALLOWED_TRANSFORMS:
-        logging.warning("{} is not implemented yet".format(function))
+    if not function_name in ALLOWED_TRANSFORMS:
+        logging.warning("{} is not implemented yet".format(function_name))
         raise NotImplementedError
 
-    point_coord = eval(function)(bounding_box)
+    point_coord = eval(function_name)(bounding_box)
 
     return point_coord
 
 
 def calculate_distance(
-    coordinates_1: List[float], coordinates_2: List[float], function: str = "harvesin"
+    coordinates_1: List[float],
+    coordinates_2: List[float],
+    function_name: str = "harvesin",
 ) -> float:
     """
     This function measures the distance between two sets of coordinates using the
@@ -108,11 +110,11 @@ def calculate_distance(
 
     :param coordinates_1: list composed of two or four floats
     :param coordinates_2: list composed of two or four floats
-    :param function:      string that represents the function distance to use
+    :param function_name:      string that represents the function distance to use
     """
 
-    if not function in ALLOWED_DISTANCES:
-        logging.warning("{} is not implemented yet".format(function))
+    if not function_name in ALLOWED_DISTANCES:
+        logging.warning("{} is not implemented yet".format(function_name))
         raise NotImplementedError
 
     # TODO: extend to distance between bounding boxes and single point coordinates
@@ -128,7 +130,7 @@ def calculate_distance(
         lon_1, lat_1 = coordinates_1
         lon_2, lat_2 = coordinates_2
 
-        return eval(function)(lat_1, lon_1, lat_2, lon_2)
+        return eval(function_name)(lat_1, lon_1, lat_2, lon_2)
 
     if len(coordinates_1) == 4:
         a = coordinates_1[:2]
@@ -140,7 +142,7 @@ def calculate_distance(
         min_distance = 2 * math.pi * EARTH_RADIUS
 
         for corner in corners:
-            distance = eval(function)(
+            distance = eval(function_name)(
                 corner[0][1], corner[0][0], corner[1][1], corner[1][0]
             )
             if distance < min_distance:

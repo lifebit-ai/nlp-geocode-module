@@ -1,6 +1,7 @@
 import requests
 import logging
 import json
+import sys
 import os
 from collections import Counter
 from typing import Dict, List
@@ -43,14 +44,6 @@ class Geocoder:
             "country_bounding_box_path": "countries_bbox.json",
         }
 
-        print(
-            os.path.join(
-                os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                "geocoder_module",
-                self.config["country_neighbors_path"],
-            )
-        )
-
         try:
             self.map_country_neighbors = json.load(
                 open(
@@ -92,6 +85,7 @@ class Geocoder:
             logging.error(
                 "The environment variable PHOTON_SERVER has not been specified"
             )
+            sys.exit(-1)
 
     def get_location_info(
         self, location: str, best_matching: bool = True, country: str = None
