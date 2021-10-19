@@ -215,7 +215,7 @@ def gps_sanity_check(bounding_box: List[float]) -> List[float]:
         logging.error(
             """The input bounding box has {} coordinates
                        which is wrong! They need to be 4!""".format(
-                len(coordinates)
+                len(bounding_box)
             )
         )
         return None
