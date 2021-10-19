@@ -222,10 +222,16 @@ def gps_sanity_check(bounding_box: List[float]) -> List[float]:
 
     # left!
     if not bounding_box[0] < bounding_box[2]:
+        logging.warning(
+            "{} is not in the right format, changed it!".format(bounding_box)
+        )
         bounding_box[2], bounding_box[0] = bounding_box[0], bounding_box[2]
 
     # right!
     if not bounding_box[1] > bounding_box[3]:
+        logging.warning(
+            "{} is not in the right format, changed it!".format(bounding_box)
+        )
         bounding_box[3], bounding_box[1] = bounding_box[1], bounding_box[3]
 
     return bounding_box
