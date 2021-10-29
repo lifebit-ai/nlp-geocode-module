@@ -11,6 +11,13 @@ from geocoder_module.utils import (
 )
 
 
+"""
+This dummy data is composed by random capitals from which gps
+coordinates are extracted. The results of edit function and
+distances is attached to them, while the merged samples are
+the marging of all the pairs of the bounding boxes
+"""
+
 PATH_SAMPLES = "tests/dummy_samples.json"
 PATH_MERGED = "tests/dummy_merged.json"
 
@@ -27,6 +34,11 @@ def create_geocoder():
 
 
 def test_gps_sanity_check():
+    """
+    This function checks if the output of the
+    gps_sanity_check for the input bounding box is
+    in the correct format min_lon, min_lat, max_lon, max_lat
+    """
 
     dummy_samples = get_dummy_data(PATH_SAMPLES)
 
@@ -36,6 +48,11 @@ def test_gps_sanity_check():
 
 
 def test_bbox2point_coord():
+    """
+    This function checks if the conversion of a bounding box
+    to a couple of GPS coordinates (a point coordinate) is
+    performed correctly
+    """
 
     dummy_samples = get_dummy_data(PATH_SAMPLES)
 
@@ -45,6 +62,10 @@ def test_bbox2point_coord():
 
 
 def test_calculate_distance():
+    """
+    This function checks if the distance between two
+    point coordiantes is calculated correctly
+    """
 
     dummy_samples = get_dummy_data(PATH_SAMPLES)
 
@@ -56,6 +77,11 @@ def test_calculate_distance():
 
 
 def test_edit_distance():
+    """
+    This function checks if changing the bounding box
+    to a desired distance, that is the diagonal between the
+    top left and the bottom right, is performed correctly
+    """
 
     dummy_samples = get_dummy_data(PATH_SAMPLES)
 
@@ -68,6 +94,11 @@ def test_edit_distance():
 
 
 def test_merging_bounding_boxes():
+    """
+    This function checks if merging two bounding boxes
+    results in the correct fineal bounding box, as per
+    the provided samples
+    """
 
     dummy_merged = get_dummy_data(PATH_MERGED)
     geo = create_geocoder()
