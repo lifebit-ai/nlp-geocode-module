@@ -15,7 +15,7 @@ from geocoder_module.utils import (
 This dummy data is composed by random capitals from which gps
 coordinates are extracted. The results of edit function and
 distances is attached to them, while the merged samples are
-the marging of all the pairs of the bounding boxes
+the merging of a subset of pairs of the bounding boxes
 """
 
 PATH_SAMPLES = "tests/dummy_samples.json"
@@ -33,76 +33,107 @@ def create_geocoder():
     return Geocoder()
 
 
-def test_gps_sanity_check():
+@pytest.mark.parametrize(
+    "name,bounding_box",
+    [
+        (sample["name"], sample["boundingBox"])
+        for sample in get_dummy_data(PATH_SAMPLES)
+    ],
+)
+def test_gps_sanity_check(name, bounding_box):
     """
     This function checks if the output of the
     gps_sanity_check for the input bounding box is
     in the correct format min_lon, min_lat, max_lon, max_lat
     """
-
-    dummy_samples = get_dummy_data(PATH_SAMPLES)
-
-    for sample in dummy_samples:
-        bounding_box = sample["boundingBox"][0] + sample["boundingBox"][1]
-        assert bounding_box == gps_sanity_check(bounding_box)
+    bbox = bounding_box[0] + bounding_box[1]
+    assert bbox == gps_sanity_check(bbox)
 
 
-def test_bbox2point_coord():
-    """
-    This function checks if the conversion of a bounding box
-    to a couple of GPS coordinates (a point coordinate) is
-    performed correctly
-    """
-
-    dummy_samples = get_dummy_data(PATH_SAMPLES)
-
-    for sample in dummy_samples:
-        bounding_box = sample["boundingBox"][0] + sample["boundingBox"][1]
-        assert sample["coordinates"] == bbox2point_coord(bounding_box)
-
-
-def test_calculate_distance():
-    """
-    This function checks if the distance between two
-    point coordiantes is calculated correctly
-    """
-
-    dummy_samples = get_dummy_data(PATH_SAMPLES)
-
-    for sample in dummy_samples:
-        distance = calculate_distance(
-            sample["boundingBox"][0], sample["boundingBox"][1]
+@pytest.mark.parametrize(
+    "name,bounding_box,edit_distance,editBoundingBoxAdd",
+    [
+        (
+            sample["name"],
+            sample["boundingBox"],
+            sample["edit_distance"],
+            sample["editBoundingBoxAdd"],
         )
-        assert distance == sample["distance"]
-
-
-def test_edit_distance():
+        for sample in get_dummy_data(PATH_SAMPLES)
+    ],
+)
+def test_edit_distance(name, bounding_box, edit_distance, editBoundingBoxAdd):
     """
     This function checks if changing the bounding box
     to a desired distance, that is the diagonal between the
     top left and the bottom right, is performed correctly
     """
 
-    dummy_samples = get_dummy_data(PATH_SAMPLES)
+    bounding_box = bounding_box[0] + bounding_box[1]
+    edited_bounding_box = edit_bounding_box(bounding_box, edit_distance, add=True)
+    assert editBoundingBoxAdd == edited_bounding_box
 
-    for sample in dummy_samples:
-        bounding_box = sample["boundingBox"][0] + sample["boundingBox"][1]
-        edited_bounding_box = edit_bounding_box(
-            bounding_box, sample["edit_distance"], add=True
+
+@pytest.mark.parametrize(
+    "name,bounding_box,distance",
+    [
+        (
+            sample["name"],
+            sample["boundingBox"],
+            sample["distance"],
         )
-        assert sample["editBoundingBoxAdd"] == edited_bounding_box
-
-
-def test_merging_bounding_boxes():
+        for sample in get_dummy_data(PATH_SAMPLES)
+    ],
+)
+def test_calculate_distance(name, bounding_box, distance):
     """
-    This function checks if merging two bounding boxes
-    results in the correct fineal bounding box, as per
-    the provided samples
+    This function checks if the distance between two
+    point coordiantes is calculated correctly
     """
 
-    dummy_merged = get_dummy_data(PATH_MERGED)
+    assert distance == calculate_distance(bounding_box[0], bounding_box[1])
+
+
+@pytest.mark.parametrize(
+    "name,bounding_box,coordinates",
+    [
+        (
+            sample["name"],
+            sample["boundingBox"],
+            sample["coordinates"],
+        )
+        for sample in get_dummy_data(PATH_SAMPLES)
+    ],
+)
+def test_bbox2point_coord(name, bounding_box, coordinates):
+    """
+    This function checks if the conversion of a bounding box
+    to a couple of GPS coordinates (a point coordinate) is
+    performed correctly
+    """
+
+    bbox = bounding_box[0] + bounding_box[1]
+    assert coordinates == bbox2point_coord(bbox)
+
+
+@pytest.mark.parametrize(
+    "first_name,second_name,merged,bbox1,bbox2",
+    [
+        (
+            sample["first_name"],
+            sample["second_name"],
+            sample["merged"],
+            sample["first_bbox"],
+            sample["second_bbox"],
+        )
+        for sample in get_dummy_data(PATH_MERGED)
+    ],
+)
+def test_merging_bbox(first_name, second_name, merged, bbox1, bbox2):
+    """
+    This function checks if the merging of two bounding boxes
+    is performed correctly
+    """
     geo = create_geocoder()
 
-    for sample in dummy_merged:
-        merged = geo.merge_bounding_boxes([sample["first"], sample["second"]])
-        assert merged == sample["merged"]
+    assert merged == geo.merge_bounding_boxes([bbox1, bbox2])
