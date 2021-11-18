@@ -193,6 +193,7 @@ def edit_bounding_box(
     new_lon_2 = lon_2 + (dist * m) / math.cos(lat_2 * (math.pi / 180))
 
     new_coords = gps_sanity_check([new_lon_1, new_lat_1, new_lon_2, new_lat_2])
+    new_coords = [round(coord, 7) for coord in new_coords]
 
     return new_coords
 
