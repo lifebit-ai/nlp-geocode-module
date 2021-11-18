@@ -52,7 +52,7 @@ def harvesin(
     ) * math.sin(delta_gamma / 2) * math.sin(delta_gamma / 2)
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
-    return EARTH_RADIUS * c
+    return round(EARTH_RADIUS * c, 4)
 
 
 def average(bounding_box: List[float]):
@@ -148,7 +148,7 @@ def calculate_distance(
             if distance < min_distance:
                 min_distance = distance
 
-        return min_distance
+        return round(min_distance, 4)
 
     logging.error(
         """The set of coordinates are composed of two pairs of coordinates, or two
