@@ -146,10 +146,22 @@ class Geocoder:
             if country and features["properties"]["country"] != country:
                 continue
 
+            # If a country is provided, then retrieve the bounding box from
+            # countries_bbox.json
+            if (
+                features["properties"]["name"].lower()
+                == features["properties"]["country"].lower()
+            ):
+                location["bounding_box"] = self.country_bbox[
+                    features["properties"]["country"].lower()
+                ]
+            else:
+                location["bounding_box"] = features["properties"]["extent"]
+
             location["name"] = features["properties"]["name"]
-            location["bounding_box"] = features["properties"]["extent"]
             location["country"] = features["properties"]["country"]
             location["coordinates"] = features["geometry"]["coordinates"]
+            # Add results
             results.append(location)
 
             # the first results is the always the best matching one
