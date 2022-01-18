@@ -8,11 +8,15 @@ This repository contains the code for the Geocoder module, that provides coordin
 
 The parameters for the config file are:
 
-- `geonames_api_endpoint`: 
+- `geonames_api_endpoint`: api endpoint for the `Geonames` location service.
 - `url_api_endpoint`: api endpoint for the `Photon` geocoder.
 - `url_reverse_endpoint`: api endpoint for the `Photon` decoder (to get location from coordinates, not implemented for future use).
 - `lang`: parameter to specify the language of the returned results, default is `"en"`
 - `osm_keys`: list of filters on the geocoder results, based on Open Stree Map features https://wiki.openstreetmap.org/wiki/Map_features. Default is `place`
+
+### Installing module
+
+Remember to install the module, before running tests or you won't be able to test changes. Use `pip3 install -e .` to ensure that happens.
 
 ### Environment Variables
 

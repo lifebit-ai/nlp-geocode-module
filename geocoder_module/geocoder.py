@@ -133,7 +133,7 @@ class Geocoder:
             location["name"] = response["name"]
             location["country"] = response["country"]
             location["coordinates"] = [response["longitude"], response["latitude"]]
-            if location.lower() == country.lower():
+            if location["name"].lower() == country.lower():
                 try:
                     location["bounding_box"] = self.country_bbox[country.lower()]
                 except:

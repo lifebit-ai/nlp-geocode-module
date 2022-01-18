@@ -1,4 +1,4 @@
-geonames_api: "http://<URL>:<PORT>/locations?"
+geonames_api: "http://34.105.131.180:8000>/locations?"
 url_api: "http://34.105.131.180:2322/api?"
 url_reverse: "http://34.105.131.180:2322/reverse?"
 lang: "en"

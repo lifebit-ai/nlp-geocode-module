@@ -7,7 +7,7 @@ geocoder = Geocoder()
 
 
 @patch("requests.get")
-def test_get_geocoder_info_returns_right_location_when_found_by_geocoder(
+def test_get_geocoder_info_returns_a_location_when_queried(
     mock_get,
 ):
     expected_get_geocoder_api_output = {
@@ -71,7 +71,34 @@ def test_get_geocoder_info_returns_right_location_when_found_by_geocoder(
             ],
         }
     ]
-    response = geocoder.get_location_info("sydney")
+    response = geocoder._get_geocode_info("sydney")
+
+    assert mock_get.called
+    assert response == expected_output
+
+
+@patch("requests.get")
+def test_get_geonames_info_returns_right_location_when_queried(
+    mock_get,
+):
+    expected_get_geonames_api_output = {
+        "name": "Sydney",
+        "latitude": "-33.86778",
+        "longitude": "151.20844",
+        "country": "Australia",
+        "continent": "Oceania",
+    }
+    # Generate expected output from both get requests
+    mock_get.return_value.json.return_value = expected_get_geonames_api_output
+
+    expected_output = [
+        {
+            "name": "Sydney",
+            "coordinates": ["151.20844", "-33.86778"],
+            "country": "Australia",
+        }
+    ]
+    response = geocoder._get_geonames_info("sydney", "australia")
 
     assert mock_get.called
     assert response == expected_output
@@ -102,35 +129,15 @@ def test_get_location_info_returns_right_location_when_found_by_geocoder_and_geo
                     "type": "city",
                 },
             },
-            {
-                "geometry": {"coordinates": [151.210047, -33.8679574], "type": "Point"},
-                "type": "Feature",
-                "properties": {
-                    "osm_id": 5729534,
-                    "osm_type": "R",
-                    "extent": [151.1970047, -33.8561096, 151.223011, -33.8797564],
-                    "country": "Australia",
-                    "osm_key": "place",
-                    "city": "Council of the City of Sydney",
-                    "countrycode": "AU",
-                    "osm_value": "suburb",
-                    "postcode": "2000",
-                    "name": "Sydney",
-                    "state": "New South Wales",
-                    "type": "district",
-                },
-            },
         ]
     }
-    expected_get_geonames_api_output = [
-        {
-            "name": "Sydney",
-            "latitude": "-33.86778",
-            "longitude": "151.20844",
-            "country": "Australia",
-            "continent": "Oceania",
-        }
-    ]
+    expected_get_geonames_api_output = {
+        "name": "Sydney",
+        "latitude": "-33.86778",
+        "longitude": "151.20844",
+        "country": "Australia",
+        "continent": "Oceania",
+    }
     # Generate expected output from both get requests
     mock_get.return_value.json.return_value = "test"
     mock_get.return_value.json.side_effect = [
@@ -185,7 +192,7 @@ def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_ca
             }
         ]
     }
-    expected_get_geonames_api_output_2 = [{}]
+    expected_get_geonames_api_output_2 = {}
     # Generate expected output from both get requests
     mock_get.return_value.json.side_effect = [
         expected_get_geocoder_api_output_2,
