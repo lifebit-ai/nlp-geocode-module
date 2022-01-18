@@ -36,6 +36,7 @@ class Geocoder:
         """
 
         self.config = {
+            "geonames_api_endpoint": "/locations/?",
             "url_api_endpoint": "/api?",
             "url_reverse_endpoint": "/reverse?",
             "lang": "en",
@@ -87,7 +88,60 @@ class Geocoder:
             )
             sys.exit(-1)
 
-    def get_location_info(
+        try:
+            print("Using Geonames server on: " + os.environ["GEONAMES_SERVER"])
+        except:
+            logging.error(
+                "The environment variable GEONAMES_SERVER has not been specified"
+            )
+            sys.exit(-1)
+
+    def _get_geonames_info(self, location: str, country: str) -> List[Dict[str, any]]:
+        """
+        This function returns a list of dictionaries representing the
+        geographical information of the normalized location passed in input.
+        The resulting dictionaries are composed of a normalized name (field "name"),
+        four gps coordinates of the two corners of its bounding box if the location is a country (field "extent"),
+        the country where it belongs (field "country"), and the gps coordinates,
+        longitude and latitude (field "coordinates").
+        The paramter country specifies the country where to search in for the
+        given location.
+
+        :param location:       string that represents the location to query for
+
+        :param country:        string that represents the country where to search
+                               the input location
+        """
+        try:
+            url_api = (
+                os.environ["GEONAMES_SERVER"] + self.config["geonames_api_endpoint"]
+            )
+
+            response = requests.get(
+                url_api,
+                params={"country": country.lower(), "local_location": location.lower()},
+            )
+            response = response.json()
+            print(f"Geonames response : {response}")
+        except Exception as e:
+            logging.error("Error in querying location {} ".format(location))
+            logging.error(e)
+        results = []
+        # Create location object with results
+        location = {}
+        if "name" in response:
+            location["name"] = response["name"]
+            location["country"] = response["country"]
+            location["coordinates"] = [response["longitude"], response["latitude"]]
+            if location.lower() == country.lower():
+                try:
+                    location["bounding_box"] = self.country_bbox[country.lower()]
+                except:
+                    location["bounding_box"] = []
+            results.append(location)
+        return results
+
+    def _get_geocode_info(
         self, location: str, best_matching: bool = True, country: str = None
     ) -> List[Dict[str, any]]:
         """
@@ -109,7 +163,6 @@ class Geocoder:
         :param country:        string that represents the country where to search
                                the input location (default None)
         """
-
         try:
             url_api = os.environ["PHOTON_SERVER"] + self.config["url_api_endpoint"]
 
@@ -122,6 +175,7 @@ class Geocoder:
                 },
             )
             response = response.json()
+            print(f"Geocoder response : {response}")
         except Exception as e:
             logging.error("Error in querying location {} ".format(location))
             logging.error(e)
@@ -146,8 +200,8 @@ class Geocoder:
             if country and features["properties"]["country"] != country:
                 continue
 
-            # If a country is provided, then retrieve the bounding box from
-            # countries_bbox.json
+            # If the location queried is a country,
+            # then retrieve the bounding box from countries_bbox.json
             if (
                 features["properties"]["name"].lower()
                 == features["properties"]["country"].lower()
@@ -161,6 +215,7 @@ class Geocoder:
             location["name"] = features["properties"]["name"]
             location["country"] = features["properties"]["country"]
             location["coordinates"] = features["geometry"]["coordinates"]
+
             # Add results
             results.append(location)
 
@@ -169,6 +224,48 @@ class Geocoder:
                 break
 
         return results
+
+    def get_location_info(
+        self, location: str, best_matching: bool = True, country: str = None
+    ) -> List[Dict[str, any]]:
+        """
+        This function returns a list of dictionaries representing the
+        geographical information of the normalized location passed in input.
+        The resulting dictionaries are composed of a normalized name (field "name"),
+        four gps coordinates of the two corners of its bounding box (field "extent"),
+        the country where it belongs (field "country"), and the gps coordinates,
+        longitude and latitude (field "coordinates").
+        The best_matching parameter is used to specify if the method will return
+        only the first result or all the results obtained querying Photon.
+        The paramter country specifies the country where to search in for the
+        given location.
+
+        :param location:       string that represents the location to query for
+        :param best_matching:  bool, if True the first results is returend,
+                               otherwise all the results are returned
+                               (default True)
+        :param country:        string that represents the country where to search
+                               the input location (default None)
+        """
+        # Query geocoder to find the best location in photon for that particular query
+        initial_results = self._get_geocode_info(location, best_matching, country)
+        # Validate result with geonames service
+        validated_results = []
+        for geocode_hit in initial_results:
+            validated_hits = self._get_geonames_info(
+                geocode_hit["name"], geocode_hit["country"]
+            )
+            for validated_hit in validated_hits:
+                # where the geonames validation magic happens
+                if validated_hit["name"].lower() == geocode_hit["name"].lower():
+                    if (
+                        validated_hit["country"].lower()
+                        == geocode_hit["country"].lower()
+                    ):
+                        validated_results.append(geocode_hit)
+                else:
+                    continue
+        return validated_results
 
     def get_country_neighbors(self, country: str) -> List[str]:
         """

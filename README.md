@@ -8,6 +8,7 @@ This repository contains the code for the Geocoder module, that provides coordin
 
 The parameters for the config file are:
 
+- `geonames_api_endpoint`: 
 - `url_api_endpoint`: api endpoint for the `Photon` geocoder.
 - `url_reverse_endpoint`: api endpoint for the `Photon` decoder (to get location from coordinates, not implemented for future use).
 - `lang`: parameter to specify the language of the returned results, default is `"en"`
@@ -18,6 +19,7 @@ The parameters for the config file are:
 The required environment variable is for your photon geocoder server:
 
 - PHOTON_SERVER (Eg: `export PHOTON_SERVER=http://<ip-address>:<port number>`)
+- GEONAMES_SERVER (Eg: `export GEONAMES_SERVER=http://<ip-address>:<port number>`)
 
 ## Usage
 

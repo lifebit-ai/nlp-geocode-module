@@ -1,0 +1,5 @@
+run-unit-tests:
+  build:
+    context: .
+    dockerfile: tests/Dockerfile
+  cached: true
