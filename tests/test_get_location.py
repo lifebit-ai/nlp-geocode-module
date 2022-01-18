@@ -6,9 +6,8 @@ from geocoder_module.geocoder import Geocoder
 geocoder = Geocoder()
 
 
-@pytest.mark.asyncio
 @patch("requests.get")
-async def test_get_geocoder_info_returns_right_location_when_found_by_geocoder(
+def test_get_geocoder_info_returns_right_location_when_found_by_geocoder(
     mock_get,
 ):
     expected_get_geocoder_api_output = {
@@ -78,9 +77,8 @@ async def test_get_geocoder_info_returns_right_location_when_found_by_geocoder(
     assert response == expected_output
 
 
-@pytest.mark.asyncio
 @patch("requests.get")
-async def test_get_location_info_returns_right_location_when_found_by_geocoder_and_geonames(
+def test_get_location_info_returns_right_location_when_found_by_geocoder_and_geonames(
     mock_get,
 ):
     expected_get_geocoder_api_output = {
@@ -161,9 +159,8 @@ async def test_get_location_info_returns_right_location_when_found_by_geocoder_a
     assert response == expected_output
 
 
-@pytest.mark.asyncio
 @patch("requests.get")
-async def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_cant_be_validated_by_geonames(
+def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_cant_be_validated_by_geonames(
     mock_get,
 ):
     expected_get_geocoder_api_output_2 = {
