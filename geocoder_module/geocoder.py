@@ -122,7 +122,6 @@ class Geocoder:
                 params={"country": country.lower(), "local_location": location.lower()},
             )
             response = response.json()
-            print(f"Geonames response : {response}")
         except Exception as e:
             logging.error("Error in querying location {} ".format(location))
             logging.error(e)
@@ -175,7 +174,6 @@ class Geocoder:
                 },
             )
             response = response.json()
-            print(f"Geocoder response : {response}")
         except Exception as e:
             logging.error("Error in querying location {} ".format(location))
             logging.error(e)
