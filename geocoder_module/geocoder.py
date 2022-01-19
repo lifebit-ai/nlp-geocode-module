@@ -310,6 +310,7 @@ class Geocoder:
         """
 
         mapping_countries = {}
+        only_countries = {}
 
         countries = []
 
@@ -320,12 +321,23 @@ class Geocoder:
                     continue
                 countries.append(location["country"])
                 mapping_countries[location["name"]] = location["country"]
+                if location["name"] == location["country"]:
+                    if location["country"] in only_countries:
+                        only_countries[location["country"]] += 1
+                    else:
+                        only_countries[location["country"]] = 1
+
             else:
                 for l in location:
                     if l["country"] == []:
                         continue
                     countries.append(l["country"])
                     mapping_countries[l["name"]] = l["country"]
+                    if l["name"] == l["country"]:
+                        if l["country"] in only_countries:
+                            only_countries[l["country"]] += 1
+                        else:
+                            only_countries[l["country"]] = 1
 
         # extract the candidate reference countries
         if not top_countries:
@@ -340,27 +352,60 @@ class Geocoder:
             )
             return locations
 
-        for name, country in mapping_countries.items():
-            # the location is a country no need to check it
-            if name == country:
-                continue
-            # iterating from the most frequent country
-            for reference_country in majority:
-                if reference_country[1] == 1:
-                    break
-                reference_country = reference_country[0]
-                if country != reference_country:
-                    new_location = self.get_location_info(
-                        name, country=reference_country, best_matching=True
-                    )
-
-                    # check if the refernce country can be used for this location
-                    if new_location != []:
-                        mapping_countries[name] = new_location[0]["country"]
+        ## Edge case 1: If there are few locations and 1 is a country
+        ## We assume that the few locations belong to that country, so that country is the new country location
+        if len(only_countries) == 1:
+            new_country = list(only_countries.keys())[0]
+            for name, country in mapping_countries.items():
+                # the location is a country no need to check it
+                if name == country:
+                    continue
+                # iterating from the most frequent country
+                for reference_country in majority:
+                    if reference_country[1] == 1:
                         break
-                else:
-                    break
+                    reference_country = new_country
+                    if country != reference_country:
+                        new_location = self.get_location_info(
+                            name, country=reference_country, best_matching=True
+                        )
+                        # check if the refernce country can be used for this location
+                        if new_location != []:
+                            mapping_countries[name] = new_location[0]["country"]
+                            break
+                    else:
+                        break
 
+        ## Edge case 2: If there are references to multiple countries including or not local locations
+        ## We assume no majority can be reached and local locations will be included
+        ## if they match with one of the countries, others will be discarded
+        elif len(only_countries) > 1:
+            logging.warning(
+                f"Found {len(only_countries)} references to countries, locations not matching one of those countries will be discarded"
+            )
+
+        ## General case: Multiple locations with a clear majority
+        else:
+            for name, country in mapping_countries.items():
+                # the location is a country no need to check it
+                if name == country:
+                    continue
+                # iterating from the most frequent country
+                for reference_country in majority:
+                    if reference_country[1] == 1:
+                        break
+                    reference_country = reference_country[0]
+                    if country != reference_country:
+                        new_location = self.get_location_info(
+                            name, country=reference_country, best_matching=True
+                        )
+                        # check if the refernce country can be used for this location
+                        if new_location != []:
+                            mapping_countries[name] = new_location[0]["country"]
+                            break
+                    else:
+                        break
+        # Update new locations
         new_locations = []
 
         for location in locations:
@@ -370,15 +415,20 @@ class Geocoder:
             new_country = mapping_countries[location["name"]]
             new_location = None
             if new_country != location["country"]:
+                logging.info(f'Changing {location["country"]} to {new_country}')
                 new_location = self.get_location_info(
                     location["name"],
                     country=new_country,
                     best_matching=True,
                 )
             if new_location:
-                new_locations.append(new_location)
-            else:
+                new_locations.append(new_location[0])
+            elif location["country"] in only_countries:
                 new_locations.append(location)
+            elif not only_countries:
+                new_locations.append(location)
+            else:
+                new_locations.append({})
 
         return new_locations
 
