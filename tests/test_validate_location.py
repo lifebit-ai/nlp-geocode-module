@@ -53,6 +53,25 @@ location_output_texas = {
 
 
 @patch("geocoder_module.geocoder.Geocoder.get_location_info")
+def test_location_is_returned_valid_if_there_is_only_one_in_article(
+    mock_get_location_info,
+):
+    locations = [
+        location_output_old_paris,
+    ]
+    # Generate expected output from nlp-api response and add it to mock
+
+    mock_get_location_info.return_value = [location_output_old_paris]
+
+    # Get response
+    response = geocoder.double_check_countries(locations)
+
+    expected_output = [location_output_old_paris]
+
+    assert response == expected_output
+
+
+@patch("geocoder_module.geocoder.Geocoder.get_location_info")
 def test_updated_location_is_returned_when_location_is_validated_with_others_in_article(
     mock_get_location_info,
 ):
