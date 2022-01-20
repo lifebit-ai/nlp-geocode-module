@@ -8,16 +8,28 @@ This repository contains the code for the Geocoder module, that provides coordin
 
 The parameters for the config file are:
 
+- `geonames_api_endpoint`: api endpoint for the `Geonames` location service.
 - `url_api_endpoint`: api endpoint for the `Photon` geocoder.
 - `url_reverse_endpoint`: api endpoint for the `Photon` decoder (to get location from coordinates, not implemented for future use).
 - `lang`: parameter to specify the language of the returned results, default is `"en"`
 - `osm_keys`: list of filters on the geocoder results, based on Open Stree Map features https://wiki.openstreetmap.org/wiki/Map_features. Default is `place`
+
+### Running the unit tests
+
+Remember to install the module, before running tests or you won't be able to test your changes as the `pytest` command will run against the package. The `pip3 install -e .` will ensure this happens.
+
+```shell
+export PHOTON_SERVER=test 	# Set dummy environment variable when running tests
+export GEONAMES_SERVER=test # Set dummy environment variable when running tests
+pip3 install -e . && pytest -vv	# Run the tests while updating the package with latest changes
+```
 
 ### Environment Variables
 
 The required environment variable is for your photon geocoder server:
 
 - PHOTON_SERVER (Eg: `export PHOTON_SERVER=http://<ip-address>:<port number>`)
+- GEONAMES_SERVER (Eg: `export GEONAMES_SERVER=http://<ip-address>:<port number>`)
 
 ## Usage
 

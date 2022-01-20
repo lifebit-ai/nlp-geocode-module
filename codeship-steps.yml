@@ -1,0 +1,6 @@
+- name: Run unit tests
+  type: parallel
+  steps:
+    - name: tests
+      service: run-unit-tests
+      command: pytest -vv

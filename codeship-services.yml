@@ -1,0 +1,8 @@
+run-unit-tests:
+  build:
+    context: .
+    dockerfile: tests/Dockerfile
+  environment:
+    - PHOTON_SERVER=test
+    - GEONAMES_SERVER=test
+  cached: true
