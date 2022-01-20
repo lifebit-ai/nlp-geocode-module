@@ -317,7 +317,7 @@ class Geocoder:
         # create a default mapping and extract all the countries
         for location in locations:
             if not isinstance(location, list):
-                if location["country"] == []:
+                if "country" not in location or location["country"] == []:
                     continue
                 countries.append(location["country"])
                 mapping_countries[location["name"]] = location["country"]

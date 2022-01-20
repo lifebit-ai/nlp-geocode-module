@@ -196,3 +196,19 @@ def test_retain_all_locations_in_country_when_location_is_in_countries_location(
     ]
 
     assert response == expected_output
+
+
+@patch("geocoder_module.geocoder.Geocoder.get_location_info")
+def test__location_is_not_processed_if_no_country_key_in_location(
+    mock_get_location_info,
+):
+    locations = [{}]
+    # Generate expected output from nlp-api response and add it to mock
+
+    mock_get_location_info.return_value = "test"
+
+    # Get response
+    response = geocoder.double_check_countries(locations)
+
+    assert not mock_get_location_info.called
+    assert response == locations
