@@ -203,8 +203,8 @@ def test__location_is_not_processed_if_no_country_key_in_location(
     mock_get_location_info,
 ):
     locations = [{}]
-    # Generate expected output from nlp-api response and add it to mock
 
+    # Create dummy return value, though this should not be called
     mock_get_location_info.return_value = "test"
 
     # Get response
