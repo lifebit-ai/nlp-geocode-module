@@ -228,5 +228,9 @@ def test__location_is_not_processed_if_name_key_in_location(
     # Get response
     response = geocoder.double_check_countries(locations)
 
+    # Expected output
+
+    expected_output = [{}]
+
     assert not mock_get_location_info.called
-    assert response == locations
+    assert response == expected_output

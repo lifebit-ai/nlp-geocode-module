@@ -316,9 +316,7 @@ class Geocoder:
 
         # create a default mapping and extract all the countries
         for location in locations:
-            if not location:
-                continue
-            if not "name" in location:
+            if not location or not "name" in location:
                 continue
             if not isinstance(location, list):
                 if "country" not in location or location["country"] == []:
@@ -350,6 +348,8 @@ class Geocoder:
             majority = Counter(countries).most_common(top_countries)
 
         if len(majority) <= 1 or majority[0][1] == 1:
+            if not locations[0] or not "name" in locations[0]:
+                return [{}]
             logging.warning(
                 """All the locations belong to the same country or no
                    reference country can be inferred from the text"""
@@ -413,10 +413,7 @@ class Geocoder:
         new_locations = []
 
         for location in locations:
-            if not location:
-                new_locations.append([])
-                continue
-            elif not "name" in location:
+            if not location or not "name" in location:
                 new_locations.append([])
                 continue
             if location == []:
