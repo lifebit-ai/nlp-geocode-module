@@ -414,10 +414,10 @@ class Geocoder:
 
         for location in locations:
             if not location or not "name" in location:
-                new_locations.append([])
+                new_locations.append({})
                 continue
             if location == []:
-                new_locations.append([])
+                new_locations.append({})
                 continue
             new_country = mapping_countries[location["name"]]
             new_location = None
