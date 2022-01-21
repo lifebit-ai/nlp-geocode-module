@@ -316,6 +316,10 @@ class Geocoder:
 
         # create a default mapping and extract all the countries
         for location in locations:
+            if not location:
+                continue
+            if not "name" in location:
+                continue
             if not isinstance(location, list):
                 if "country" not in location or location["country"] == []:
                     continue
@@ -409,6 +413,12 @@ class Geocoder:
         new_locations = []
 
         for location in locations:
+            if not location:
+                new_locations.append([])
+                continue
+            elif not "name" in location:
+                new_locations.append([])
+                continue
             if location == []:
                 new_locations.append([])
                 continue

@@ -212,3 +212,21 @@ def test__location_is_not_processed_if_no_country_key_in_location(
 
     assert not mock_get_location_info.called
     assert response == locations
+
+
+@patch("geocoder_module.geocoder.Geocoder.get_location_info")
+def test__location_is_not_processed_if_name_key_in_location(
+    mock_get_location_info,
+):
+    locations = [
+        {"country": "Spain", "bounding_box": [0, 0, 0, 0], "coodinates": [0, 0]}
+    ]
+
+    # Create dummy return value, though this should not be called
+    mock_get_location_info.return_value = "test"
+
+    # Get response
+    response = geocoder.double_check_countries(locations)
+
+    assert not mock_get_location_info.called
+    assert response == locations
