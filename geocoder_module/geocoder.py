@@ -418,8 +418,6 @@ class Geocoder:
         if not top_countries:
             majority = Counter(countries).most_common()
             ner_majority = Counter(ner_countries_count).most_common()
-            print(ner_majority)
-            print(majority)
         else:
             majority = Counter(countries).most_common(top_countries)
             ner_majority = Counter(ner_countries_count).most_common(top_countries)
@@ -438,13 +436,11 @@ class Geocoder:
         ## Edge case 1: If there are few locations and 1 is a country
         ## We assume that the few locations belong to that country, so that country is the new country location
         if len(only_countries) == 1:
-            print(1)
             logging.info(
                 "Location edge case 1 detected: There are few event locations and one is a country - {only_countries}"
             )
             new_country = list(only_countries.keys())[0]
             for name, country in mapping_countries.items():
-                print(name)
                 mapping_countries = self.update_mapping_countries(
                     mapping_countries, name, country, new_country
                 )
@@ -463,7 +459,6 @@ class Geocoder:
             )
             new_country = "United Kingdom"
             for name, country in mapping_countries.items():
-                print(name)
                 # the location is a country no need to check it
                 if name == country:
                     continue
@@ -478,7 +473,6 @@ class Geocoder:
             # If majority cannot be reached, then look at ner tags for majority
             if ner_majority[0][1] >= 1:
                 for name, country in mapping_countries.items():
-                    print(name)
                     # the location is a country no need to check it
                     if name == country:
                         continue
@@ -495,7 +489,6 @@ class Geocoder:
                 f"Location edge case 3 case Detected: Assigning majority country to all local locations"
             )
             for name, country in mapping_countries.items():
-                print(name)
                 # the location is a country no need to check it
                 if name == country:
                     continue
@@ -506,7 +499,6 @@ class Geocoder:
                     mapping_countries = self.update_mapping_countries(
                         mapping_countries, name, country, reference_country[0]
                     )
-                    print(mapping_countries)
         # Update new locations
         new_locations = []
 
