@@ -302,8 +302,8 @@ class Geocoder:
         ner_country_tags = []
         ner_local_tags = []
         for tag in ner_tags:
-            if tag["category"] == "location":
-                if tag["tag"].lower() in self.country_bbox.keys():
+            if tag["label"] == "location":
+                if tag["name"].lower() in self.country_bbox.keys():
                     ner_country_tags.append(tag)
                 else:
                     ner_local_tags.append(tag)
@@ -364,16 +364,16 @@ class Geocoder:
         """
         ner_countries, ner_local = self.filter_ner_countries(ner_tags)
         ner_uk_nations = [
-            tag["tag"]
+            tag["name"]
             for tag in ner_local
-            if tag["tag"].lower()
+            if tag["name"].lower()
             in ["england", "wales", "northern ireland", "scotland"]
         ]
         # Normalise country name
         ner_countries = [
-            self.get_location_info(tag["tag"], country=tag["tag"], best_matching=True)[
-                0
-            ]
+            self.get_location_info(
+                tag["name"], country=tag["name"], best_matching=True
+            )[0]
             for tag in ner_countries
         ]
         # Create ner countries list

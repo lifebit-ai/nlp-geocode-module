@@ -14,7 +14,7 @@ location_output_brussels = {
     "country": "Belgium",
     "coordinates": [2.3514616, 48.8566969],
 }
-ner_tag_brussels = {"tag": "Brussels", "category": "location"}
+ner_tag_brussels = {"tag": "Brussels", "label": "location"}
 
 location_output_belgium = {
     "name": "Belgium",
@@ -22,7 +22,7 @@ location_output_belgium = {
     "country": "Belgium",
     "coordinates": [-98.4951405, 29.4246002],
 }
-ner_tag_belgium = {"tag": "Belgium", "category": "location"}
+ner_tag_belgium = {"tag": "Belgium", "label": "location"}
 
 location_output_united_states = {
     "name": "United States",
@@ -30,7 +30,7 @@ location_output_united_states = {
     "country": "United States",
     "coordinates": [-98.4951405, 29.4246002],
 }
-ner_tag_united_states = {"tag": "United states", "category": "location"}
+ner_tag_united_states = {"tag": "United states", "label": "location"}
 
 location_output_old_paris = {
     "name": "Paris",
@@ -45,7 +45,7 @@ location_output_new_paris = {
     "coordinates": [-95.555513, 33.6617962],
 }
 
-ner_tag_paris = {"tag": "Paris", "category": "location"}
+ner_tag_paris = {"tag": "Paris", "label": "location"}
 
 location_output_san_antonio = {
     "name": "San Antonio",
@@ -54,7 +54,7 @@ location_output_san_antonio = {
     "coordinates": [-98.4951405, 29.4246002],
 }
 
-ner_tag_san_antonio = {"tag": "San Antonio", "category": "location"}
+ner_tag_san_antonio = {"tag": "San Antonio", "label": "location"}
 location_output_texas = {
     "name": "Texas",
     "bounding_box": [-106.6458459, 36.5004529, -93.5078217, 25.83706],
@@ -62,11 +62,11 @@ location_output_texas = {
     "coordinates": [-99.5120986, 31.8160381],
 }
 
-ner_tag_texas = {"tag": "Texas", "category": "location"}
+ner_tag_texas = {"tag": "Texas", "label": "location"}
 
 # UK/US Problem
-ner_tag_england = {"tag": "England", "category": "location"}
-ner_tag_london = {"tag": "London", "category": "location"}
+ner_tag_england = {"tag": "England", "label": "location"}
+ner_tag_london = {"tag": "London", "label": "location"}
 location_output_london_us = {
     "name": "London",
     "bounding_box": [-106.6458459, 36.5004529, -93.5078217, 25.83706],
@@ -79,7 +79,7 @@ location_output_london_uk = {
     "country": "United Kingdom",
     "coordinates": [-99.5120986, 31.8160381],
 }
-ner_tag_crewe = {"tag": "Crewe", "category": "location"}
+ner_tag_crewe = {"tag": "Crewe", "label": "location"}
 location_output_crewe_uk = {
     "name": "Crewe",
     "bounding_box": [-106.6458459, 36.5004529, -93.5078217, 25.83706],
@@ -92,21 +92,21 @@ location_output_crewe_us = {
     "country": "United States",
     "coordinates": [-99.5120986, 31.8160381],
 }
-ner_tag_twekesbury = {"tag": "Twekesbury", "category": "location"}
+ner_tag_twekesbury = {"tag": "Twekesbury", "label": "location"}
 location_output_twekesbury_uk = {
     "name": "twekesbury",
     "bounding_box": [-106.6458459, 36.5004529, -93.5078217, 25.83706],
     "country": "United Kingdom",
     "coordinates": [-99.5120986, 31.8160381],
 }
-ner_tag_eastville = {"tag": "Eastville", "category": "location"}
+ner_tag_eastville = {"tag": "Eastville", "label": "location"}
 location_output_eastville_uk = {
     "name": "Eastville",
     "bounding_box": [-106.6458459, 36.5004529, -93.5078217, 25.83706],
     "country": "United Kingdom",
     "coordinates": [-99.5120986, 31.8160381],
 }
-ner_tag_united_kingdom = {"tag": "United Kingdom", "category": "location"}
+ner_tag_united_kingdom = {"tag": "United Kingdom", "label": "location"}
 location_output_united_kingdom = {
     "name": "United Kingdom",
     "bounding_box": [-106.6458459, 36.5004529, -93.5078217, 25.83706],
