@@ -203,3 +203,42 @@ def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_ca
     print(response)
     assert mock_get.called
     assert response == expected_output
+
+
+@patch("requests.get")
+def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_cant_be_validated_by_geonames(
+    mock_get,
+):
+    expected_get_geocoder_api_output_2 = {
+        "features": [
+            {
+                "geometry": {
+                    "coordinates": [103.54583559171158, 1.3152402],
+                    "type": "Point",
+                },
+                "type": "Feature",
+                "properties": {
+                    "osm_id": 412628254,
+                    "osm_type": "W",
+                    "extent": [103.5425018, 1.320748, 103.5483276, 1.3097538],
+                    "country": "Côte d'Ivoire",
+                    "osm_key": "place",
+                    "countrycode": "MY",
+                    "osm_value": "island",
+                    "name": "Côte d'Ivoire",
+                    "type": "locality",
+                },
+            }
+        ]
+    }
+    expected_get_geonames_api_output_2 = {}
+    # Generate expected output from both get requests
+    mock_get.return_value.json.side_effect = [
+        expected_get_geocoder_api_output_2,
+        expected_get_geonames_api_output_2,
+    ]
+    expected_output = [{}]
+    response = geocoder.get_location_info("Côte d'Ivoire")
+    print(response)
+    assert mock_get.called
+    assert response == expected_output
