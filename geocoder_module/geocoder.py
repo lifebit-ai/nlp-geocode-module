@@ -263,6 +263,9 @@ class Geocoder:
                         validated_results.append(geocode_hit)
                 else:
                     continue
+        logging.warning(f"Location validation failed for {location}")
+        if validated_results == []:
+            validated_results = [{}]
         return validated_results
 
     def get_country_neighbors(self, country: str) -> List[str]:
@@ -362,7 +365,14 @@ class Geocoder:
                                number of countries to check as a reference
         :param ner_location_tags:  list of ner tags associated to locations to be filtered to countries
         """
+        # Initialise mappings and only countries dictionaries
+        mapping_countries = {}
+        only_countries = {}
+        countries = []
         ner_countries, ner_local = self.filter_ner_countries(ner_tags)
+        ner_countries_count = []
+
+        # Extract uk nations
         ner_uk_nations = [
             tag["name"]
             for tag in ner_local
@@ -370,22 +380,16 @@ class Geocoder:
             in ["england", "wales", "northern ireland", "scotland"]
         ]
         # Normalise country name
-        ner_countries = [
-            self.get_location_info(
-                tag["name"], country=tag["name"], best_matching=True
-            )[0]
-            for tag in ner_countries
-        ]
-        # Create ner countries list
-        ner_countries_count = []
-        for ner_country in ner_countries:
-            ner_countries_count.append(ner_country["country"])
-
-        # Initialise mappings and only countries dictionaries
-        mapping_countries = {}
-        only_countries = {}
-
-        countries = []
+        if ner_countries != []:
+            ner_countries = [
+                self.get_location_info(
+                    tag["name"], country=tag["name"], best_matching=True
+                )[0]
+                for tag in ner_countries
+            ]
+            # Create ner countries list
+            for ner_country in ner_countries:
+                ner_countries_count.append(ner_country["country"])
 
         # create a default mapping and extract all the countries
         for location in locations:
