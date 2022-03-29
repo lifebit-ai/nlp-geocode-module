@@ -263,9 +263,10 @@ class Geocoder:
                         validated_results.append(geocode_hit)
                 else:
                     continue
-        logging.warning(f"Location validation failed for {location}")
         if validated_results == []:
             validated_results = [{}]
+            logging.warning(f"Location validation failed for {location}")
+
         return validated_results
 
     def get_country_neighbors(self, country: str) -> List[str]:
@@ -334,7 +335,7 @@ class Geocoder:
                 name, country=new_country, best_matching=True
             )
             # check if the reference country can be used for this location
-            if new_location != []:
+            if new_location != [{}]:
                 mapping_countries[name] = new_location[0]["country"]
 
         return mapping_countries
@@ -389,7 +390,8 @@ class Geocoder:
             ]
             # Create ner countries list
             for ner_country in ner_countries:
-                ner_countries_count.append(ner_country["country"])
+                if ner_country:
+                    ner_countries_count.append(ner_country["country"])
 
         # create a default mapping and extract all the countries
         for location in locations:
