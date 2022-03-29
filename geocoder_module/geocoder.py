@@ -6,6 +6,7 @@ import os
 from collections import Counter
 from typing import Dict, List
 import geocoder_module
+import unidecode
 from geocoder_module.utils import (
     calculate_distance,
     edit_bounding_box,
@@ -205,7 +206,7 @@ class Geocoder:
                 == features["properties"]["country"].lower()
             ):
                 location["bounding_box"] = self.country_bbox[
-                    features["properties"]["country"].lower()
+                    unidecode.unidecode(features["properties"]["country"].lower())
                 ]
             else:
                 location["bounding_box"] = features["properties"]["extent"]
