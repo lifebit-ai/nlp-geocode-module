@@ -135,8 +135,13 @@ class Geocoder:
             location["coordinates"] = [response["longitude"], response["latitude"]]
             if location["name"].lower() == country.lower():
                 try:
-                    location["bounding_box"] = self.country_bbox[country.lower()]
+                    location["bounding_box"] = self.country_bbox[
+                        unidecode.unidecode(country.lower())
+                    ]
                 except:
+                    logging.warning(
+                        f"{country.lower()} not found in country bounding box. Returning empty list"
+                    )
                     location["bounding_box"] = []
             results.append(location)
         return results
@@ -205,9 +210,15 @@ class Geocoder:
                 features["properties"]["name"].lower()
                 == features["properties"]["country"].lower()
             ):
-                location["bounding_box"] = self.country_bbox[
-                    unidecode.unidecode(features["properties"]["country"].lower())
-                ]
+                try:
+                    location["bounding_box"] = self.country_bbox[
+                        unidecode.unidecode(features["properties"]["country"].lower())
+                    ]
+                except:
+                    logging.warning(
+                        f'{features["properties"]["country"].lower()} not found in country bounding box. Returning empty list'
+                    )
+                    location["bounding_box"] = []
             else:
                 location["bounding_box"] = features["properties"]["extent"]
 
