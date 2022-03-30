@@ -200,7 +200,6 @@ def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_ca
     ]
     expected_output = [{}]
     response = geocoder.get_location_info("asia petroleum hub")
-    print(response)
     assert mock_get.called
     assert response == expected_output
 
@@ -239,6 +238,5 @@ def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_ca
     ]
     expected_output = [{}]
     response = geocoder.get_location_info("Côte d'Ivoire")
-    print(response)
     assert mock_get.called
     assert response == expected_output
