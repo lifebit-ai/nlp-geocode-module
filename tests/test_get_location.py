@@ -69,10 +69,12 @@ def test_get_geocoder_info_returns_a_location_when_queried(
             "coordinates": expected_get_geocoder_api_output["features"][0]["geometry"][
                 "coordinates"
             ],
+            "countrycode": expected_get_geocoder_api_output["features"][0][
+                "properties"
+            ]["countrycode"],
         }
     ]
     response = geocoder._get_geocode_info("sydney")
-
     assert mock_get.called
     assert response == expected_output
 
@@ -158,6 +160,9 @@ def test_get_location_info_returns_right_location_when_found_by_geocoder_and_geo
             "coordinates": expected_get_geocoder_api_output["features"][0]["geometry"][
                 "coordinates"
             ],
+            "countrycode": expected_get_geocoder_api_output["features"][0][
+                "properties"
+            ]["countrycode"],
         }
     ]
     response = geocoder.get_location_info("sydney")
@@ -201,5 +206,70 @@ def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_ca
     expected_output = []
     response = geocoder.get_location_info("asia petroleum hub")
     print(response)
+    assert mock_get.called
+    assert response == expected_output
+
+
+@patch("requests.get")
+def test_get_location_info_returns_right_country_code_when_found_by_geocoder_and_geonames(
+    mock_get,
+):
+    expected_get_geocoder_api_output = {
+        "features": [
+            {
+                "geometry": {
+                    "coordinates": [151.2164539, -33.8548157],
+                    "type": "Point",
+                },
+                "type": "Feature",
+                "properties": {
+                    "osm_id": 5750005,
+                    "osm_type": "R",
+                    "extent": [150.260825, -33.3641481, 151.343898, -34.1732416],
+                    "country": "Australia",
+                    "osm_key": "place",
+                    "countrycode": "AU",
+                    "osm_value": "city",
+                    "name": "Sydney",
+                    "state": "New South Wales",
+                    "type": "city",
+                },
+            },
+        ]
+    }
+    expected_get_geonames_api_output = {
+        "name": "Sydney",
+        "latitude": "-33.86778",
+        "longitude": "151.20844",
+        "country": "Australia",
+        "continent": "Oceania",
+    }
+    # Generate expected output from both get requests
+    mock_get.return_value.json.return_value = "test"
+    mock_get.return_value.json.side_effect = [
+        expected_get_geocoder_api_output,
+        expected_get_geonames_api_output,
+    ]
+    expected_output = [
+        {
+            "bounding_box": expected_get_geocoder_api_output["features"][0][
+                "properties"
+            ]["extent"],
+            "name": expected_get_geocoder_api_output["features"][0]["properties"][
+                "name"
+            ],
+            "country": expected_get_geocoder_api_output["features"][0]["properties"][
+                "country"
+            ],
+            "coordinates": expected_get_geocoder_api_output["features"][0]["geometry"][
+                "coordinates"
+            ],
+            "countrycode": expected_get_geocoder_api_output["features"][0][
+                "properties"
+            ]["countrycode"],
+        }
+    ]
+    response = geocoder.get_location_info("sydney")
+
     assert mock_get.called
     assert response == expected_output

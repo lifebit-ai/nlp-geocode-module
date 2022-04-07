@@ -193,6 +193,8 @@ class Geocoder:
                 continue
             if not "coordinates" in features["geometry"].keys():
                 continue
+            if not "countrycode" in features["properties"].keys():
+                continue
 
             # check if a country is provided and filter other locations
             if country and features["properties"]["country"] != country:
@@ -211,6 +213,7 @@ class Geocoder:
                 location["bounding_box"] = features["properties"]["extent"]
 
             location["name"] = features["properties"]["name"]
+            location["countrycode"] = features["properties"]["countrycode"]
             location["country"] = features["properties"]["country"]
             location["coordinates"] = features["geometry"]["coordinates"]
 
