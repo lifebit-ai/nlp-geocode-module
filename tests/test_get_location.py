@@ -203,7 +203,7 @@ def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_ca
         expected_get_geocoder_api_output_2,
         expected_get_geonames_api_output_2,
     ]
-    expected_output = []
+    expected_output = [{}]
     response = geocoder.get_location_info("asia petroleum hub")
     print(response)
     assert mock_get.called
