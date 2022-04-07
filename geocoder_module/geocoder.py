@@ -185,15 +185,12 @@ class Geocoder:
             features = response["features"][i]
 
             # avoid data with missing fields
-            if not "name" in features["properties"].keys():
-                continue
-            if not "extent" in features["properties"].keys():
-                continue
-            if not "country" in features["properties"].keys():
-                continue
             if not "coordinates" in features["geometry"].keys():
                 continue
-            if not "countrycode" in features["properties"].keys():
+            if not all(
+                key in features["properties"]
+                for key in ("name", "extent", "country", "countrycode")
+            ):
                 continue
 
             # check if a country is provided and filter other locations
