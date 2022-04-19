@@ -291,8 +291,8 @@ class Geocoder:
         return countries_in_bbox
 
     def filter_ner_countries(
-        self, ner_tags: List[dict[str, any]]
-    ) -> List[dict[str, any]]:
+        self, ner_tags: List[Dict[str, any]]
+    ) -> List[Dict[str, any]]:
         """
         This function gathers all ner locations tags and filters them to select locations being countries.
         It makes use of the countries_bbox to filter out countries and returns a list of the countries and local locations found in the text.
