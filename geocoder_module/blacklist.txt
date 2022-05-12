@@ -19,3 +19,4 @@ jaguar
 mom
 dad
 fitz
+hagyar
