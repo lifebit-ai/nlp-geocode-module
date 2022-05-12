@@ -203,3 +203,9 @@ def test_get_location_info_returns_empty_list_when_location_found_by_geocoder_ca
     print(response)
     assert mock_get.called
     assert response == expected_output
+
+
+def test_get_location_blacklist_returns_empty_location():
+    for i in geocoder.config["blacklist"]:
+        response = geocoder.get_location_info(i)
+        assert response == [{}]

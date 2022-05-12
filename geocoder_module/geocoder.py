@@ -44,6 +44,14 @@ class Geocoder:
             "osm_keys": "place",
             "country_neighbors_path": "country_neighbors.json",
             "country_bounding_box_path": "countries_bbox.json",
+            "blacklist": open(
+                os.path.join(
+                    os.path.dirname(os.path.dirname(geocoder_module.__file__)),
+                    "geocoder_module",
+                    "blacklist.txt",
+                ),
+                "r",
+            ).readlines(),
         }
 
         try:
@@ -248,6 +256,9 @@ class Geocoder:
         """
         # Check that location is not in blacklist
         if location.lower() in self.config["blacklist"]:
+            logging.warning(
+                f"Location is in blacklist: {location}. Returning empty location"
+            )
             return [{}]
         # Query geocoder to find the best location in photon for that particular query
         initial_results = self._get_geocode_info(location, best_matching, country)
