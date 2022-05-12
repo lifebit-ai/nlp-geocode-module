@@ -224,17 +224,6 @@ class Geocoder:
 
         return results
 
-    def fuzzy_match_geocoder_query(
-        input_query: str, output_response: str, min_score: int = 90
-    ) -> bool:
-        potential_result = process.extractOne(
-            input_query, [output_response], scorer=fuzz.token_sort_ratio
-        )
-        if potential_result[1] > min_score:
-            return True
-        else:
-            return False
-
     def get_location_info(
         self, location: str, best_matching: bool = True, country: str = None
     ) -> List[Dict[str, any]]:
@@ -257,20 +246,14 @@ class Geocoder:
         :param country:        string that represents the country where to search
                                the input location (default None)
         """
+        # Check that location is not in blacklist
+        if location.lower() in self.config["blacklist"]:
+            return [{}]
         # Query geocoder to find the best location in photon for that particular query
         initial_results = self._get_geocode_info(location, best_matching, country)
         # Validate result with geonames service
         validated_results = []
         for geocode_hit in initial_results:
-            # Check that the initial query matches up to a point the new location
-            input_output_match = fuzzy_match_geocoder_query(
-                location, geocode_hit["name"]
-            )
-            if input_output_match == False:
-                logging.warning(
-                    f'Location fuzzy matching failed for {location} as {geocode_hit["name"]}'
-                )
-                continue
             # Validate with geonames
             validated_hits = self._get_geonames_info(
                 geocode_hit["name"], geocode_hit["country"]
