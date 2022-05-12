@@ -5,6 +5,7 @@ import sys
 import os
 from collections import Counter
 from typing import Dict, List
+from fuzzywuzzy import fuzz, process
 import geocoder_module
 from geocoder_module.utils import (
     calculate_distance,
@@ -223,6 +224,17 @@ class Geocoder:
 
         return results
 
+    def fuzzy_match_geocoder_query(
+        input_query: str, output_response: str, min_score: int = 90
+    ) -> bool:
+        potential_result = process.extractOne(
+            input_query, [output_response], scorer=fuzz.token_sort_ratio
+        )
+        if potential_result[1] > min_score:
+            return True
+        else:
+            return False
+
     def get_location_info(
         self, location: str, best_matching: bool = True, country: str = None
     ) -> List[Dict[str, any]]:
@@ -250,6 +262,13 @@ class Geocoder:
         # Validate result with geonames service
         validated_results = []
         for geocode_hit in initial_results:
+            # Check that the initial query matches up to a point the new location
+            input_output_match = fuzzy_match_geocoder_query(
+                location, geocode_hit["name"]
+            )
+            if input_output_match == False:
+                continue
+            # Validate with geonames
             validated_hits = self._get_geonames_info(
                 geocode_hit["name"], geocode_hit["country"]
             )
