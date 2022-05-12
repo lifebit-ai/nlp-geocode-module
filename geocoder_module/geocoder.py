@@ -5,7 +5,6 @@ import sys
 import os
 from collections import Counter
 from typing import Dict, List
-from fuzzywuzzy import fuzz, process
 import geocoder_module
 from geocoder_module.utils import (
     calculate_distance,
