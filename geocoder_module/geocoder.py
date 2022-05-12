@@ -267,6 +267,9 @@ class Geocoder:
                 location, geocode_hit["name"]
             )
             if input_output_match == False:
+                logging.warning(
+                    f'Location fuzzy matching failed for {location} as {geocode_hit["name"]}'
+                )
                 continue
             # Validate with geonames
             validated_hits = self._get_geonames_info(
