@@ -5,7 +5,7 @@ requirements = open("requirements.txt", "r").readlines()
 
 setup(
     name="geocoder_module",
-    version="0.2.1",
+    version="0.2.2",
     description="Geocoder module",
     python_requires=">=3.7.6",
     url="https://github.com/lifebit-ai/nlp-geocode-module/",

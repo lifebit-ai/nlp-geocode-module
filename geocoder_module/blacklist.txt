@@ -21,3 +21,6 @@ dad
 fitz
 hagyar
 us
+mo
+rescue
+bera
