@@ -449,7 +449,7 @@ class Geocoder:
                 "Location Edge Case 0 detected: Only one country detected in event locations"
             )
             if not locations[0] or not "name" in locations[0]:
-                logging.error(
+                logging.warning(
                     "Location Edge Case 0.1 detected: Local location empty - returning empty location"
                 )
                 return [{}]
