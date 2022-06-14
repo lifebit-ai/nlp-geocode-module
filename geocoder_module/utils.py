@@ -1,13 +1,7 @@
 import math
-import logging
+from logger.logging import logging
 from itertools import product
 from typing import List, Union
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s.%(msecs)03d %(levelname)s: %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
 
 EARTH_RADIUS = 6371e3
 ALLOWED_DISTANCES = ["harvesin"]
@@ -215,7 +209,7 @@ def gps_sanity_check(bounding_box: List[float]) -> List[float]:
         logging.error(
             """The input bounding box has {} coordinates
                        which is wrong! They need to be 4!""".format(
-                len(coordinates)
+                len(bounding_box)
             )
         )
         return None
