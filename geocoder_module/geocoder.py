@@ -1,5 +1,5 @@
 import requests
-import logging
+from logger.logging import logging
 import json
 import sys
 import os
@@ -11,12 +11,6 @@ from geocoder_module.utils import (
     edit_bounding_box,
     gps_sanity_check,
     bbox2point_coord,
-)
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s.%(msecs)03d %(levelname)s: %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
 )
 
 _wrap_latitude = lambda x: x + 90
@@ -280,7 +274,9 @@ class Geocoder:
                     continue
         if validated_results == []:
             validated_results = [{}]
-            logging.warning(f"Location validation failed for {location}")
+            logging.warning(
+                f"Location validation failed for {location}. Returning empty result"
+            )
 
         return validated_results
 
@@ -449,7 +445,7 @@ class Geocoder:
                 "Location Edge Case 0 detected: Only one country detected in event locations"
             )
             if not locations[0] or not "name" in locations[0]:
-                logging.error(
+                logging.warning(
                     "Location Edge Case 0.1 detected: Local location empty - returning empty location"
                 )
                 return [{}]
@@ -470,12 +466,12 @@ class Geocoder:
         ## We assume no majority can be reached and local locations will be included
         ## if they match with one of the countries, others will be discarded
         elif len(only_countries) > 1:
-            logging.info(
+            logging.warning(
                 f"Location edge case 2 Detected: Found {len(only_countries)} references to countries, locations not matching one of those countries will be discarded"
             )
         ## Edge case 5: UK/US/CA location issue when nothing else works
         elif ner_uk_nations != []:
-            logging.info(
+            logging.warning(
                 f"Location edge case 5 case detected: UK nations found in text, assigning local locations to UK if they exist in the UK"
             )
             new_country = "United Kingdom"
