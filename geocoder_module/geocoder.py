@@ -471,7 +471,7 @@ class Geocoder:
             )
         ## Edge case 5: UK/US/CA location issue when nothing else works
         elif ner_uk_nations != []:
-            logging.warn(
+            logging.warning(
                 f"Location edge case 5 case detected: UK nations found in text, assigning local locations to UK if they exist in the UK"
             )
             new_country = "United Kingdom"
