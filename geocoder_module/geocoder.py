@@ -441,11 +441,11 @@ class Geocoder:
 
         # If there's only one country in the majority
         if len(majority) <= 1 or majority[0][1] == 1:
-            logging.warn(
+            logging.info(
                 "Location Edge Case 0 detected: Only one country detected in event locations"
             )
             if not locations[0] or not "name" in locations[0]:
-                logging.warn(
+                logging.warning(
                     "Location Edge Case 0.1 detected: Local location empty - returning empty location"
                 )
                 return [{}]
@@ -453,7 +453,7 @@ class Geocoder:
         ## Edge case 1: If there are few locations and 1 is a country
         ## We assume that the few locations belong to that country, so that country is the new country location
         if len(only_countries) == 1:
-            logging.warn(
+            logging.info(
                 "Location edge case 1 detected: There are few event locations and one is a country - {only_countries}"
             )
             new_country = list(only_countries.keys())[0]
@@ -466,7 +466,7 @@ class Geocoder:
         ## We assume no majority can be reached and local locations will be included
         ## if they match with one of the countries, others will be discarded
         elif len(only_countries) > 1:
-            logging.warn(
+            logging.warning(
                 f"Location edge case 2 Detected: Found {len(only_countries)} references to countries, locations not matching one of those countries will be discarded"
             )
         ## Edge case 5: UK/US/CA location issue when nothing else works
@@ -484,7 +484,7 @@ class Geocoder:
                 )
         ## Edge case 4: There's a tie between countries
         elif len(majority) > 1 and majority[0][1] == majority[1][1]:
-            logging.warn(
+            logging.info(
                 f"Location edge case 4 case Detected: There's a tie between majority countries"
             )
             # If majority cannot be reached, then look at ner tags for majority
@@ -502,7 +502,7 @@ class Geocoder:
                         )
         ## Edge case 3: Multiple locations with a clear majority
         else:
-            logging.warn(
+            logging.info(
                 f"Location edge case 3 case Detected: Assigning majority country to all local locations"
             )
             for name, country in mapping_countries.items():
