@@ -659,3 +659,23 @@ class Geocoder:
         max_lat = min([b[3] for b in bounding_boxes])
 
         return gps_sanity_check([min_lon, min_lat, max_lon, max_lat])
+
+    def check_large_bounding_box(self, bounding_box: List[float]) -> List[float]:
+        """
+        This function takes in input a list of bounding boxes and merges them
+        producing their union, the minimal bounding box that contains all the
+        others.
+
+        :param bounding_box:   bounding boxes, list of four
+                               float (x1,y1,x2,y2)
+        """
+        x1, y1, x2, y2 = bounding_box
+
+        # Make sure that no pair of coordinates goes under -175 and over 175 in both ends.
+        # Sometimes the coordinates come flipped so we'll check each pair.
+        if ((x1 <= -175) and (x2 >= 175)) or ((x2 <= -175) and (x1 >= 175)):
+            return True
+        elif ((y1 <= -175) and (y2 >= 175)) or ((y2 <= -175) and (y1 >= 175)):
+            return True
+        else:
+            return False
