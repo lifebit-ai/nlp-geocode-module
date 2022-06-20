@@ -659,3 +659,34 @@ class Geocoder:
         max_lat = min([b[3] for b in bounding_boxes])
 
         return gps_sanity_check([min_lon, min_lat, max_lon, max_lat])
+
+    def check_large_bounding_box(
+        self, bounding_box: List[float], threshold: float = 175
+    ) -> List[float]:
+        """
+        This function takes in input a list of bounding boxes and merges them
+        producing their union, the minimal bounding box that contains all the
+        others.
+
+        :param bounding_box:   bounding boxes, list of four
+                               float (x1,y1,x2,y2)
+        :param threshold:      Float refering to the limit
+                               in which a bounding box is considered too large
+        """
+        threshold = abs(threshold)
+
+        x1, y1, x2, y2 = bounding_box
+
+        # Make sure that no pair of coordinates goes under -175 and over 175 in both ends.
+        # Sometimes the coordinates come flipped so we'll check each pair.
+        # I have chosen 175 to be the threshold because in 175 you can find the end of new zealand
+        # and at -175 the end of alaska
+        if ((x1 <= -threshold) and (x2 >= threshold)) or (
+            (x2 <= -threshold) and (x1 >= threshold)
+        ):
+            return True
+        if ((y1 <= -threshold) and (y2 >= threshold)) or (
+            (y2 <= -threshold) and (y1 >= threshold)
+        ):
+            return True
+        return False
