@@ -679,7 +679,8 @@ class Geocoder:
 
         # Make sure that no pair of coordinates goes under -175 and over 175 in both ends.
         # Sometimes the coordinates come flipped so we'll check each pair.
-        # I have chosen 175 to be the threshold because
+        # I have chosen 175 to be the threshold because in 175 you can find the end of new zealand
+        # and at -175 the end of alaska
         if ((x1 <= -threshold) and (x2 >= threshold)) or (
             (x2 <= -threshold) and (x1 >= threshold)
         ):
