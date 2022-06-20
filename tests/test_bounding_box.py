@@ -93,3 +93,16 @@ class TestBoundingBoxIsLarge:
         bbox = [0, 0, 0, 160]
         value = geocoder.check_large_bounding_box(bbox)
         assert value == False
+
+    def test_bbox_no_large(self):
+        bbox = [0, 0, 0, 0]
+        value = geocoder.check_large_bounding_box(bbox)
+        assert value == False
+
+    def test_bbox_all_large(self):
+        bbox = [-180, -180, 180, 180]
+        value = geocoder.check_large_bounding_box(bbox)
+        assert value == True
+        bbox = [180, 180, -180, -180]
+        value = geocoder.check_large_bounding_box(bbox)
+        assert value == True
