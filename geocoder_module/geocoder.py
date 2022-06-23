@@ -1,11 +1,12 @@
-from ctypes import Union
-import requests
-from logger.logging import logging
 import json
 import sys
 import os
+from typing import Any, Dict, List, Tuple
 from collections import Counter
-from typing import Dict, List, Tuple
+import requests
+from logger.logging import logging
+
+
 import geocoder_module
 from geocoder_module.utils import (
     calculate_distance,
@@ -178,8 +179,7 @@ class Geocoder:
             )
             response = response.json()
         except Exception as e:
-            logging.error("Error in querying location {} ".format(location))
-            logging.error(e)
+            logging.error(f"Error in querying location {location} : {e}")
 
         results = []
 
@@ -498,6 +498,28 @@ class Geocoder:
                         mapping_countries, name, country, reference_country[0]
                     )
         # Update new locations
+        new_locations = self.update_country_for_locations(
+            locations, mapping_countries, only_countries
+        )
+
+        return new_locations
+
+    def update_country_for_locations(
+        self,
+        locations: List[Dict[str, Any]],
+        mapping_countries: Dict[str, int],
+        only_countries: Dict,
+    ) -> List[Dict[str, Any]]:
+        """
+        This functions takes a list of locations and updates the country of each location
+        based on the mapping countries dictionary and the only_countries dictionary
+
+        :params locations:          List of locations to be updated
+        :params mapping_countries:  Dict containing mappings between local locations and countries
+        :params only_countries:     Dict containing only country locations
+
+        :return new_locations:      List of new locations after update has been completed
+        """
         new_locations = []
 
         for location in locations:
@@ -524,7 +546,6 @@ class Geocoder:
             new_locations.append(
                 self.check_new_location(new_location, location, only_countries)
             )
-
         return new_locations
 
     def check_new_location(
@@ -591,8 +612,8 @@ class Geocoder:
         return countries, only_countries, mapping_countries
 
     def count_countries(
-        self, countries: List[str], top_countries: int
-    ) -> Dict[str, int]:
+        self, countries: List[str], top_countries: int = None
+    ) -> List[Tuple[str, int]]:
         """
         This function takes a list of countries and computes a count of terms
         with the option of only country the most common ones
@@ -600,7 +621,7 @@ class Geocoder:
         :params countries:      List of countries to be counted
         :params top_countries:  Int defining how many most common countries to count
 
-        :returns majority:      Dict containing the count of countries
+        :returns majority:      List of tuples containing the count of countries
         """
         if not top_countries:
             majority = Counter(countries).most_common()
