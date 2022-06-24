@@ -1,4 +1,3 @@
-from unittest import TestCase
 from unittest.mock import patch
 import pytest
 from tests.fixtures import *
@@ -301,7 +300,7 @@ class TestDoubleCheckCountries:
         assert response == expected_output
 
 
-class TestCountCountries(TestCase):
+class TestCountCountries:
     def test_count_countries_when_country_given_and_no_top_countries(self):
         response = geocoder.count_countries(countries)
         expected_output = [("United Kingdom", 2), ("United States", 1)]
