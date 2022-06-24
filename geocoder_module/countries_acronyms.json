@@ -1,0 +1,1438 @@
+{
+    "afghanistan": [
+        "afgh",
+        "af"
+    ],
+    "aland islands": [
+        "ax"
+    ],
+    "albania": [
+        "alb",
+        "al"
+    ],
+    "algeria": [
+        "algr",
+        "dz"
+    ],
+    "american samoa": [
+        "as"
+    ],
+    "andorra": [
+        "ando",
+        "ad"
+    ],
+    "angola": [
+        "ao"
+    ],
+    "anguilla": [
+        "axa",
+        "angu",
+        "ai",
+        "アンギラ",
+        "安圭拉",
+        "앵귈라"
+    ],
+    "antarctica": [
+        "aq",
+        "南极洲",
+        "南極",
+        "南極洲"
+    ],
+    "antigua and barbuda": [
+        "anti",
+        "ag"
+    ],
+    "argentina": [
+        "arg",
+        "ar"
+    ],
+    "armenia": [
+        "arm",
+        "am"
+    ],
+    "aruba": [
+        "aw",
+        "arb",
+        "അറുബ",
+        "അറൂബ",
+        "අරබා",
+        "አሩባ",
+        "ኣሩባ",
+        "アルバ",
+        "アルバ島",
+        "阿魯巴",
+        "阿鲁巴",
+        "아루바"
+    ],
+    "australia": [
+        "astl",
+        "au"
+    ],
+    "austria": [
+        "aust",
+        "at"
+    ],
+    "azerbaijan": [
+        "azr",
+        "az"
+    ],
+    "bahamas": [
+        "bama",
+        "bs"
+    ],
+    "bahrain": [
+        "bh",
+        "bahr",
+        "awal",
+        "awāl"
+    ],
+    "bangladesh": [
+        "bd",
+        "bang",
+        "孟加拉",
+        "孟加拉国",
+        "孟加拉國"
+    ],
+    "barbados": [
+        "brdo",
+        "bb"
+    ],
+    "belarus": [
+        "bys",
+        "by"
+    ],
+    "belgium": [
+        "belg",
+        "be"
+    ],
+    "belize": [
+        "bz",
+        "blz",
+        "blyz",
+        "בליז",
+        "بليز",
+        "بلیز",
+        "ເບລຊ",
+        "བ་ལཛ",
+        "በሊዝ",
+        "ቤሊዘ",
+        "ቤሊዝ",
+        "បេល",
+        "បេលី",
+        "ベリーズ",
+        "伯利兹",
+        "伯利茲",
+        "貝里斯",
+        "벨리즈"
+    ],
+    "benin": [
+        "benn",
+        "bj"
+    ],
+    "bermuda": [
+        "bm",
+        "berm",
+        "bda",
+        "ቤርሙዳ",
+        "百慕大",
+        "百慕達",
+        "버뮤다"
+    ],
+    "bhutan": [
+        "bhu",
+        "bt"
+    ],
+    "bolivia": [
+        "bol",
+        "bo"
+    ],
+    "bosnia and herzegovina": [
+        "bq",
+        "bih",
+        "波斯尼亞",
+        "波黑",
+        "보스니아"
+    ],
+    "botswana": [
+        "bot",
+        "bw"
+    ],
+    "bouvet island": [
+        "bv",
+        "buve",
+        "ბუვე",
+        "ブーベ島",
+        "布威島",
+        "布维岛",
+        "布维特岛",
+        "布韦岛",
+        "부베 섬",
+        "부베섬"
+    ],
+    "brazil": [
+        "brzl",
+        "br"
+    ],
+    "british indian ocean territory": [],
+    "british virgin islands": [
+        "vg",
+        "bvi",
+        "brvi"
+    ],
+    "brunei": [
+        "brni",
+        "bn"
+    ],
+    "bulgaria": [
+        "bulg",
+        "bg"
+    ],
+    "burkina faso": [
+        "burk",
+        "bf"
+    ],
+    "burma": [
+        "burm"
+    ],
+    "burundi": [
+        "brnd",
+        "bi"
+    ],
+    "cambodia": [
+        "cbda",
+        "kh"
+    ],
+    "cameroon": [
+        "cmrn",
+        "cm"
+    ],
+    "canada": [
+        "ca",
+        "can",
+        "knda",
+        "qndh",
+        "קנדה",
+        "كندا",
+        "கனடா",
+        "കാനഡ",
+        "ካናዳ",
+        "カナダ",
+        "加拿大",
+        "캐나다"
+    ],
+    "cape verde": [
+        "cavi",
+        "cv"
+    ],
+    "cayman islands": [
+        "cayi",
+        "ky"
+    ],
+    "central african republic": [
+        "cf",
+        "cafr",
+        "中非"
+    ],
+    "chad": [
+        "chad",
+        "td"
+    ],
+    "chile": [
+        "chil",
+        "cl"
+    ],
+    "china": [
+        "chin",
+        "cn"
+    ],
+    "christmas island": [
+        "cx",
+        "xch"
+    ],
+    "cocos islands": [
+        "cc",
+        "cck",
+        "科科斯"
+    ],
+    "colombia": [
+        "col"
+    ],
+    "comoros": [
+        "como"
+    ],
+    "congo brazzaville": [
+        "conb"
+    ],
+    "congo kinshasa": [
+        "cod"
+    ],
+    "cook islands": [],
+    "costa rica": [
+        "cstr",
+        "cr"
+    ],
+    "cote d'ivoire": [
+        "ivco",
+        "ci"
+    ],
+    "croatia": [
+        "hrv",
+        "hr"
+    ],
+    "cuba": [
+        "cu",
+        "cuba"
+    ],
+    "cyprus": [
+        "cypr",
+        "cy"
+    ],
+    "czechia": [
+        "czec",
+        "cz",
+        "ceki",
+        "ceko",
+        "céko",
+        "chek",
+        "chk",
+        "çeki",
+        "чех",
+        "чехи",
+        "تشيك",
+        "چک",
+        "چکیا",
+        "ܬܫܝܟ",
+        "เช็ก",
+        "ቼቺያ",
+        "ឆែក",
+        "チェコ",
+        "捷克",
+        "체코"
+    ],
+    "democratic republic of the congo": [
+        "cd",
+        "rdc",
+        "zair",
+        "zyyr",
+        "заир",
+        "زئیر",
+        "ኮንጎ",
+        "ザイール",
+        "扎伊尔"
+    ],
+    "denmark": [
+        "den",
+        "dk"
+    ],
+    "djibouti": [
+        "dj",
+        "dji",
+        "jib",
+        "ジブチ市",
+        "吉布地市",
+        "吉布提城",
+        "지부티"
+    ],
+    "dominica": [
+        "domn",
+        "dm"
+    ],
+    "dominican republic": [
+        "domr",
+        "dr",
+        "do",
+        "多明尼加",
+        "多米尼加"
+    ],
+    "ecuador": [
+        "ecua",
+        "ec"
+    ],
+    "egypt": [
+        "egyp",
+        "eg"
+    ],
+    "el salvador": [
+        "elsl",
+        "sv"
+    ],
+    "equatorial guinea": [
+        "egn",
+        "gq"
+    ],
+    "eritrea": [
+        "eri",
+        "er"
+    ],
+    "estonia": [
+        "est",
+        "ee"
+    ],
+    "eswatini": [
+        "史瓦濟蘭",
+        "斯威士兰"
+    ],
+    "ethiopia": [
+        "eth",
+        "et"
+    ],
+    "falkland islands": [
+        "fk"
+    ],
+    "faroe islands": [
+        "fo",
+        "法罗群岛",
+        "法羅群島",
+        "페로제도"
+    ],
+    "fiji": [
+        "fiji",
+        "fj"
+    ],
+    "finland": [
+        "fin",
+        "fi"
+    ],
+    "france": [
+        "fr",
+        "fran"
+    ],
+    "french polynesia": [
+        "pf"
+    ],
+    "gabon": [
+        "gabn",
+        "ga"
+    ],
+    "gambia": [
+        "gm",
+        "gam",
+        "ጋምቢያ",
+        "ហគប",
+        "ガンビア",
+        "冈比亚",
+        "甘比亞",
+        "감비아"
+    ],
+    "georgia": [
+        "ge",
+        "geo",
+        "гүрж",
+        "ຈເຈຍ",
+        "ཇར་ཇ",
+        "ጆርጂያ",
+        "グルジア",
+        "喬治亞",
+        "格魯吉亞",
+        "格鲁吉亚",
+        "그루지아",
+        "그루지야",
+        "조지아"
+    ],
+    "germany": [
+        "ger",
+        "de"
+    ],
+    "ghana": [
+        "ghan",
+        "gh"
+    ],
+    "gibraltar": [
+        "gi",
+        "gib",
+        "直布罗陀",
+        "直布羅陀",
+        "지브롤터"
+    ],
+    "greece": [
+        "grc",
+        "gr"
+    ],
+    "greenland": [
+        "gl",
+        "格陵兰",
+        "格陵蘭",
+        "그린란드",
+        "그린랜드"
+    ],
+    "grenada": [
+        "gren",
+        "gd"
+    ],
+    "guadeloupe": [
+        "gp"
+    ],
+    "guam": [
+        "gu",
+        "gum",
+        "guam",
+        "guâm",
+        "gvam",
+        "gwam",
+        "quam",
+        "guam",
+        "gvam",
+        "gwam",
+        "kwm",
+        "гуам",
+        "גואם",
+        "غوام",
+        "ګwam",
+        "ګوام",
+        "گوام",
+        "गुआम",
+        "ਗੁਆਮ",
+        "ගවාම",
+        "กวม",
+        "ກວາມ",
+        "ጉዋም",
+        "ហគា",
+        "グアム",
+        "关岛",
+        "關島",
+        "괌"
+    ],
+    "guatemala": [
+        "guat",
+        "gt"
+    ],
+    "guernsey": [
+        "gg",
+        "gci",
+        "根西岛",
+        "건지 섬"
+    ],
+    "guinea": [
+        "gnea",
+        "gn"
+    ],
+    "guinea bissau": [
+        "guib",
+        "gw"
+    ],
+    "guyana": [
+        "guy",
+        "gy"
+    ],
+    "haiti": [
+        "hat",
+        "ht"
+    ],
+    "holy see": [
+        "vat",
+        "va"
+    ],
+    "honduras": [
+        "hond",
+        "hn"
+    ],
+    "hong kong": [
+        "hk",
+        "hkg",
+        "hoko",
+        "हङकङ",
+        "হংকং",
+        "ହଂକଂ",
+        "ហងកង",
+        "香港",
+        "홍콩"
+    ],
+    "hungary": [
+        "hu",
+        "mgr",
+        "mjr",
+        "hung",
+        "ѫгри",
+        "مجر",
+        "ܡܓܪ",
+        "ሀንጋሪ",
+        "ꮂꮒꭶꮅ",
+        "ហងគរ",
+        "匈牙利",
+        "헝가리"
+    ],
+    "iceland": [
+        "icld",
+        "is"
+    ],
+    "india": [
+        "imd",
+        "in"
+    ],
+    "indonesia": [
+        "idsa",
+        "id"
+    ],
+    "iran": [
+        "iq",
+        "iran",
+        "īrān"
+    ],
+    "iraq": [
+        "iraq"
+    ],
+    "ireland": [
+        "eire",
+        "ie",
+        "iiri",
+        "ire",
+        "éire",
+        "愛爾蘭",
+        "爱尔兰",
+        "아일랜드"
+    ],
+    "isle of man": [
+        "im",
+        "iom",
+        "man",
+        "mann",
+        "men",
+        "moen",
+        "mön",
+        "мен",
+        "マン島",
+        "曼岛",
+        "曼島",
+        "马恩岛",
+        "맨 섬",
+        "맨섬"
+    ],
+    "israel": [
+        "isrl",
+        "il"
+    ],
+    "italy": [
+        "itly",
+        "it"
+    ],
+    "jamaica": [
+        "jam",
+        "jm"
+    ],
+    "japan": [
+        "jp",
+        "hapo",
+        "hapõ",
+        "japo",
+        "japu",
+        "japó",
+        "zapɔ",
+        "jpan",
+        "ypn",
+        "jpn",
+        "япон",
+        "יפן",
+        "جپان",
+        "ژاپن",
+        "ܝܦܢ",
+        "जपान",
+        "ਜਪਾਨ",
+        "ຍປນ",
+        "ཇ་པན",
+        "ጃፓን",
+        "ꮳꮹꮒꮟ",
+        "ᓃᑉᐊᓐ",
+        "ជបន",
+        "ᨍᨛᨄ",
+        "日本",
+        "ꏝꀪ",
+        "일본"
+    ],
+    "jersey": [
+        "je",
+        "jer",
+        "澤西島",
+        "저지 섬"
+    ],
+    "jordan": [
+        "jord",
+        "jo"
+    ],
+    "kazakhstan": [
+        "kaz",
+        "kz"
+    ],
+    "kenya": [
+        "keny",
+        "ke"
+    ],
+    "kiribati": [
+        "kiri",
+        "ki"
+    ],
+    "kosovo": [],
+    "kuwait": [
+        "kuwt",
+        "ku"
+    ],
+    "kyrgyzstan": [
+        "kgz",
+        "kg"
+    ],
+    "laos": [
+        "laos",
+        "la"
+    ],
+    "latvia": [
+        "latv",
+        "lv"
+    ],
+    "lebanon": [
+        "lb",
+        "lebn",
+        "liba",
+        "libá",
+        "lbnn",
+        "ܠܒܢܢ",
+        "ሊባኖስ",
+        "លបង",
+        "レバノン",
+        "黎巴嫩",
+        "레바논"
+    ],
+    "lesotho": [
+        "les",
+        "ls"
+    ],
+    "liberia": [
+        "libr",
+        "lr"
+    ],
+    "libya": [
+        "libi",
+        "libí",
+        "livi",
+        "lbya",
+        "lwb",
+        "lyby",
+        "ly",
+        "ливи",
+        "לוב",
+        "لبيا",
+        "لیبی",
+        "ܠܘܒܐ",
+        "ລເບຍ",
+        "ሊቢያ",
+        "លប",
+        "リビア",
+        "利比亚",
+        "利比亞",
+        "리비아"
+    ],
+    "liechtenstein": [
+        "lcht",
+        "li"
+    ],
+    "lithuania": [
+        "lith",
+        "lt"
+    ],
+    "luxembourg": [
+        "lu",
+        "lxm",
+        "lux",
+        "盧森堡城",
+        "盧森堡市"
+    ],
+    "macau": [
+        "mac",
+        "mo"
+    ],
+    "macedonia": [
+        "mkd",
+        "mk"
+    ],
+    "madagascar": [
+        "madg",
+        "mg"
+    ],
+    "malawi": [
+        "malw",
+        "mw"
+    ],
+    "malaysia": [
+        "my",
+        "mlas",
+        "ማሌዢያ",
+        "馬來西亞",
+        "马来西亚"
+    ],
+    "maldives": [
+        "mldv",
+        "mv"
+    ],
+    "mali": [
+        "mali",
+        "ml"
+    ],
+    "malta": [
+        "mt",
+        "mlta",
+        "malt",
+        "mlth",
+        "מלטה",
+        "مالت",
+        "マルタ島",
+        "馬耳他島",
+        "몰타 섬"
+    ],
+    "marshall islands": [
+        "mh"
+    ],
+    "martinique": [
+        "mq"
+    ],
+    "mauritania": [
+        "maur",
+        "mr"
+    ],
+    "mauritius": [
+        "mrts",
+        "mu"
+    ],
+    "mayotte": [
+        "yt",
+        "mywt",
+        "מיוט",
+        "මයොට",
+        "མ་ཡཊ",
+        "ሜይኦቴ",
+        "មាយត",
+        "マヨット",
+        "馬約特島",
+        "马约特",
+        "마요트",
+        "마요티"
+    ],
+    "mexico": [
+        "mex",
+        "mx"
+    ],
+    "moldova": [
+        "mld",
+        "md"
+    ],
+    "monaco": [
+        "mc",
+        "mon",
+        "mcm",
+        "모나코"
+    ],
+    "mongolia": [
+        "mn",
+        "mool",
+        "mong",
+        "моол",
+        "モンゴル",
+        "蒙古",
+        "蒙古国",
+        "蒙古國",
+        "몽골"
+    ],
+    "montenegro": [
+        "me",
+        "黑山"
+    ],
+    "montserrat": [
+        "mont",
+        "ms"
+    ],
+    "morocco": [
+        "moro",
+        "ma"
+    ],
+    "mozambique": [
+        "moz",
+        "mz"
+    ],
+    "namibia": [
+        "namb",
+        "na"
+    ],
+    "nauru": [
+        "nr",
+        "nau",
+        "naru",
+        "nárú",
+        "naru",
+        "nwrw",
+        "نؤرو",
+        "نورو",
+        "नौरु",
+        "नौरू",
+        "નૌરુ",
+        "நௌரு",
+        "నౌరు",
+        "ನೌರು",
+        "നൗറു",
+        "നൗറൂ",
+        "ນາອຣ",
+        "ናኡሩ",
+        "ናውሩ",
+        "ណរ",
+        "ណូរូ",
+        "ナウル",
+        "瑙魯",
+        "瑙鲁",
+        "諾魯",
+        "나우루"
+    ],
+    "nepal": [
+        "nep",
+        "np"
+    ],
+    "netherlands": [
+        "neth",
+        "nl"
+    ],
+    "netherlands antilles": [
+        "neta",
+        "an"
+    ],
+    "new caledonia": [
+        "ncal",
+        "nc"
+    ],
+    "new zealand": [
+        "nz",
+        "nzld",
+        "新西兰",
+        "紐西蘭",
+        "뉴질랜드"
+    ],
+    "nicaragua": [
+        "nic",
+        "ni"
+    ],
+    "niger": [
+        "nir",
+        "ne"
+    ],
+    "nigeria": [
+        "nra",
+        "ng"
+    ],
+    "niue": [
+        "nu",
+        "iue",
+        "nija",
+        "nioe",
+        "nioé",
+        "niue",
+        "niui",
+        "niuo",
+        "niuè",
+        "niué",
+        "niuē",
+        "niw",
+        "niwe",
+        "niyu",
+        "niûe",
+        "nju",
+        "nyue",
+        "nyué",
+        "ni'u",
+        "niue",
+        "niyu",
+        "nu'u",
+        "nwwy",
+        "nyw",
+        "nyww",
+        "nywy",
+        "nyyw",
+        "ниуе",
+        "ниуэ",
+        "ніуе",
+        "ніуэ",
+        "нія",
+        "ניאו",
+        "نووي",
+        "نيوي",
+        "نیئو",
+        "نیوو",
+        "نیوٗ",
+        "ނީއު",
+        "नीयू",
+        "নিউ",
+        "নুউ",
+        "ਨਿਊਏ",
+        "ਨਿਯੂ",
+        "નીયુ",
+        "ନିଉ",
+        "நியூ",
+        "నియూ",
+        "ನಿಯು",
+        "නියූ",
+        "ນອເອ",
+        "ნიუე",
+        "ኒኡይ",
+        "ណៀ",
+        "ニウエ",
+        "ニウエ島",
+        "紐埃",
+        "紐埃島",
+        "纽埃",
+        "니우에"
+    ],
+    "norfolk island": [
+        "nlk",
+        "诺福克岛",
+        "노퍽 섬"
+    ],
+    "north korea": [
+        "prk",
+        "kp"
+    ],
+    "north macedonia": [
+        "arym",
+        "北馬其頓",
+        "北马其顿"
+    ],
+    "northern mariana islands": [],
+    "norway": [
+        "norw",
+        "no"
+    ],
+    "oman": [
+        "oman",
+        "om"
+    ],
+    "pakistan": [
+        "pkst",
+        "pk"
+    ],
+    "palau": [
+        "pala",
+        "pw"
+    ],
+    "panama": [
+        "pa",
+        "pan",
+        "pty",
+        "巴拿馬城"
+    ],
+    "papua new guinea": [
+        "png",
+        "pg"
+    ],
+    "paraguay": [
+        "para",
+        "py"
+    ],
+    "peru": [
+        "peru",
+        "pe"
+    ],
+    "philippines": [
+        "phil",
+        "ph"
+    ],
+    "pitcairn islands": [
+        "pitc",
+        "pn"
+    ],
+    "poland": [
+        "pol",
+        "pl"
+    ],
+    "portugal": [
+        "port",
+        "pt"
+    ],
+    "puerto rico": [
+        "波多黎各"
+    ],
+    "qatar": [
+        "qtar",
+        "qa"
+    ],
+    "republic of the congo": [
+        "cg",
+        "コンゴ",
+        "刚果",
+        "콩고"
+    ],
+    "reunion": [
+        "re"
+    ],
+    "romania": [
+        "ro",
+        "rom",
+        "ሮማንያ",
+        "ሮሜኒያ",
+        "ꮆꮉꮒꮿ",
+        "រមាន",
+        "罗马尼亚",
+        "羅馬尼亞",
+        "루마니아"
+    ],
+    "russia": [
+        "rus",
+        "ru"
+    ],
+    "rwanda": [
+        "rwnd",
+        "rw"
+    ],
+    "saint barthelemy": [
+        "sbh",
+        "聖巴瑟米"
+    ],
+    "saint helena": [
+        "shel",
+        "hle",
+        "sh"
+    ],
+    "saint kitts and nevis": [
+        "stcn",
+        "kn"
+    ],
+    "saint lucia": [
+        "lc",
+        "slca",
+        "圣卢西亚",
+        "聖露西亞"
+    ],
+    "saint martin": [
+        "mf",
+        "sfg"
+    ],
+    "saint pierre and miquelon": [
+        "pm"
+    ],
+    "saint vincent and the grenadines": [
+        "stvn",
+        "vc"
+    ],
+    "samoa": [
+        "wsam",
+        "ws"
+    ],
+    "san marino": [
+        "sm",
+        "smar",
+        "sai",
+        "聖馬力諾",
+        "산마리노"
+    ],
+    "sao tome and principe": [
+        "stpr",
+        "st"
+    ],
+    "saudi arabia": [
+        "sarb",
+        "sa"
+    ],
+    "senegal": [
+        "seng",
+        "sn"
+    ],
+    "serbia": [
+        "rs",
+        "sebi",
+        "sèbi",
+        "ሰርቢያ",
+        "ሰርብያ",
+        "ꮢꮘꮿ",
+        "សែប",
+        "セルビア",
+        "塞尔维亚",
+        "塞爾維亞",
+        "세르비아"
+    ],
+    "serbia and montenegro": [
+        "cs",
+        "scg"
+    ],
+    "seychelles": [
+        "seyc",
+        "sc"
+    ],
+    "sierra leone": [
+        "sleo",
+        "sl"
+    ],
+    "singapore": [
+        "sg",
+        "sing",
+        "sin",
+        "新加坡",
+        "星架坡",
+        "싱가포르",
+        "싱가폴"
+    ],
+    "sint maarten": [
+        "sx",
+        "sxm",
+        "圣马丁岛"
+    ],
+    "slovakia": [
+        "svk",
+        "sk"
+    ],
+    "slovenia": [
+        "svn",
+        "si"
+    ],
+    "solomon islands": [
+        "sb",
+        "slmn",
+        "솔로몬"
+    ],
+    "somalia": [
+        "so",
+        "soma",
+        "ሱማሌ",
+        "ሶማሊያ",
+        "ソマリア",
+        "索馬利亞",
+        "索馬里",
+        "索马里",
+        "소말리아"
+    ],
+    "south africa": [
+        "safr",
+        "za"
+    ],
+    "south georgia and the south sandwich islands": [],
+    "south korea": [
+        "kor",
+        "kr"
+    ],
+    "south sudan": [
+        "南苏丹",
+        "南蘇丹",
+        "남수단"
+    ],
+    "spain": [
+        "spn",
+        "esp",
+        "es"
+    ],
+    "sri lanka": [
+        "srl",
+        "lk"
+    ],
+    "sudan": [
+        "suda",
+        "sd"
+    ],
+    "suriname": [
+        "surm",
+        "sr"
+    ],
+    "svalbard and jan mayen": [
+        "sj",
+        "스발바르"
+    ],
+    "swaziland": [
+        "szld",
+        "sz"
+    ],
+    "sweden": [
+        "swdn",
+        "se"
+    ],
+    "switzerland": [
+        "swtz",
+        "ch",
+        "suis",
+        "swys",
+        "سویس",
+        "សវស",
+        "スイス",
+        "瑞士",
+        "스위스"
+    ],
+    "syria": [
+        "syr",
+        "sy"
+    ],
+    "taiwan": [
+        "tw",
+        "twan",
+        "台灣"
+    ],
+    "tajikistan": [
+        "tjk",
+        "tj"
+    ],
+    "tanzania": [
+        "tazn",
+        "tz"
+    ],
+    "thailand": [
+        "thai",
+        "th"
+    ],
+    "timor-leste": [
+        "tmor",
+        "tl"
+    ],
+    "togo": [
+        "togo",
+        "tg"
+    ],
+    "tokelau": [],
+    "tonga": [
+        "tong",
+        "to"
+    ],
+    "trinidad and tobago": [
+        "trin",
+        "tt"
+    ],
+    "tunisia": [
+        "tnsa",
+        "tn"
+    ],
+    "turkey": [
+        "trky",
+        "tr"
+    ],
+    "turkmenistan": [
+        "tkm",
+        "tm"
+    ],
+    "turks and caicos islands": [
+        "tcis",
+        "tc"
+    ],
+    "tuvalu": [
+        "tv",
+        "tuv",
+        "ຕວາລ",
+        "ቱቫሉ",
+        "ទវាល",
+        "ツバル",
+        "吐瓦魯",
+        "图瓦卢",
+        "圖瓦盧",
+        "투발루"
+    ],
+    "uganda": [
+        "ugan",
+        "ug"
+    ],
+    "ukraine": [
+        "ua",
+        "ukr",
+        "ዩክሬን",
+        "乌克兰",
+        "烏克蘭"
+    ],
+    "united arab emirates": [
+        "oaeh",
+        "uae",
+        "ae",
+        "оаэ",
+        "阿联酋"
+    ],
+    "united kingdom": [
+        "uk",
+        "u.k.",
+        "u.k",
+        "gb",
+        "g.b.",
+        "g.b",
+        "grbr"
+    ],
+    "united states": [
+        "a.s",
+        "abd",
+        "abs",
+        "abş",
+        "acsh",
+        "aish",
+        "aksh",
+        "anu",
+        "aqsh",
+        "dya",
+        "eua",
+        "ipa",
+        "jav",
+        "sad",
+        "sam",
+        "shba",
+        "ssha",
+        "su",
+        "sua",
+        "us",
+        "u.s",
+        "u.s.",
+        "uda",
+        "usa",
+        "vs",
+        "vsa",
+        "zda",
+        "ps",
+        "ηπα",
+        "аиш",
+        "акш",
+        "ану",
+        "ацш",
+        "ақш",
+        "им",
+        "сад",
+        "сащ",
+        "сша",
+        "פֿש",
+        "එ.ජ",
+        "აშშ",
+        "ዩ ኤስ",
+        "ዩኤስ",
+        "アメリカ",
+        "美国",
+        "美國",
+        "ꂰꇩ",
+        "미국"
+    ],
+    "united states minor outlying islands": [],
+    "uruguay": [
+        "uru",
+        "uy"
+    ],
+    "uzbekistan": [
+        "uzb",
+        "uz"
+    ],
+    "vanuatu": [
+        "vanu",
+        "vu"
+    ],
+    "venezuela": [
+        "venz",
+        "ve"
+    ],
+    "vietnam": [
+        "vtnm",
+        "vn"
+    ],
+    "wallis and futuna": [
+        "waft",
+        "wf"
+    ],
+    "western sahara": [
+        "ssah",
+        "eh",
+        "rasd",
+        "西サハラ",
+        "西撒哈拉",
+        "서사하라"
+    ],
+    "yemen": [
+        "yem",
+        "ye"
+    ],
+    "yugoslavia": [
+        "yugo"
+    ],
+    "zambia": [
+        "zamb",
+        "zm"
+    ],
+    "zimbabwe": [
+        "zimb",
+        "zw"
+    ]
+}
