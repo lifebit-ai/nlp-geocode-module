@@ -37,6 +37,7 @@ class Geocoder:
             "osm_keys": "place",
             "country_neighbors_path": "country_neighbors.json",
             "country_bounding_box_path": "countries_bbox.json",
+            "country_acronyms_path": "countries_acronyms.json",
             "blacklist": open(
                 os.path.join(
                     os.path.dirname(os.path.dirname(geocoder_module.__file__)),
@@ -81,7 +82,23 @@ class Geocoder:
                     self.config["country_bounding_box_path"]
                 )
             )
-
+        try:
+            self.country_acronyms = json.load(
+                open(
+                    os.path.join(
+                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
+                        "geocoder_module",
+                        self.config["country_acronyms_path"],
+                    ),
+                    "r",
+                )
+            )
+        except:
+            logging.error(
+                "The json file {} specified in the configuration can't be read.".format(
+                    self.config["country_acronyms_path"]
+                )
+            )
         try:
             print("Using Photon Geocoder server on: " + os.environ["PHOTON_SERVER"])
         except:
@@ -142,6 +159,24 @@ class Geocoder:
             results.append(location)
         return results
 
+    def _handle_acronyms(self, location: str) -> str:
+        """
+        This functions returns a string representing the full version of an acronym.
+
+        :param location:       string that represents the location to be turned into a full location
+        """
+        if location.lower() in self.country_acronyms:
+            return location
+
+        for key in self.country_acronyms:
+            # Will determine that is talking about Us, France and not US
+            if location == "Us":
+                return "Us"
+            if location.lower() in self.country_acronyms[key]:
+                return key
+
+        return location
+
     def _get_geocode_info(
         self, location: str, best_matching: bool = True, country: str = None
     ) -> List[Dict[str, any]]:
@@ -164,6 +199,7 @@ class Geocoder:
         :param country:        string that represents the country where to search
                                the input location (default None)
         """
+        location = self._handle_acronyms(location)
         try:
             url_api = os.environ["PHOTON_SERVER"] + self.config["url_api_endpoint"]
 

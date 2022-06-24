@@ -1,0 +1,733 @@
+{
+    "united arab emirates": [
+        "oaeh",
+        "uae",
+        "\u043e\u0430\u044d",
+        "\u963f\u8054\u914b"
+    ],
+    "united kingdom": [
+        "uk",
+        "u.k.",
+        "u.k",
+        "gb",
+        "g.b.",
+        "g.b"
+    ],
+    "antigua and barbuda": [],
+    "anguilla": [
+        "axa",
+        "\u30a2\u30f3\u30ae\u30e9",
+        "\u5b89\u572d\u62c9",
+        "\uc575\uadc8\ub77c"
+    ],
+    "armenia": [],
+    "netherlands antilles": [],
+    "antarctica": [
+        "\u5357\u6781\u6d32",
+        "\u5357\u6975",
+        "\u5357\u6975\u6d32"
+    ],
+    "argentina": [],
+    "american samoa": [],
+    "aruba": [
+        "\u0d05\u0d31\u0d41\u0d2c",
+        "\u0d05\u0d31\u0d42\u0d2c",
+        "\u0d85\u0dbb\u0db6\u0dcf",
+        "\u12a0\u1229\u1263",
+        "\u12a3\u1229\u1263",
+        "\u30a2\u30eb\u30d0",
+        "\u30a2\u30eb\u30d0\u5cf6",
+        "\u963f\u9b6f\u5df4",
+        "\u963f\u9c81\u5df4",
+        "\uc544\ub8e8\ubc14"
+    ],
+    "aland islands": [],
+    "bosnia and herzegovina": [
+        "\u6ce2\u65af\u5c3c\u4e9e",
+        "\u6ce2\u9ed1",
+        "\ubcf4\uc2a4\ub2c8\uc544"
+    ],
+    "barbados": [],
+    "bangladesh": [
+        "\u5b5f\u52a0\u62c9",
+        "\u5b5f\u52a0\u62c9\u56fd",
+        "\u5b5f\u52a0\u62c9\u570b"
+    ],
+    "burkina faso": [],
+    "bahrain": [
+        "awal",
+        "aw\u0101l"
+    ],
+    "benin": [],
+    "saint barthelemy": [
+        "sbh",
+        "\u8056\u5df4\u745f\u7c73"
+    ],
+    "bermuda": [
+        "bda",
+        "\u1264\u122d\u1219\u12f3",
+        "\u767e\u6155\u5927",
+        "\u767e\u6155\u9054",
+        "\ubc84\ubba4\ub2e4"
+    ],
+    "bouvet island": [
+        "buve",
+        "\u10d1\u10e3\u10d5\u10d4",
+        "\u30d6\u30fc\u30d9\u5cf6",
+        "\u5e03\u5a01\u5cf6",
+        "\u5e03\u7ef4\u5c9b",
+        "\u5e03\u7ef4\u7279\u5c9b",
+        "\u5e03\u97e6\u5c9b",
+        "\ubd80\ubca0 \uc12c",
+        "\ubd80\ubca0\uc12c"
+    ],
+    "belize": [
+        "blyz",
+        "\u05d1\u05dc\u05d9\u05d6",
+        "\u0628\u0644\u064a\u0632",
+        "\u0628\u0644\u06cc\u0632",
+        "\u0ec0\u0e9a\u0ea5\u0e8a",
+        "\u0f56\u0f0b\u0f63\u0f5b",
+        "\u1260\u120a\u12dd",
+        "\u1264\u120a\u12d8",
+        "\u1264\u120a\u12dd",
+        "\u1794\u17c1\u179b",
+        "\u1794\u17c1\u179b\u17b8",
+        "\u30d9\u30ea\u30fc\u30ba",
+        "\u4f2f\u5229\u5179",
+        "\u4f2f\u5229\u8332",
+        "\u8c9d\u91cc\u65af",
+        "\ubca8\ub9ac\uc988"
+    ],
+    "canada": [
+        "knda",
+        "qndh",
+        "\u05e7\u05e0\u05d3\u05d4",
+        "\u0643\u0646\u062f\u0627",
+        "\u0b95\u0ba9\u0b9f\u0bbe",
+        "\u0d15\u0d3e\u0d28\u0d21",
+        "\u12ab\u1293\u12f3",
+        "\u30ab\u30ca\u30c0",
+        "\u52a0\u62ff\u5927",
+        "\uce90\ub098\ub2e4"
+    ],
+    "cocos islands": [
+        "cck",
+        "\u79d1\u79d1\u65af"
+    ],
+    "democratic republic of the congo": [
+        "rdc",
+        "zair",
+        "zyyr",
+        "\u0437\u0430\u0438\u0440",
+        "\u0632\u0626\u06cc\u0631",
+        "\u12ae\u1295\u130e",
+        "\u30b6\u30a4\u30fc\u30eb",
+        "\u624e\u4f0a\u5c14"
+    ],
+    "central african republic": [
+        "\u4e2d\u975e"
+    ],
+    "republic of the congo": [
+        "\u30b3\u30f3\u30b4",
+        "\u521a\u679c",
+        "\ucf69\uace0"
+    ],
+    "switzerland": [
+        "ch",
+        "suis",
+        "swys",
+        "\u0633\u0648\u06cc\u0633",
+        "\u179f\u179c\u179f",
+        "\u30b9\u30a4\u30b9",
+        "\u745e\u58eb",
+        "\uc2a4\uc704\uc2a4"
+    ],
+    "cook islands": [],
+    "colombia": [],
+    "serbia and montenegro": [
+        "cs",
+        "scg"
+    ],
+    "cuba": [
+        "cuba"
+    ],
+    "christmas island": [
+        "xch"
+    ],
+    "cyprus": [],
+    "czechia": [
+        "cz",
+        "ceki",
+        "ceko",
+        "c\u00e9ko",
+        "chek",
+        "chk",
+        "\u00e7eki",
+        "\u0447\u0435\u0445",
+        "\u0447\u0435\u0445\u0438",
+        "\u062a\u0634\u064a\u0643",
+        "\u0686\u06a9",
+        "\u0686\u06a9\u06cc\u0627",
+        "\u072c\u072b\u071d\u071f",
+        "\u0e40\u0e0a\u0e47\u0e01",
+        "\u127c\u127a\u12eb",
+        "\u1786\u17c2\u1780",
+        "\u30c1\u30a7\u30b3",
+        "\u6377\u514b",
+        "\uccb4\ucf54"
+    ],
+    "djibouti": [
+        "jib",
+        "\u30b8\u30d6\u30c1\u5e02",
+        "\u5409\u5e03\u5730\u5e02",
+        "\u5409\u5e03\u63d0\u57ce",
+        "\uc9c0\ubd80\ud2f0"
+    ],
+    "dominica": [],
+    "dominican republic": [
+        "\u591a\u660e\u5c3c\u52a0",
+        "\u591a\u7c73\u5c3c\u52a0"
+    ],
+    "western sahara": [
+        "eh",
+        "rasd",
+        "\u897f\u30b5\u30cf\u30e9",
+        "\u897f\u6492\u54c8\u62c9",
+        "\uc11c\uc0ac\ud558\ub77c"
+    ],
+    "falkland islands": [],
+    "faroe islands": [
+        "\u6cd5\u7f57\u7fa4\u5c9b",
+        "\u6cd5\u7f85\u7fa4\u5cf6",
+        "\ud398\ub85c\uc81c\ub3c4"
+    ],
+    "france": [],
+    "grenada": [],
+    "georgia": [
+        "\u0433\u04af\u0440\u0436",
+        "\u0e88\u0ec0\u0e88\u0e8d",
+        "\u0f47\u0f62\u0f0b\u0f47",
+        "\u1306\u122d\u1302\u12eb",
+        "\u30b0\u30eb\u30b8\u30a2",
+        "\u55ac\u6cbb\u4e9e",
+        "\u683c\u9b6f\u5409\u4e9e",
+        "\u683c\u9c81\u5409\u4e9a",
+        "\uadf8\ub8e8\uc9c0\uc544",
+        "\uadf8\ub8e8\uc9c0\uc57c",
+        "\uc870\uc9c0\uc544"
+    ],
+    "guernsey": [
+        "gci",
+        "\u6839\u897f\u5c9b",
+        "\uac74\uc9c0 \uc12c"
+    ],
+    "gibraltar": [
+        "\u76f4\u5e03\u7f57\u9640",
+        "\u76f4\u5e03\u7f85\u9640",
+        "\uc9c0\ube0c\ub864\ud130"
+    ],
+    "greenland": [
+        "\u683c\u9675\u5170",
+        "\u683c\u9675\u862d",
+        "\uadf8\ub9b0\ub780\ub4dc",
+        "\uadf8\ub9b0\ub79c\ub4dc"
+    ],
+    "gambia": [
+        "\u130b\u121d\u1262\u12eb",
+        "\u17a0\u1782\u1794",
+        "\u30ac\u30f3\u30d3\u30a2",
+        "\u5188\u6bd4\u4e9a",
+        "\u7518\u6bd4\u4e9e",
+        "\uac10\ube44\uc544"
+    ],
+    "guadeloupe": [],
+    "south georgia and the south sandwich islands": [],
+    "guam": [
+        "gum",
+        "guam",
+        "gu\u00e2m",
+        "gvam",
+        "gwam",
+        "quam",
+        "guam",
+        "gvam",
+        "gwam",
+        "kwm",
+        "\u0433\u0443\u0430\u043c",
+        "\u05d2\u05d5\u05d0\u05dd",
+        "\u063a\u0648\u0627\u0645",
+        "\u06abwam",
+        "\u06ab\u0648\u0627\u0645",
+        "\u06af\u0648\u0627\u0645",
+        "\u0917\u0941\u0906\u092e",
+        "\u0a17\u0a41\u0a06\u0a2e",
+        "\u0d9c\u0dc0\u0dcf\u0db8",
+        "\u0e01\u0e27\u0e21",
+        "\u0e81\u0ea7\u0eb2\u0ea1",
+        "\u1309\u12cb\u121d",
+        "\u17a0\u1782\u17b6",
+        "\u30b0\u30a2\u30e0",
+        "\u5173\u5c9b",
+        "\u95dc\u5cf6",
+        "\uad0c"
+    ],
+    "hong kong": [
+        "hkg",
+        "\u0939\u0919\u0915\u0919",
+        "\u09b9\u0982\u0995\u0982",
+        "\u0b39\u0b02\u0b15\u0b02",
+        "\u17a0\u1784\u1780\u1784",
+        "\u9999\u6e2f",
+        "\ud64d\ucf69"
+    ],
+    "hungary": [
+        "hu",
+        "mgr",
+        "mjr",
+        "\u046b\u0433\u0440\u0438",
+        "\u0645\u062c\u0631",
+        "\u0721\u0713\u072a",
+        "\u1200\u1295\u130b\u122a",
+        "\uab82\uab92\uab76\uab85",
+        "\u17a0\u1784\u1782\u179a",
+        "\u5308\u7259\u5229",
+        "\ud5dd\uac00\ub9ac"
+    ],
+    "ireland": [
+        "eire",
+        "ie",
+        "iiri",
+        "ire",
+        "\u00e9ire",
+        "\u611b\u723e\u862d",
+        "\u7231\u5c14\u5170",
+        "\uc544\uc77c\ub79c\ub4dc"
+    ],
+    "isle of man": [
+        "iom",
+        "man",
+        "mann",
+        "men",
+        "moen",
+        "m\u00f6n",
+        "\u043c\u0435\u043d",
+        "\u30de\u30f3\u5cf6",
+        "\u66fc\u5c9b",
+        "\u66fc\u5cf6",
+        "\u9a6c\u6069\u5c9b",
+        "\ub9e8 \uc12c",
+        "\ub9e8\uc12c"
+    ],
+    "british indian ocean territory": [],
+    "iran": [
+        "iran",
+        "\u012br\u0101n"
+    ],
+    "jersey": [
+        "jer",
+        "\u6fa4\u897f\u5cf6",
+        "\uc800\uc9c0 \uc12c"
+    ],
+    "jamaica": [],
+    "japan": [
+        "hapo",
+        "hap\u00f5",
+        "japo",
+        "japu",
+        "jap\u00f3",
+        "zap\u0254",
+        "jpan",
+        "ypn",
+        "\u044f\u043f\u043e\u043d",
+        "\u05d9\u05e4\u05df",
+        "\u062c\u067e\u0627\u0646",
+        "\u0698\u0627\u067e\u0646",
+        "\u071d\u0726\u0722",
+        "\u091c\u092a\u093e\u0928",
+        "\u0a1c\u0a2a\u0a3e\u0a28",
+        "\u0e8d\u0e9b\u0e99",
+        "\u0f47\u0f0b\u0f54\u0f53",
+        "\u1303\u1353\u1295",
+        "\uabb3\uabb9\uab92\uab9f",
+        "\u14c3\u1449\u140a\u14d0",
+        "\u1787\u1794\u1793",
+        "\u1a0d\u1a1b\u1a04",
+        "\u65e5\u672c",
+        "\ua3dd\ua02a",
+        "\uc77c\ubcf8"
+    ],
+    "kyrgyzstan": [],
+    "cayman islands": [],
+    "kazakhstan": [],
+    "lebanon": [
+        "liba",
+        "lib\u00e1",
+        "lbnn",
+        "\u0720\u0712\u0722\u0722",
+        "\u120a\u1263\u1296\u1235",
+        "\u179b\u1794\u1784",
+        "\u30ec\u30d0\u30ce\u30f3",
+        "\u9ece\u5df4\u5ae9",
+        "\ub808\ubc14\ub17c"
+    ],
+    "saint lucia": [
+        "\u5723\u5362\u897f\u4e9a",
+        "\u8056\u9732\u897f\u4e9e"
+    ],
+    "sri lanka": [],
+    "luxembourg": [
+        "lux",
+        "\u76e7\u68ee\u5821\u57ce",
+        "\u76e7\u68ee\u5821\u5e02"
+    ],
+    "libya": [
+        "libi",
+        "lib\u00ed",
+        "livi",
+        "lbya",
+        "lwb",
+        "lyby",
+        "\u043b\u0438\u0432\u0438",
+        "\u05dc\u05d5\u05d1",
+        "\u0644\u0628\u064a\u0627",
+        "\u0644\u06cc\u0628\u06cc",
+        "\u0720\u0718\u0712\u0710",
+        "\u0ea5\u0ec0\u0e9a\u0e8d",
+        "\u120a\u1262\u12eb",
+        "\u179b\u1794",
+        "\u30ea\u30d3\u30a2",
+        "\u5229\u6bd4\u4e9a",
+        "\u5229\u6bd4\u4e9e",
+        "\ub9ac\ube44\uc544"
+    ],
+    "monaco": [
+        "mcm",
+        "\ubaa8\ub098\ucf54"
+    ],
+    "montenegro": [
+        "me",
+        "\u9ed1\u5c71"
+    ],
+    "saint martin": [
+        "sfg",
+        "\u5723\u9a6c\u4e01\u5c9b"
+    ],
+    "madagascar": [],
+    "marshall islands": [],
+    "north macedonia": [
+        "arym",
+        "mk",
+        "\u5317\u99ac\u5176\u9813",
+        "\u5317\u9a6c\u5176\u987f"
+    ],
+    "mongolia": [
+        "mool",
+        "\u043c\u043e\u043e\u043b",
+        "\u30e2\u30f3\u30b4\u30eb",
+        "\u8499\u53e4",
+        "\u8499\u53e4\u56fd",
+        "\u8499\u53e4\u570b",
+        "\ubabd\uace8"
+    ],
+    "northern mariana islands": [],
+    "martinique": [],
+    "montserrat": [],
+    "malta": [
+        "malt",
+        "mlth",
+        "\u05de\u05dc\u05d8\u05d4",
+        "\u0645\u0627\u0644\u062a",
+        "\u30de\u30eb\u30bf\u5cf6",
+        "\u99ac\u8033\u4ed6\u5cf6",
+        "\ubab0\ud0c0 \uc12c"
+    ],
+    "mauritius": [],
+    "malawi": [],
+    "mexico": [],
+    "malaysia": [
+        "\u121b\u120c\u12e2\u12eb",
+        "\u99ac\u4f86\u897f\u4e9e",
+        "\u9a6c\u6765\u897f\u4e9a"
+    ],
+    "mozambique": [],
+    "new caledonia": [],
+    "norfolk island": [
+        "nlk",
+        "\u8bfa\u798f\u514b\u5c9b",
+        "\ub178\ud37d \uc12c"
+    ],
+    "nepal": [],
+    "nauru": [
+        "naru",
+        "n\u00e1r\u00fa",
+        "naru",
+        "nwrw",
+        "\u0646\u0624\u0631\u0648",
+        "\u0646\u0648\u0631\u0648",
+        "\u0928\u094c\u0930\u0941",
+        "\u0928\u094c\u0930\u0942",
+        "\u0aa8\u0acc\u0ab0\u0ac1",
+        "\u0ba8\u0bcc\u0bb0\u0bc1",
+        "\u0c28\u0c4c\u0c30\u0c41",
+        "\u0ca8\u0ccc\u0cb0\u0cc1",
+        "\u0d28\u0d57\u0d31\u0d41",
+        "\u0d28\u0d57\u0d31\u0d42",
+        "\u0e99\u0eb2\u0ead\u0ea3",
+        "\u1293\u12a1\u1229",
+        "\u1293\u12cd\u1229",
+        "\u178e\u179a",
+        "\u178e\u17bc\u179a\u17bc",
+        "\u30ca\u30a6\u30eb",
+        "\u7459\u9b6f",
+        "\u7459\u9c81",
+        "\u8afe\u9b6f",
+        "\ub098\uc6b0\ub8e8"
+    ],
+    "niue": [
+        "iue",
+        "nija",
+        "nioe",
+        "nio\u00e9",
+        "niue",
+        "niui",
+        "niuo",
+        "niu\u00e8",
+        "niu\u00e9",
+        "niu\u0113",
+        "niw",
+        "niwe",
+        "niyu",
+        "ni\u00fbe",
+        "nju",
+        "nyue",
+        "nyu\u00e9",
+        "ni'u",
+        "niue",
+        "niyu",
+        "nu'u",
+        "nwwy",
+        "nyw",
+        "nyww",
+        "nywy",
+        "nyyw",
+        "\u043d\u0438\u0443\u0435",
+        "\u043d\u0438\u0443\u044d",
+        "\u043d\u0456\u0443\u0435",
+        "\u043d\u0456\u0443\u044d",
+        "\u043d\u0456\u044f",
+        "\u05e0\u05d9\u05d0\u05d5",
+        "\u0646\u0648\u0648\u064a",
+        "\u0646\u064a\u0648\u064a",
+        "\u0646\u06cc\u0626\u0648",
+        "\u0646\u06cc\u0648\u0648",
+        "\u0646\u06cc\u0648\u0657",
+        "\u0782\u07a9\u0787\u07aa",
+        "\u0928\u0940\u092f\u0942",
+        "\u09a8\u09bf\u0989",
+        "\u09a8\u09c1\u0989",
+        "\u0a28\u0a3f\u0a0a\u0a0f",
+        "\u0a28\u0a3f\u0a2f\u0a42",
+        "\u0aa8\u0ac0\u0aaf\u0ac1",
+        "\u0b28\u0b3f\u0b09",
+        "\u0ba8\u0bbf\u0baf\u0bc2",
+        "\u0c28\u0c3f\u0c2f\u0c42",
+        "\u0ca8\u0cbf\u0caf\u0cc1",
+        "\u0db1\u0dd2\u0dba\u0dd6",
+        "\u0e99\u0ead\u0ec0\u0ead",
+        "\u10dc\u10d8\u10e3\u10d4",
+        "\u1292\u12a1\u12ed",
+        "\u178e\u17c0",
+        "\u30cb\u30a6\u30a8",
+        "\u30cb\u30a6\u30a8\u5cf6",
+        "\u7d10\u57c3",
+        "\u7d10\u57c3\u5cf6",
+        "\u7ebd\u57c3",
+        "\ub2c8\uc6b0\uc5d0"
+    ],
+    "new zealand": [
+        "\u65b0\u897f\u5170",
+        "\u7d10\u897f\u862d",
+        "\ub274\uc9c8\ub79c\ub4dc"
+    ],
+    "panama": [
+        "pty",
+        "\u5df4\u62ff\u99ac\u57ce"
+    ],
+    "french polynesia": [],
+    "philippines": [],
+    "pakistan": [],
+    "saint pierre and miquelon": [],
+    "puerto rico": [
+        "\u6ce2\u591a\u9ece\u5404"
+    ],
+    "portugal": [],
+    "qatar": [],
+    "reunion": [],
+    "romania": [
+        "ro",
+        "\u122e\u121b\u1295\u12eb",
+        "\u122e\u121c\u1292\u12eb",
+        "\uab86\uab89\uab92\uabbf",
+        "\u179a\u1798\u17b6\u1793",
+        "\u7f57\u9a6c\u5c3c\u4e9a",
+        "\u7f85\u99ac\u5c3c\u4e9e",
+        "\ub8e8\ub9c8\ub2c8\uc544"
+    ],
+    "serbia": [
+        "rs",
+        "sebi",
+        "s\u00e8bi",
+        "\u1230\u122d\u1262\u12eb",
+        "\u1230\u122d\u1265\u12eb",
+        "\uaba2\uab98\uabbf",
+        "\u179f\u17c2\u1794",
+        "\u30bb\u30eb\u30d3\u30a2",
+        "\u585e\u5c14\u7ef4\u4e9a",
+        "\u585e\u723e\u7dad\u4e9e",
+        "\uc138\ub974\ube44\uc544"
+    ],
+    "solomon islands": [
+        "\uc194\ub85c\ubaac"
+    ],
+    "seychelles": [],
+    "singapore": [
+        "sin",
+        "\u65b0\u52a0\u5761",
+        "\u661f\u67b6\u5761",
+        "\uc2f1\uac00\ud3ec\ub974",
+        "\uc2f1\uac00\ud3f4"
+    ],
+    "saint helena": [
+        "hle"
+    ],
+    "svalbard and jan mayen": [
+        "\uc2a4\ubc1c\ubc14\ub974"
+    ],
+    "san marino": [
+        "sai",
+        "\u8056\u99ac\u529b\u8afe",
+        "\uc0b0\ub9c8\ub9ac\ub178"
+    ],
+    "somalia": [
+        "\u1231\u121b\u120c",
+        "\u1236\u121b\u120a\u12eb",
+        "\u30bd\u30de\u30ea\u30a2",
+        "\u7d22\u99ac\u5229\u4e9e",
+        "\u7d22\u99ac\u91cc",
+        "\u7d22\u9a6c\u91cc",
+        "\uc18c\ub9d0\ub9ac\uc544"
+    ],
+    "south sudan": [
+        "\u5357\u82cf\u4e39",
+        "\u5357\u8607\u4e39",
+        "\ub0a8\uc218\ub2e8"
+    ],
+    "sao tome and principe": [],
+    "el salvador": [],
+    "sint maarten": [
+        "sxm",
+        "\u5723\u9a6c\u4e01\u5c9b"
+    ],
+    "eswatini": [
+        "\u53f2\u74e6\u6fdf\u862d",
+        "\u65af\u5a01\u58eb\u5170"
+    ],
+    "turks and caicos islands": [],
+    "tokelau": [],
+    "turkmenistan": [],
+    "tuvalu": [
+        "\u0e95\u0ea7\u0eb2\u0ea5",
+        "\u1271\u126b\u1209",
+        "\u1791\u179c\u17b6\u179b",
+        "\u30c4\u30d0\u30eb",
+        "\u5410\u74e6\u9b6f",
+        "\u56fe\u74e6\u5362",
+        "\u5716\u74e6\u76e7",
+        "\ud22c\ubc1c\ub8e8"
+    ],
+    "taiwan": [
+        "\u53f0\u7063"
+    ],
+    "ukraine": [
+        "\u12e9\u12ad\u122c\u1295",
+        "\u4e4c\u514b\u5170",
+        "\u70cf\u514b\u862d"
+    ],
+    "united states minor outlying islands": [],
+    "united states": [
+        "a.s",
+        "abd",
+        "abs",
+        "ab\u015f",
+        "acsh",
+        "aish",
+        "aksh",
+        "anu",
+        "aqsh",
+        "as",
+        "dya",
+        "eua",
+        "im",
+        "ipa",
+        "jav",
+        "sa",
+        "sad",
+        "sam",
+        "shba",
+        "ssha",
+        "su",
+        "sua",
+        "us",
+        "u.s",
+        "u.s.",
+        "uda",
+        "usa",
+        "vs",
+        "vsa",
+        "zda",
+        "ps",
+        "\u03b7\u03c0\u03b1",
+        "\u0430\u0438\u0448",
+        "\u0430\u043a\u0448",
+        "\u0430\u043d\u0443",
+        "\u0430\u0446\u0448",
+        "\u0430\u049b\u0448",
+        "\u0438\u043c",
+        "\u0441\u0430\u0434",
+        "\u0441\u0430\u0449",
+        "\u0441\u0448\u0430",
+        "\u05e4\u05bf\u05e9",
+        "\u0d91.\u0da2",
+        "\u10d0\u10e8\u10e8",
+        "\u12e9 \u12a4\u1235",
+        "\u12e9\u12a4\u1235",
+        "\u30a2\u30e1\u30ea\u30ab",
+        "\u7f8e\u56fd",
+        "\u7f8e\u570b",
+        "\ua0b0\ua1e9",
+        "\ubbf8\uad6d"
+    ],
+    "uruguay": [],
+    "uzbekistan": [],
+    "saint vincent and the grenadines": [],
+    "british virgin islands": [
+        "bvi"
+    ],
+    "kosovo": [],
+    "mayotte": [
+        "mywt",
+        "\u05de\u05d9\u05d5\u05d8",
+        "\u0db8\u0dba\u0ddc\u0da7",
+        "\u0f58\u0f0b\u0f61\u0f4a",
+        "\u121c\u12ed\u12a6\u1274",
+        "\u1798\u17b6\u1799\u178f",
+        "\u30de\u30e8\u30c3\u30c8",
+        "\u99ac\u7d04\u7279\u5cf6",
+        "\u9a6c\u7ea6\u7279",
+        "\ub9c8\uc694\ud2b8",
+        "\ub9c8\uc694\ud2f0"
+    ],
+    "south africa": [],
+    "zimbabwe": []
+}
