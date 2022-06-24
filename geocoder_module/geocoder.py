@@ -199,7 +199,6 @@ class Geocoder:
         :param country:        string that represents the country where to search
                                the input location (default None)
         """
-        location = self._handle_acronyms(location)
         try:
             url_api = os.environ["PHOTON_SERVER"] + self.config["url_api_endpoint"]
 
@@ -283,6 +282,8 @@ class Geocoder:
         :param country:        string that represents the country where to search
                                the input location (default None)
         """
+        # Check for acronyms
+        location = self._handle_acronyms(location)
         # Check that location is not in blacklist
         if location.lower() in self.config["blacklist"]:
             logging.warning(

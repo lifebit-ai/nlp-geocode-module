@@ -11,25 +11,36 @@
         "u.k",
         "gb",
         "g.b.",
-        "g.b"
+        "g.b",
+        "grbr"
     ],
-    "antigua and barbuda": [],
+    "afghanistan": ["afgh"],
+    "albania": ["alb"],
+    "antigua and barbuda": ["anti"],
+    "algeria": ["algr"],
+    "andorra": ["ando"],
+    "australia":["astl"],
+    "austria":["aust"],
+    "azerbaijan": ["azr"],
+
     "anguilla": [
         "axa",
+        "angu",
         "\u30a2\u30f3\u30ae\u30e9",
         "\u5b89\u572d\u62c9",
         "\uc575\uadc8\ub77c"
     ],
-    "armenia": [],
-    "netherlands antilles": [],
+    "armenia": ["arm"],
     "antarctica": [
         "\u5357\u6781\u6d32",
         "\u5357\u6975",
         "\u5357\u6975\u6d32"
     ],
-    "argentina": [],
+    "argentina": ["arg"],
+    "samoa": ["wsam"],
     "american samoa": [],
     "aruba": [
+        "arb",
         "\u0d05\u0d31\u0d41\u0d2c",
         "\u0d05\u0d31\u0d42\u0d2c",
         "\u0d85\u0dbb\u0db6\u0dcf",
@@ -42,28 +53,43 @@
         "\uc544\ub8e8\ubc14"
     ],
     "aland islands": [],
+    "bahamas": ["bama"],
     "bosnia and herzegovina": [
+        "bih",
         "\u6ce2\u65af\u5c3c\u4e9e",
         "\u6ce2\u9ed1",
         "\ubcf4\uc2a4\ub2c8\uc544"
     ],
-    "barbados": [],
+    "botswana":["bot"],
+    "brazil":["brzl"],
+    "brunei":["brni"],
+    "bulgaria":["bulg"],
+    "barbados": ["brdo"],
+    "burma":["burm"],
+    "burundi":["brnd"],
     "bangladesh": [
+        "bang",
         "\u5b5f\u52a0\u62c9",
         "\u5b5f\u52a0\u62c9\u56fd",
         "\u5b5f\u52a0\u62c9\u570b"
     ],
-    "burkina faso": [],
+    "burkina faso": ["burk"],
     "bahrain": [
+        "bahr",
         "awal",
         "aw\u0101l"
     ],
-    "benin": [],
+    "belarus": ["bys"],
+    "belgium":["belg"],
+    "benin": ["benn"],
     "saint barthelemy": [
         "sbh",
         "\u8056\u5df4\u745f\u7c73"
     ],
+    "bhutan":["bhu"],
+    "bolivia":["bol"],
     "bermuda": [
+        "berm",
         "bda",
         "\u1264\u122d\u1219\u12f3",
         "\u767e\u6155\u5927",
@@ -82,6 +108,7 @@
         "\ubd80\ubca0\uc12c"
     ],
     "belize": [
+        "blz",
         "blyz",
         "\u05d1\u05dc\u05d9\u05d6",
         "\u0628\u0644\u064a\u0632",
@@ -99,7 +126,11 @@
         "\u8c9d\u91cc\u65af",
         "\ubca8\ub9ac\uc988"
     ],
+    "cambodia":["cbda"],
+    "cameroon":["cmrn"],
+    "cape verde":["cavi"],
     "canada": [
+        "can",
         "knda",
         "qndh",
         "\u05e7\u05e0\u05d3\u05d4",
@@ -126,14 +157,20 @@
         "\u624e\u4f0a\u5c14"
     ],
     "central african republic": [
+        "cafr",
         "\u4e2d\u975e"
     ],
+    "chad":["chad"],
+    "chile":["chil"],
+    "china":["chin"],
     "republic of the congo": [
         "\u30b3\u30f3\u30b4",
         "\u521a\u679c",
         "\ucf69\uace0"
     ],
+    "syria":["syr"],
     "switzerland": [
+        "swtz",
         "ch",
         "suis",
         "swys",
@@ -144,7 +181,14 @@
         "\uc2a4\uc704\uc2a4"
     ],
     "cook islands": [],
-    "colombia": [],
+    "colombia": ["col"],
+    "comoros": ["como"],
+    "congo brazzaville": ["conb"],
+    "congo kinshasa":["cod"],
+    "costa rica":["cstr"],
+    "cote d'ivoire":["ivco"],
+    "croatia":["hrv"],
+
     "serbia and montenegro": [
         "cs",
         "scg"
@@ -155,8 +199,9 @@
     "christmas island": [
         "xch"
     ],
-    "cyprus": [],
+    "cyprus": ["cypr"],
     "czechia": [
+        "czec",
         "cz",
         "ceki",
         "ceko",
@@ -178,33 +223,56 @@
         "\uccb4\ucf54"
     ],
     "djibouti": [
+        "dji",
         "jib",
         "\u30b8\u30d6\u30c1\u5e02",
         "\u5409\u5e03\u5730\u5e02",
         "\u5409\u5e03\u63d0\u57ce",
         "\uc9c0\ubd80\ud2f0"
     ],
-    "dominica": [],
+    "denmark":["den"],
+    "dominica": ["domn"],
     "dominican republic": [
+        "domr",
+        "dr",
         "\u591a\u660e\u5c3c\u52a0",
         "\u591a\u7c73\u5c3c\u52a0"
     ],
+    "ecuador":["ecua"],
+    "egypt":["egyp"],
+    "equatorial guinea":["egn"],
+    "eritrea":["eri"],
+    "estonia":["est"],
+    "ethiopia":["eth"],
+
     "western sahara": [
+        "ssah",
         "eh",
         "rasd",
         "\u897f\u30b5\u30cf\u30e9",
         "\u897f\u6492\u54c8\u62c9",
         "\uc11c\uc0ac\ud558\ub77c"
     ],
+    "fiji":["fiji"],
+    "finland":["fin"],
     "falkland islands": [],
     "faroe islands": [
         "\u6cd5\u7f57\u7fa4\u5c9b",
         "\u6cd5\u7f85\u7fa4\u5cf6",
         "\ud398\ub85c\uc81c\ub3c4"
     ],
-    "france": [],
-    "grenada": [],
+    "france": ["fr","fran"],
+    "gabon": ["gabn"],
+    "grenada": ["gren"],
+    "germany": ["ger"],
+    "ghana":["ghan"],
+    "greece":["grc"],
+    "guatemala":["guat"],
+    "guinea": ["gnea"],
+    "guinea bissau":["guib"],
+    "guyana":["guy"],
     "georgia": [
+        "geo",
         "\u0433\u04af\u0440\u0436",
         "\u0e88\u0ec0\u0e88\u0e8d",
         "\u0f47\u0f62\u0f0b\u0f47",
@@ -223,6 +291,7 @@
         "\uac74\uc9c0 \uc12c"
     ],
     "gibraltar": [
+        "gib",
         "\u76f4\u5e03\u7f57\u9640",
         "\u76f4\u5e03\u7f85\u9640",
         "\uc9c0\ube0c\ub864\ud130"
@@ -234,6 +303,7 @@
         "\uadf8\ub9b0\ub79c\ub4dc"
     ],
     "gambia": [
+        "gam",
         "\u130b\u121d\u1262\u12eb",
         "\u17a0\u1782\u1794",
         "\u30ac\u30f3\u30d3\u30a2",
@@ -273,7 +343,9 @@
         "\uad0c"
     ],
     "hong kong": [
+        "hk",
         "hkg",
+        "hoko",
         "\u0939\u0919\u0915\u0919",
         "\u09b9\u0982\u0995\u0982",
         "\u0b39\u0b02\u0b15\u0b02",
@@ -285,6 +357,7 @@
         "hu",
         "mgr",
         "mjr",
+        "hung",
         "\u046b\u0433\u0440\u0438",
         "\u0645\u062c\u0631",
         "\u0721\u0713\u072a",
@@ -294,6 +367,9 @@
         "\u5308\u7259\u5229",
         "\ud5dd\uac00\ub9ac"
     ],
+    "haiti":["hat"],
+    "holy see":["vat"],
+    "honduras":["hond"],
     "ireland": [
         "eire",
         "ie",
@@ -324,12 +400,18 @@
         "iran",
         "\u012br\u0101n"
     ],
+    "iceland": ["icld"],
+    "india": ["imd"],
+    "indonesia":["idsa"],
+    "iraq":["iraq"],
+    "israel":["ire"],
+    "italy":["itly"],
     "jersey": [
         "jer",
         "\u6fa4\u897f\u5cf6",
         "\uc800\uc9c0 \uc12c"
     ],
-    "jamaica": [],
+    "jamaica": ["jam"],
     "japan": [
         "hapo",
         "hap\u00f5",
@@ -339,6 +421,7 @@
         "zap\u0254",
         "jpan",
         "ypn",
+        "jpn",
         "\u044f\u043f\u043e\u043d",
         "\u05d9\u05e4\u05df",
         "\u062c\u067e\u0627\u0646",
@@ -357,10 +440,21 @@
         "\ua3dd\ua02a",
         "\uc77c\ubcf8"
     ],
-    "kyrgyzstan": [],
-    "cayman islands": [],
-    "kazakhstan": [],
+    "jordan":["jord"],
+    "kyrgyzstan": ["kgz"],
+    "cayman islands": ["cayi"],
+    "kazakhstan": ["kaz"],
+    "kenya":["keny"],
+    "kiribati":["kiri"],
+    "north korea": ["prk"],
+    "south korea": ["kor"],
+    "kuwait":["kuwt"],
+    "laos":["laos"],
+    "latvia":["latv"],
+    "lesotho":["les"],
+    "liberia":["libr"],
     "lebanon": [
+        "lebn",
         "liba",
         "lib\u00e1",
         "lbnn",
@@ -372,11 +466,15 @@
         "\ub808\ubc14\ub17c"
     ],
     "saint lucia": [
+        "slca",
         "\u5723\u5362\u897f\u4e9a",
         "\u8056\u9732\u897f\u4e9e"
     ],
-    "sri lanka": [],
+    "sri lanka": ["srl"],
+    "liechtenstein":["lcht"],
+    "lithuania":["lith"],
     "luxembourg": [
+        "lxm",
         "lux",
         "\u76e7\u68ee\u5821\u57ce",
         "\u76e7\u68ee\u5821\u5e02"
@@ -401,7 +499,11 @@
         "\u5229\u6bd4\u4e9e",
         "\ub9ac\ube44\uc544"
     ],
+    "macau":["mac"],
+    "macedonia":["mkd"],
+    "madagascar":["madg"],
     "monaco": [
+        "mon",
         "mcm",
         "\ubaa8\ub098\ucf54"
     ],
@@ -413,7 +515,6 @@
         "sfg",
         "\u5723\u9a6c\u4e01\u5c9b"
     ],
-    "madagascar": [],
     "marshall islands": [],
     "north macedonia": [
         "arym",
@@ -423,6 +524,7 @@
     ],
     "mongolia": [
         "mool",
+        "mong",
         "\u043c\u043e\u043e\u043b",
         "\u30e2\u30f3\u30b4\u30eb",
         "\u8499\u53e4",
@@ -432,8 +534,11 @@
     ],
     "northern mariana islands": [],
     "martinique": [],
-    "montserrat": [],
+    "montserrat": ["mont"],
+    "morocco":["moro"],
+    "mozambique":["moz"],
     "malta": [
+        "mlta",
         "malt",
         "mlth",
         "\u05de\u05dc\u05d8\u05d4",
@@ -442,23 +547,35 @@
         "\u99ac\u8033\u4ed6\u5cf6",
         "\ubab0\ud0c0 \uc12c"
     ],
-    "mauritius": [],
-    "malawi": [],
-    "mexico": [],
+    "maldives":["mldv"],
+    "mali":["mali"],
+    "mauritania":["maur"],
+    "mauritius":["mrts"],
+    "malawi": ["malw"],
+    "mexico": ["mex"],
+    "moldova": ["mld"],
     "malaysia": [
+        "mlas",
         "\u121b\u120c\u12e2\u12eb",
         "\u99ac\u4f86\u897f\u4e9e",
         "\u9a6c\u6765\u897f\u4e9a"
     ],
-    "mozambique": [],
-    "new caledonia": [],
+    "new caledonia": ["ncal"],
     "norfolk island": [
         "nlk",
         "\u8bfa\u798f\u514b\u5c9b",
         "\ub178\ud37d \uc12c"
     ],
-    "nepal": [],
+    "namibia":["namb"],
+    "netherlands":["neth"],
+    "netherlands antilles": ["neta"],
+    "nicaragua":["nic"],
+    "niger":["nir"],
+    "nigeria":["nra"],
+    "norway":["norw"],
+    "nepal": ["nep"],
     "nauru": [
+        "nau",
         "naru",
         "n\u00e1r\u00fa",
         "naru",
@@ -546,26 +663,36 @@
         "\ub2c8\uc6b0\uc5d0"
     ],
     "new zealand": [
+        "nzld",
         "\u65b0\u897f\u5170",
         "\u7d10\u897f\u862d",
         "\ub274\uc9c8\ub79c\ub4dc"
     ],
+    "oman":["oman"],
     "panama": [
+        "pan",
         "pty",
         "\u5df4\u62ff\u99ac\u57ce"
     ],
+    "papua new guinea": ["png"],
+    "paraguay":["para"],
+    "peru":["peru"],
     "french polynesia": [],
-    "philippines": [],
-    "pakistan": [],
+    "philippines": ["phil"],
+    "pitcairn islands": ["pitc"],
+    "poland":["pol"],
+    "pakistan": ["pkst"],
+    "palau":["pala"],
     "saint pierre and miquelon": [],
     "puerto rico": [
         "\u6ce2\u591a\u9ece\u5404"
     ],
-    "portugal": [],
-    "qatar": [],
+    "portugal": ["port"],
+    "qatar": ["qtar"],
     "reunion": [],
     "romania": [
         "ro",
+        "rom",
         "\u122e\u121b\u1295\u12eb",
         "\u122e\u121c\u1292\u12eb",
         "\uab86\uab89\uab92\uabbf",
@@ -574,6 +701,8 @@
         "\u7f85\u99ac\u5c3c\u4e9e",
         "\ub8e8\ub9c8\ub2c8\uc544"
     ],
+    "russia": ["rus"],
+    "rwanda":["rwnd"],
     "serbia": [
         "rs",
         "sebi",
@@ -588,28 +717,43 @@
         "\uc138\ub974\ube44\uc544"
     ],
     "solomon islands": [
+        "slmn",
         "\uc194\ub85c\ubaac"
     ],
-    "seychelles": [],
+    "seychelles": ["seyc"],
+    "sierra leone": ["sleo"],
+    "slovakia": ["svk"],
+    "slovenia": ["svn"],
+    "south africa": ["safr"],
+    "spain":["spn", "esp"],
+    "sudan":["suda"],
+    "suriname":["surm"],
+    "swaziland":["szld"],
+    "sweden":["swdn"],
     "singapore": [
+        "sing",
         "sin",
         "\u65b0\u52a0\u5761",
         "\u661f\u67b6\u5761",
         "\uc2f1\uac00\ud3ec\ub974",
         "\uc2f1\uac00\ud3f4"
     ],
+    "saint kitts and nevis": ["stcn"],
     "saint helena": [
+        "shel",
         "hle"
     ],
     "svalbard and jan mayen": [
         "\uc2a4\ubc1c\ubc14\ub974"
     ],
     "san marino": [
+        "smar",
         "sai",
         "\u8056\u99ac\u529b\u8afe",
         "\uc0b0\ub9c8\ub9ac\ub178"
     ],
     "somalia": [
+        "soma",
         "\u1231\u121b\u120c",
         "\u1236\u121b\u120a\u12eb",
         "\u30bd\u30de\u30ea\u30a2",
@@ -623,8 +767,10 @@
         "\u5357\u8607\u4e39",
         "\ub0a8\uc218\ub2e8"
     ],
-    "sao tome and principe": [],
-    "el salvador": [],
+    "sao tome and principe": ["stpr"],
+    "saudi arabia":["sarb"],
+    "senegal":["seng"],
+    "el salvador": ["elsl"],
     "sint maarten": [
         "sxm",
         "\u5723\u9a6c\u4e01\u5c9b"
@@ -633,10 +779,11 @@
         "\u53f2\u74e6\u6fdf\u862d",
         "\u65af\u5a01\u58eb\u5170"
     ],
-    "turks and caicos islands": [],
+    "turks and caicos islands": ["tcis"],
     "tokelau": [],
-    "turkmenistan": [],
+    "turkmenistan": ["tkm"],
     "tuvalu": [
+        "tuv",
         "\u0e95\u0ea7\u0eb2\u0ea5",
         "\u1271\u126b\u1209",
         "\u1791\u179c\u17b6\u179b",
@@ -647,9 +794,21 @@
         "\ud22c\ubc1c\ub8e8"
     ],
     "taiwan": [
+        "twan",
         "\u53f0\u7063"
     ],
+    "tajikistan":["tjk"],
+    "tanzania":["tazn"],
+    "thailand":["thai"],
+    "timor-leste":["tmor"],
+    "togo":["togo"],
+    "tonga":["tong"],
+    "trinidad and tobago": ["trin"],
+    "tunisia":["tnsa"],
+    "turkey":["trky"],
+    "uganda":["ugan"],
     "ukraine": [
+        "ukr",
         "\u12e9\u12ad\u122c\u1295",
         "\u4e4c\u514b\u5170",
         "\u70cf\u514b\u862d"
@@ -708,11 +867,12 @@
         "\ua0b0\ua1e9",
         "\ubbf8\uad6d"
     ],
-    "uruguay": [],
-    "uzbekistan": [],
-    "saint vincent and the grenadines": [],
+    "uruguay": ["uru"],
+    "uzbekistan": ["uzb"],
+    "saint vincent and the grenadines": ["stvn"],
     "british virgin islands": [
-        "bvi"
+        "bvi",
+        "brvi"
     ],
     "kosovo": [],
     "mayotte": [
@@ -728,6 +888,12 @@
         "\ub9c8\uc694\ud2b8",
         "\ub9c8\uc694\ud2f0"
     ],
-    "south africa": [],
-    "zimbabwe": []
+    "vanuatu": ["vanu"],
+    "venezuela":["venz"],
+    "vietnam":["vtnm"],
+    "wallis and futuna": ["waft"],
+    "yemen":["yem"],
+    "yugoslavia": ["yugo"],
+    "zambia":["zamb"],
+    "zimbabwe": ["zimb"]
 }
