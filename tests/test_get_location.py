@@ -211,6 +211,16 @@ def test_get_location_blacklist_returns_empty_location():
 
 
 class TestHandleAcronyms:
+    def test_no_duplicates_in_country_acronyms(self):
+        for key in geocoder.country_acronyms:
+            for acronym in geocoder.country_acronyms[key]:
+                counter = 0
+                for key_two in geocoder.country_acronyms:
+                    if acronym in geocoder.country_acronyms[key_two]:
+                        counter += 1
+                print(acronym)
+                assert counter == 1
+
     def test_acronym_is_found_and_normalised(self):
         response = geocoder._handle_acronyms("UK")
         assert response == "united kingdom"
@@ -220,6 +230,8 @@ class TestHandleAcronyms:
         assert response == "Us"
         response = geocoder._handle_acronyms("U.S")
         assert response == "united states"
+        response = geocoder._handle_acronyms("\u65b0\u52a0\u5761")
+        assert response == "singapore"
 
     def test_country_location_is_returned_untouched(self):
         response = geocoder._handle_acronyms("united kingdom")
