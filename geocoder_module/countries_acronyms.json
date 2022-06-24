@@ -117,7 +117,7 @@
         "\ubd80\ubca0\uc12c"
     ],
     "belize": [
-        "bz"
+        "bz",
         "blz",
         "blyz",
         "\u05d1\u05dc\u05d9\u05d6",
@@ -434,14 +434,14 @@
     "israel":["isrl","il"],
     "italy":["itly","it"],
     "jersey": [
-        "je"
+        "je",
         "jer",
         "\u6fa4\u897f\u5cf6",
         "\uc800\uc9c0 \uc12c"
     ],
     "jamaica": ["jam","jm"],
     "japan": [
-        "jp"
+        "jp",
         "hapo",
         "hap\u00f5",
         "japo",
@@ -505,7 +505,7 @@
     "liechtenstein":["lcht","li"],
     "lithuania":["lith","lt"],
     "luxembourg": [
-        "lu"
+        "lu",
         "lxm",
         "lux",
         "\u76e7\u68ee\u5821\u57ce",
@@ -789,7 +789,7 @@
         "sh"
     ],
     "svalbard and jan mayen": [
-        "sj"
+        "sj",
         "\uc2a4\ubc1c\ubc14\ub974"
     ],
     "san marino": [
