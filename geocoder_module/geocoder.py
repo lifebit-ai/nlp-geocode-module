@@ -1,10 +1,12 @@
-import requests
-from logger.logging import logging
 import json
 import sys
 import os
+from typing import Any, Dict, List, Tuple
 from collections import Counter
-from typing import Dict, List
+import requests
+from logger.logging import logging
+
+
 import geocoder_module
 from geocoder_module.utils import (
     calculate_distance,
@@ -177,8 +179,7 @@ class Geocoder:
             )
             response = response.json()
         except Exception as e:
-            logging.error("Error in querying location {} ".format(location))
-            logging.error(e)
+            logging.error(f"Error in querying location {location} : {e}")
 
         results = []
 
@@ -305,8 +306,10 @@ class Geocoder:
         self, ner_tags: List[Dict[str, any]]
     ) -> List[Dict[str, any]]:
         """
-        This function gathers all ner locations tags and filters them to select locations being countries.
-        It makes use of the countries_bbox to filter out countries and returns a list of the countries and local locations found in the text.
+        This function gathers all ner locations tags and filters them to select
+        locations being countries.
+        It makes use of the countries_bbox to filter out countries and
+        returns a list of the countries and local locations found in the text.
 
         :params ner_tags:           List of dictionaries containing NER tags
 
@@ -332,14 +335,17 @@ class Geocoder:
         new_country: str,
     ):
         """
-        This functions aims to update the mapping of countries by using the majority votes available.
+        This functions aims to update the mapping of countries
+        by using the majority votes available.
 
         :params mapping_countries:          Dictionary of locations to be updated
         :params name:                       String of Local Location to be updated
         :params old_country:                String of Country to be updated
-        :params new_country:                String containing country to be used to update mappings_country dictionary
+        :params new_country:                String containing country to be used
+                                            to update mappings_country dictionary
 
-        :returns mapping_countries:         Updated Dictionary of mappings of countries used to update locations
+        :returns mapping_countries:         Updated Dictionary of mappings of countries
+                                            used to update locations
         """
         if old_country != new_country:
             new_location = self.get_location_info(
@@ -371,16 +377,14 @@ class Geocoder:
         The function returns a new list of locations with new inferred countries
         if possible.
 
-        :param locations:      list of dictionaries that represents a location
-                               as produced by the get_location_info method
-        :param top_countries:  integer that put a maximum bound on the
-                               number of countries to check as a reference
-        :param ner_location_tags:  list of ner tags associated to locations to be filtered to countries
+        :param locations:           list of dictionaries that represents a location
+                                    as produced by the get_location_info method
+        :param top_countries:       integer that put a maximum bound on the
+                                    number of countries to check as a reference
+        :param ner_location_tags:   list of ner tags associated to locations to
+                                    be filtered to countries
         """
-        # Initialise mappings and only countries dictionaries
-        mapping_countries = {}
-        only_countries = {}
-        countries = []
+        # Get ner countries and init ner_countries_count list
         ner_countries, ner_local = self.filter_ner_countries(ner_tags)
         ner_countries_count = []
 
@@ -392,7 +396,7 @@ class Geocoder:
             in ["england", "wales", "northern ireland", "scotland"]
         ]
         # Normalise country name
-        if ner_countries != []:
+        if ner_countries:
             ner_countries = [
                 self.get_location_info(
                     tag["name"], country=tag["name"], best_matching=True
@@ -405,6 +409,181 @@ class Geocoder:
                     ner_countries_count.append(ner_country["country"])
 
         # create a default mapping and extract all the countries
+        countries, only_countries, mapping_countries = self.extract_countries(locations)
+        # extract the candidate reference countries
+        majority = self.count_countries(countries, top_countries)
+        ner_majority = self.count_countries(ner_countries_count, top_countries)
+
+        # If there's only one country in the majority
+        if len(majority) <= 1 or majority[0][1] == 1:
+            logging.info(
+                "Location Edge Case 0 detected: Only one country detected in event locations"
+            )
+            if not locations[0] or not "name" in locations[0]:
+                logging.warning(
+                    "Location Edge Case 0.1 detected: Local location empty - returning empty location"
+                )
+                return [{}]
+
+        ## Edge case 1: If there are few locations and 1 is a country
+        ## We assume that the few locations belong to that country,
+        ## so that country is the new country location
+        if len(only_countries) == 1:
+            logging.info(
+                "Location edge case 1 detected: There are few event locations and one is a country - {only_countries}"
+            )
+            new_country = list(only_countries.keys())[0]
+            for name, country in mapping_countries.items():
+                mapping_countries = self.update_mapping_countries(
+                    mapping_countries, name, country, new_country
+                )
+
+        ## Edge case 2: If there are references to multiple countries including or not local locations
+        ## We assume no majority can be reached and local locations will be included
+        ## if they match with one of the countries, others will be discarded
+        elif len(only_countries) > 1:
+            logging.warning(
+                f"Location edge case 2 Detected: Found {len(only_countries)} references to countries, locations not matching one of those countries will be discarded"
+            )
+        ## Edge case 5: UK/US/CA location issue when nothing else works
+        elif ner_uk_nations != []:
+            logging.warning(
+                "Location edge case 5 case detected: UK nations found in text, assigning local locations to UK if they exist in the UK"
+            )
+            new_country = "United Kingdom"
+            for name, country in mapping_countries.items():
+                # the location is a country no need to check it
+                if name == country:
+                    continue
+                mapping_countries = self.update_mapping_countries(
+                    mapping_countries, name, country, new_country
+                )
+        ## Edge case 4: There's a tie between countries
+        elif len(majority) > 1 and majority[0][1] == majority[1][1]:
+            logging.info(
+                "Location edge case 4 case Detected: There's a tie between majority countries"
+            )
+            # If majority cannot be reached, then look at ner tags for majority countries
+            if ner_majority:
+                if ner_majority[0][1] >= 1:
+                    for name, country in mapping_countries.items():
+                        # the location is a country no need to check it
+                        if name == country:
+                            continue
+                        # iterating from the most frequent country
+                        for reference_country in ner_majority:
+                            if reference_country[1] == 1 and len(ner_majority) > 1:
+                                break
+                            mapping_countries = self.update_mapping_countries(
+                                mapping_countries, name, country, reference_country[0]
+                            )
+            else:
+                logging.warning(
+                    f"No country ner tags found. Majority couldn't be stablished. ner_majority: {ner_majority}"
+                )
+        ## Edge case 3: Multiple locations with a clear majority
+        else:
+            logging.info(
+                "Location edge case 3 case Detected: Assigning majority country to all local locations"
+            )
+            for name, country in mapping_countries.items():
+                # the location is a country no need to check it
+                if name == country:
+                    continue
+                # iterating from the most frequent country
+                for reference_country in majority:
+                    if reference_country[1] == 1:
+                        break
+                    mapping_countries = self.update_mapping_countries(
+                        mapping_countries, name, country, reference_country[0]
+                    )
+        # Update new locations
+        new_locations = self.update_country_for_locations(
+            locations, mapping_countries, only_countries
+        )
+
+        return new_locations
+
+    def update_country_for_locations(
+        self,
+        locations: List[Dict[str, Any]],
+        mapping_countries: Dict[str, int],
+        only_countries: Dict,
+    ) -> List[Dict[str, Any]]:
+        """
+        This functions takes a list of locations and updates the country of each location
+        based on the mapping countries dictionary and the only_countries dictionary
+
+        :params locations:          List of locations to be updated
+        :params mapping_countries:  Dict containing mappings between local locations and countries
+        :params only_countries:     Dict containing only country locations
+
+        :return new_locations:      List of new locations after update has been completed
+        """
+        new_locations = []
+
+        for location in locations:
+            if not location or not "name" in location:
+                new_locations.append({})
+                continue
+            if location == []:
+                new_locations.append({})
+                continue
+            if location["name"] not in mapping_countries:
+                new_locations.append({})
+                continue
+            new_country = mapping_countries[location["name"]]
+            new_location = None
+            # check that countries are different in order to update location
+            if new_country != location["country"]:
+                logging.info(f'Changing {location["country"]} to {new_country}')
+                new_location = self.get_location_info(
+                    location["name"],
+                    country=new_country,
+                    best_matching=True,
+                )
+            # Check that new location exists and requirements are fullfilled
+            new_locations.append(
+                self.check_new_location(new_location, location, only_countries)
+            )
+        return new_locations
+
+    def check_new_location(
+        self, new_location: Dict, location: Dict, only_countries: Dict
+    ) -> Dict:
+        """
+        This function checks that a new location can be added to
+        the new location list. It returns the desired output
+        based on certain parameters
+
+        :params new_location:       Dictionary containing new location
+        :params location:           Dictionary containing old location
+        :params only_countries:     Dictionary containing only country locations
+
+        :return :
+        """
+        if new_location:
+            return new_location[0]
+        if location["country"] in only_countries:
+            return location
+        if not only_countries:
+            return location
+        return {}
+
+    def extract_countries(self, locations: List[Dict]) -> Tuple[List, Dict, Dict]:
+        """
+        This function takes a list of locations and populates the countries list,
+        the only_countries dictionary and the mapping_countries dictionary
+        with country and local information.
+        :params locations:          List of locations to be extracted
+
+        :returns countries:         List of countries found in locations
+        :returns only_countries:    Dictionary containing count of country mentions
+        :returns mapping_countries: Dictionary containing mappings between locations and their countries
+        """
+        mapping_countries = {}
+        only_countries = {}
+        countries = []
         for location in locations:
             if not location or not "name" in location:
                 continue
@@ -430,123 +609,25 @@ class Geocoder:
                             only_countries[l["country"]] += 1
                         else:
                             only_countries[l["country"]] = 1
+        return countries, only_countries, mapping_countries
 
-        # extract the candidate reference countries
+    def count_countries(
+        self, countries: List[str], top_countries: int = None
+    ) -> List[Tuple[str, int]]:
+        """
+        This function takes a list of countries and computes a count of terms
+        with the option of only country the most common ones
+
+        :params countries:      List of countries to be counted
+        :params top_countries:  Int defining how many most common countries to count
+
+        :returns majority:      List of tuples containing the count of countries
+        """
         if not top_countries:
             majority = Counter(countries).most_common()
-            ner_majority = Counter(ner_countries_count).most_common()
         else:
             majority = Counter(countries).most_common(top_countries)
-            ner_majority = Counter(ner_countries_count).most_common(top_countries)
-
-        # If there's only one country in the majority
-        if len(majority) <= 1 or majority[0][1] == 1:
-            logging.info(
-                "Location Edge Case 0 detected: Only one country detected in event locations"
-            )
-            if not locations[0] or not "name" in locations[0]:
-                logging.warning(
-                    "Location Edge Case 0.1 detected: Local location empty - returning empty location"
-                )
-                return [{}]
-
-        ## Edge case 1: If there are few locations and 1 is a country
-        ## We assume that the few locations belong to that country, so that country is the new country location
-        if len(only_countries) == 1:
-            logging.info(
-                "Location edge case 1 detected: There are few event locations and one is a country - {only_countries}"
-            )
-            new_country = list(only_countries.keys())[0]
-            for name, country in mapping_countries.items():
-                mapping_countries = self.update_mapping_countries(
-                    mapping_countries, name, country, new_country
-                )
-
-        ## Edge case 2: If there are references to multiple countries including or not local locations
-        ## We assume no majority can be reached and local locations will be included
-        ## if they match with one of the countries, others will be discarded
-        elif len(only_countries) > 1:
-            logging.warning(
-                f"Location edge case 2 Detected: Found {len(only_countries)} references to countries, locations not matching one of those countries will be discarded"
-            )
-        ## Edge case 5: UK/US/CA location issue when nothing else works
-        elif ner_uk_nations != []:
-            logging.warning(
-                f"Location edge case 5 case detected: UK nations found in text, assigning local locations to UK if they exist in the UK"
-            )
-            new_country = "United Kingdom"
-            for name, country in mapping_countries.items():
-                # the location is a country no need to check it
-                if name == country:
-                    continue
-                mapping_countries = self.update_mapping_countries(
-                    mapping_countries, name, country, new_country
-                )
-        ## Edge case 4: There's a tie between countries
-        elif len(majority) > 1 and majority[0][1] == majority[1][1]:
-            logging.info(
-                f"Location edge case 4 case Detected: There's a tie between majority countries"
-            )
-            # If majority cannot be reached, then look at ner tags for majority
-            if ner_majority[0][1] >= 1:
-                for name, country in mapping_countries.items():
-                    # the location is a country no need to check it
-                    if name == country:
-                        continue
-                    # iterating from the most frequent country
-                    for reference_country in ner_majority:
-                        if reference_country[1] == 1 and len(ner_majority) > 1:
-                            break
-                        mapping_countries = self.update_mapping_countries(
-                            mapping_countries, name, country, reference_country[0]
-                        )
-        ## Edge case 3: Multiple locations with a clear majority
-        else:
-            logging.info(
-                f"Location edge case 3 case Detected: Assigning majority country to all local locations"
-            )
-            for name, country in mapping_countries.items():
-                # the location is a country no need to check it
-                if name == country:
-                    continue
-                # iterating from the most frequent country
-                for reference_country in majority:
-                    if reference_country[1] == 1:
-                        break
-                    mapping_countries = self.update_mapping_countries(
-                        mapping_countries, name, country, reference_country[0]
-                    )
-        # Update new locations
-        new_locations = []
-
-        for location in locations:
-            if not location or not "name" in location:
-                new_locations.append({})
-                continue
-            if location == []:
-                new_locations.append({})
-                continue
-            new_country = mapping_countries[location["name"]]
-            new_location = None
-            # check that countries are different in order to update location
-            if new_country != location["country"]:
-                logging.info(f'Changing {location["country"]} to {new_country}')
-                new_location = self.get_location_info(
-                    location["name"],
-                    country=new_country,
-                    best_matching=True,
-                )
-            # Check that new location exists and requirements are fullfilled
-            if new_location:
-                new_locations.append(new_location[0])
-            elif location["country"] in only_countries:
-                new_locations.append(location)
-            elif not only_countries:
-                new_locations.append(location)
-            else:
-                new_locations.append({})
-
-        return new_locations
+        return majority
 
     def get_distance(self, *params):
         """

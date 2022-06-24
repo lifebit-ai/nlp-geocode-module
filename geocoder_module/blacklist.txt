@@ -9,7 +9,16 @@ oceania
 west
 east
 south
+southeast
+south east
+southwest
+south west
 east
+north
+northeast
+north east
+northwest
+north west
 mom
 dmem
 birds
@@ -20,7 +29,32 @@ mom
 dad
 fitz
 hagyar
+usa
 us
+u.s.
+u.s
+u.k.
+uk
+u.k
 mo
 rescue
 bera
+county
+southern
+western
+eastern
+northern
+south western
+southwestern
+south eastern
+southeastern
+north western
+northwestern
+north eastern
+northeastern
+bl4
+ds2
+bb
+ng
+dlcs
+des
