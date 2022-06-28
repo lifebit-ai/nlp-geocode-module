@@ -1,6 +1,6 @@
-- name: Run unit tests
+- name: Run tests and coverage report
   type: parallel
   steps:
     - name: tests
       service: run-unit-tests
-      command: pytest -vv
+      command: /bin/sh -c 'coverage run -m pytest && curl -Os https://uploader.codecov.io/latest/linux/codecov && chmod +x codecov && ./codecov -t ${CODECOV_TOKEN}'

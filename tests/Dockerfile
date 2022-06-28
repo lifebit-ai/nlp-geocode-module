@@ -2,6 +2,9 @@ FROM python:3.9
 
 WORKDIR /usr/src/app
 
+ARG CODECOV_TOKEN
+ENV CODECOV_TOKEN $CODECOV_TOKEN
+
 # set python path to include working directory
 ENV PYTHONPATH="${PYTHONPATH}:/usr/src/app"
 
