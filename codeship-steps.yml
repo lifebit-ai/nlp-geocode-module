@@ -4,3 +4,15 @@
     - name: tests
       service: run-unit-tests
       command: /bin/sh -c 'coverage run -m pytest && curl -Os https://uploader.codecov.io/latest/linux/codecov && chmod +x codecov && ./codecov -t ${CODECOV_TOKEN}'
+
+- name: Open PRs in sample-creation and outbreak-detection after new release
+  type: serial
+  tag: "^v.*$" 
+  steps:
+    - name: "PR for sample-creation"
+      service: run-unit-tests
+      command: /bin/sh -c 'echo ${GITHUB_API_TOKEN} | gh auth login --with-token && gh repo clone lifebit-ai/nlp-sample-creation && cd nlp-sample-creation && git switch -c geocoder/${CI_BRANCH} && git push https://${GITHUB_USER_NAME}:${GITHUB_API_TOKEN}@github.com/lifebit-ai/nlp-sample-creation.git --set-upstream origin geocoder/${CI_BRANCH} && gh pr create --title "Update geocoder version" --body "Please update geocoder version"'
+    
+    - name: "PR for outbreak-detection"
+      service: run-unit-tests
+      command: /bin/sh -c 'echo ${GITHUB_API_TOKEN} | gh auth login --with-token && gh repo clone lifebit-ai/nlp-outbreak-detection && cd nlp-outbreak-detection && git switch -c geocoder/${CI_BRANCH} && git push https://${GITHUB_USER_NAME}:${GITHUB_API_TOKEN}@github.com/lifebit-ai/nlp-outbreak-detection.git --set-upstream origin geocoder/${CI_BRANCH} && gh pr create --title "Update geocoder version" --body "Please update geocoder version"'
