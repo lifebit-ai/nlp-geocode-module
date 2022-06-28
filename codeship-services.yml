@@ -5,4 +5,5 @@ run-unit-tests:
   environment:
     - PHOTON_SERVER=test
     - GEONAMES_SERVER=test
+  encrypted_env_file: test.env.encrypted
   cached: true
