@@ -13,14 +13,15 @@ jobs:
           tar -zxvf gh_2.13.0_linux_amd64.tar.gz
           chmod +x gh_2.13.0_linux_amd64/bin/gh
           cp gh_2.13.0_linux_amd64/bin/gh /bin
-
+        
       - name: open PR at sample-creation
         run: |
-          echo ${{ secrets.GH_API_TOKEN }} | gh auth login --with-token
           gh repo clone lifebit-ai/nlp-sample-creation && cd nlp-sample-creation
           git switch -c geocoder/${GITHUB_REF##*/}
           git push https://${{ secrets.GH_USER_NAME }}:${{ secrets.GH_API_TOKEN }}}@github.com/lifebit-ai/nlp-sample-creation.git --set-upstream origin geocoder/${GITHUB_REF##*/}
           gh pr create --title "Update geocoder version" --body "Please update geocoder version"'
+        env:
+          - GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
   open_outbreak_detection_pr:
     runs-on: ubuntu-latest
     steps:
@@ -34,8 +35,9 @@ jobs:
 
       - name: open PR at outbreak-detection
         run: |
-          echo ${{ secrets.GH_API_TOKEN }} | gh auth login --with-token
           gh repo clone lifebit-ai/nlp-outbreak-detection && cd nlp-outbreak-detection
           git switch -c geocoder/${GITHUB_REF##*/}
           git push https://${{ secrets.GH_USER_NAME }}:${{ secrets.GH_API_TOKEN }}}@github.com/lifebit-ai/nlp-outbreak-detection.git --set-upstream origin geocoder/${GITHUB_REF##*/}
           gh pr create --title "Update geocoder version" --body "Please update geocoder version"'
+        env:
+          - GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
