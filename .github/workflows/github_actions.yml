@@ -1,43 +1,40 @@
+name: Open PRs in sample-creation and outbreak-detection
 on:
   release:
-    types: [published]
+    types: [created]
   
 jobs:
-  open_sample_creation_pr:
-    runs-on: ubuntu-latest
-    steps:
-      - name: install GH
-        run: |
-          apt-get install wget
-          wget https://github.com/cli/cli/releases/download/v2.13.0/gh_2.13.0_linux_amd64.tar.gz
-          tar -zxvf gh_2.13.0_linux_amd64.tar.gz
-          chmod +x gh_2.13.0_linux_amd64/bin/gh
-          cp gh_2.13.0_linux_amd64/bin/gh /bin
-        
-      - name: open PR at sample-creation
-        run: |
-          gh repo clone lifebit-ai/nlp-sample-creation && cd nlp-sample-creation
-          git switch -c geocoder/${GITHUB_REF##*/}
-          git push https://${{ secrets.GH_USER_NAME }}:${{ secrets.GH_API_TOKEN }}}@github.com/lifebit-ai/nlp-sample-creation.git --set-upstream origin geocoder/${GITHUB_REF##*/}
-          gh pr create --title "Update geocoder version" --body "Please update geocoder version"'
-        env:
-          - GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
   open_outbreak_detection_pr:
     runs-on: ubuntu-latest
     steps:
-      - name: install GH
-        run: |
-          apt-get install wget
-          wget https://github.com/cli/cli/releases/download/v2.13.0/gh_2.13.0_linux_amd64.tar.gz
-          tar -zxvf gh_2.13.0_linux_amd64.tar.gz
-          chmod +x gh_2.13.0_linux_amd64/bin/gh
-          cp gh_2.13.0_linux_amd64/bin/gh /bin
-
       - name: open PR at outbreak-detection
         run: |
-          gh repo clone lifebit-ai/nlp-outbreak-detection && cd nlp-outbreak-detection
+          git config --global user.email ${{ secrets.GH_EMAIL }}
+          git config --global user.name ${{ secrets.GH_USER_NAME }}
+          git config --global user.password ${{secrets.GH_API_TOKEN}}
+          git clone https://${{secrets.GH_USER_NAME}}:${{secrets.GH_API_TOKEN}}@github.com/lifebit-ai/nlp-outbreak-detection.git && cd nlp-outbreak-detection
           git switch -c geocoder/${GITHUB_REF##*/}
-          git push https://${{ secrets.GH_USER_NAME }}:${{ secrets.GH_API_TOKEN }}}@github.com/lifebit-ai/nlp-outbreak-detection.git --set-upstream origin geocoder/${GITHUB_REF##*/}
-          gh pr create --title "Update geocoder version" --body "Please update geocoder version"'
+          sed -i -r "s/nlp-geocode-module\.git@v*.*.*/nlp-geocode-module\.git\@${GITHUB_REF##*/}/" "requirements.txt"
+          git add requirements.txt
+          git commit -m "Updates geocoder version to ${GITHUB_REF##*/}"
+          git push --set-upstream origin geocoder/${GITHUB_REF##*/}
+          gh pr create --title "Update geocoder version to ${GITHUB_REF##*/}" --body "It updates geocoder version to ${GITHUB_REF##*/}"
         env:
-          - GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
+  open_sample_creation_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: open PR at sample-creation
+        run: |
+          git config --global user.email ${{ secrets.GH_EMAIL }}
+          git config --global user.name ${{ secrets.GH_USER_NAME }}
+          git config --global user.password ${{secrets.GH_API_TOKEN}}
+          git clone https://${{secrets.GH_USER_NAME}}:${{secrets.GH_API_TOKEN}}@github.com/lifebit-ai/nlp-sample-creation.git && cd nlp-sample-creation
+          git switch -c geocoder/${GITHUB_REF##*/}
+          sed -i -r "s/nlp-geocode-module\.git@v*.*.*/nlp-geocode-module\.git\@${GITHUB_REF##*/}/" "requirements.txt"
+          git add requirements.txt
+          git commit -m "Updates geocoder version to ${GITHUB_REF##*/}"
+          git push --set-upstream origin geocoder/${GITHUB_REF##*/}
+          gh pr create --title "Update geocoder version to ${GITHUB_REF##*/}" --body "It updates geocoder version to ${GITHUB_REF##*/}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
