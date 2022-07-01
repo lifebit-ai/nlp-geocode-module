@@ -102,7 +102,9 @@ class Geocoder:
                 )
             )
         try:
-            print("Using Photon Geocoder server on: " + os.environ["PHOTON_SERVER"])
+            logging.debug(
+                "Using Photon Geocoder server on: " + os.environ["PHOTON_SERVER"]
+            )
         except:
             logging.error(
                 "The environment variable PHOTON_SERVER has not been specified"
@@ -110,7 +112,7 @@ class Geocoder:
             sys.exit(-1)
 
         try:
-            print("Using Geonames server on: " + os.environ["GEONAMES_SERVER"])
+            logging.debug("Using Geonames server on: " + os.environ["GEONAMES_SERVER"])
         except:
             logging.error(
                 "The environment variable GEONAMES_SERVER has not been specified"
