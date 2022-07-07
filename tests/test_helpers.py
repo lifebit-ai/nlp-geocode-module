@@ -6,6 +6,9 @@ class TestCheckFormat:
         location = "U.S."
         response = check_location_can_be_processed(location)
         assert response == True
+        location = "Alabama"
+        response = check_location_can_be_processed(location)
+        assert response == True
 
     def test_symbols_in_location(self):
         location = "(U.S.) "
