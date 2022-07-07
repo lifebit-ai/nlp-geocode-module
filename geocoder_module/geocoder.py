@@ -15,6 +15,7 @@ from geocoder_module.utils import (
     gps_sanity_check,
     bbox2point_coord,
 )
+from geocoder_module.helpers import check_location_can_be_processed
 
 _wrap_latitude = lambda x: x + 90
 
@@ -264,12 +265,6 @@ class Geocoder:
 
         return results
 
-    def _check_format(self, location: str) -> bool:
-        regex_pattern = re.compile(r"[-!@#$%&*<>?_\{\}\[\]\(\)]|[0-9]")
-        if regex_pattern.findall(location):
-            return True
-        return False
-
     def get_location_info(
         self, location: str, best_matching: bool = True, country: str = None
     ) -> List[Dict[str, any]]:
@@ -293,7 +288,7 @@ class Geocoder:
                                the input location (default None)
         """
         # Check format is correct
-        if self._check_format(location):
+        if check_location_can_be_processed(location):
             logging.error(
                 f"Error: Location {location} is in wrong format. Returning empty location"
             )
