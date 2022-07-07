@@ -69,10 +69,12 @@ def test_get_geocoder_info_returns_a_location_when_queried(
             "coordinates": expected_get_geocoder_api_output["features"][0]["geometry"][
                 "coordinates"
             ],
+            "countrycode": expected_get_geocoder_api_output["features"][0][
+                "properties"
+            ]["countrycode"],
         }
     ]
     response = geocoder._get_geocode_info("sydney")
-
     assert mock_get.called
     assert response == expected_output
 
@@ -158,6 +160,9 @@ def test_get_location_info_returns_right_location_when_found_by_geocoder_and_geo
             "coordinates": expected_get_geocoder_api_output["features"][0]["geometry"][
                 "coordinates"
             ],
+            "countrycode": expected_get_geocoder_api_output["features"][0][
+                "properties"
+            ]["countrycode"],
         }
     ]
     response = geocoder.get_location_info("sydney")

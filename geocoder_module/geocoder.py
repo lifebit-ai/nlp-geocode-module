@@ -226,13 +226,12 @@ class Geocoder:
             features = response["features"][i]
 
             # avoid data with missing fields
-            if not "name" in features["properties"].keys():
-                continue
-            if not "extent" in features["properties"].keys():
-                continue
-            if not "country" in features["properties"].keys():
-                continue
             if not "coordinates" in features["geometry"].keys():
+                continue
+            if not all(
+                key in features["properties"]
+                for key in ("name", "extent", "country", "countrycode")
+            ):
                 continue
 
             # check if a country is provided and filter other locations
@@ -252,6 +251,7 @@ class Geocoder:
                 location["bounding_box"] = features["properties"]["extent"]
 
             location["name"] = features["properties"]["name"]
+            location["countrycode"] = features["properties"]["countrycode"]
             location["country"] = features["properties"]["country"]
             location["coordinates"] = features["geometry"]["coordinates"]
 
