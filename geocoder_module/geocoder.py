@@ -1,4 +1,5 @@
 import json
+import re
 import sys
 import os
 from typing import Any, Dict, List, Tuple
@@ -215,8 +216,8 @@ class Geocoder:
                 },
             )
             response = response.json()
-        except Exception as e:
-            logging.error(f"Error in querying location {location} : {e}")
+        except Exception as error:
+            logging.error(f"Error in querying location {location} : {error}")
 
         results = []
 
@@ -263,6 +264,12 @@ class Geocoder:
 
         return results
 
+    def _check_format(self, location: str) -> bool:
+        regex_pattern = re.compile(r"[-!@#$%&*<>?_\{\}\[\]\(\)]|[0-9]")
+        if regex_pattern.findall(location):
+            return True
+        return False
+
     def get_location_info(
         self, location: str, best_matching: bool = True, country: str = None
     ) -> List[Dict[str, any]]:
@@ -285,6 +292,12 @@ class Geocoder:
         :param country:        string that represents the country where to search
                                the input location (default None)
         """
+        # Check format is correct
+        if self._check_format(location):
+            logging.error(
+                f"Error: Location {location} is in wrong format. Returning empty location"
+            )
+            return [{}]
         # Check for acronyms
         location = self._handle_acronyms(location)
         # Check that location is not in blacklist

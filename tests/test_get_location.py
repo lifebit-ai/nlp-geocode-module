@@ -210,6 +210,23 @@ def test_get_location_blacklist_returns_empty_location():
         assert response == [{}]
 
 
+class TestCheckFormat:
+    def test_no_symbols_and_digits_in_location(self):
+        location = "U.S."
+        response = geocoder._check_format(location)
+        assert response == False
+
+    def test_symbols_in_location(self):
+        location = "(U.S.) "
+        response = geocoder._check_format(location)
+        assert response == True
+
+    def test_digits_in_location(self):
+        location = "H5N8"
+        response = geocoder._check_format(location)
+        assert response == True
+
+
 class TestHandleAcronyms:
     def test_no_duplicates_in_country_acronyms(self):
         for key in geocoder.country_acronyms:
