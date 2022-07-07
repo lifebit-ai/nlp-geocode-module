@@ -288,7 +288,7 @@ class Geocoder:
                                the input location (default None)
         """
         # Check format is correct
-        if check_location_can_be_processed(location):
+        if check_location_can_be_processed(location) == False:
             logging.error(
                 f"Error: Location {location} is in wrong format. Returning empty location"
             )

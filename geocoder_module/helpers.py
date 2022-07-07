@@ -9,5 +9,5 @@ def check_location_can_be_processed(location: str) -> bool:
     # involved as well as any digit between 0 and 9
     regex_pattern = re.compile(r"[-!@#$%&*<>?_\{\}\[\]\(\)]|[0-9]")
     if regex_pattern.findall(location):
-        return True
-    return False
+        return False
+    return True
