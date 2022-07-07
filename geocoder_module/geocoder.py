@@ -14,6 +14,7 @@ from geocoder_module.utils import (
     gps_sanity_check,
     bbox2point_coord,
 )
+from geocoder_module.helpers import check_location_can_be_processed
 
 _wrap_latitude = lambda x: x + 90
 
@@ -215,8 +216,8 @@ class Geocoder:
                 },
             )
             response = response.json()
-        except Exception as e:
-            logging.error(f"Error in querying location {location} : {e}")
+        except Exception as error:
+            logging.error(f"Error in querying location {location} : {error}")
 
         results = []
 
@@ -285,6 +286,12 @@ class Geocoder:
         :param country:        string that represents the country where to search
                                the input location (default None)
         """
+        # Check format is correct
+        if check_location_can_be_processed(location) == False:
+            logging.error(
+                f"Error: Location {location} is in wrong format. Returning empty location"
+            )
+            return [{}]
         # Check for acronyms
         location = self._handle_acronyms(location)
         # Check that location is not in blacklist
