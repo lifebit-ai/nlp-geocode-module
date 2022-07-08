@@ -422,17 +422,22 @@ class Geocoder:
             )
 
         location = {}
-        features = response["features"][0]
-        location["city"] = features["properties"]["city"]
-        location["country"] = features["properties"]["country"]
-        location["coordinates"] = features["geometry"]["coordinates"]
-        # In order to create a bounding box from a point
-        # We take the point coordinates [0, 0] and we create a square version of it
-        # bbox = [[0, 0] [0, 0]]. Then our magical function will increase the corners
-        # X kms to make them [[X,X],[X,X]] or similar.
-        location["bounding_box"] = edit_bounding_box(
-            location["coordinates"] + location["coordinates"]
-        )
+        try:
+            features = response["features"][0]
+            location["city"] = features["properties"]["city"]
+            location["country"] = features["properties"]["country"]
+            location["coordinates"] = features["geometry"]["coordinates"]
+            # In order to create a bounding box from a point
+            # We take the point coordinates [0, 0] and we create a square version of it
+            # bbox = [[0, 0] [0, 0]]. Then our magical function will increase the corners
+            # X kms to make them [[X,X],[X,X]] or similar.
+            location["bounding_box"] = edit_bounding_box(
+                location["coordinates"] + location["coordinates"]
+            )
+        except Exception as error:
+            logging.warning(
+                f"Error in querying latitude {lat} - longitude {lon}: No results from API {error}"
+            )
 
         return location
 

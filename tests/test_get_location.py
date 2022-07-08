@@ -240,3 +240,70 @@ class TestHandleAcronyms:
     def test_local_location_is_returned_untouched(self):
         response = geocoder._handle_acronyms("madrid")
         assert response == "madrid"
+
+    class TestReverseEndpoint:
+        @patch("requests.get")
+        def test_get_hit_from_coordinates(self, mock_get):
+            latitude = -33.8548157
+            longitude = 151.2164539
+            expected_get_reverse_api_output = {
+                "features": [
+                    {
+                        "geometry": {
+                            "coordinates": [151.01319457370295, -32.98035125],
+                            "type": "Point",
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "osm_id": 5750005,
+                            "osm_type": "R",
+                            "extent": [
+                                150.260825,
+                                -33.3641481,
+                                151.343898,
+                                -34.1732416,
+                            ],
+                            "country": "Australia",
+                            "osm_key": "place",
+                            "countrycode": "AU",
+                            "osm_value": "city",
+                            "name": "Cessnock City Council",
+                            "city": "Cessnock City Council",
+                            "state": "New South Wales",
+                            "type": "city",
+                        },
+                    },
+                ]
+            }
+
+            mock_get.return_value.json.return_value = expected_get_reverse_api_output
+
+            expected_output = {
+                "city": "Cessnock City Council",
+                "country": "Australia",
+                "coordinates": [151.01319457370295, -32.98035125],
+                "bounding_box": [
+                    150.74517472942034,
+                    -32.75552084852031,
+                    151.28121441798555,
+                    -33.205181651479684,
+                ],
+            }
+            response = geocoder.get_location_from_coordinates(latitude, longitude)
+
+            assert mock_get.called
+            assert response == expected_output
+
+        @patch("requests.get")
+        def test_get_no_result_from_coordinates(self, mock_get):
+            latitude = 80.8548157
+            longitude = 151.2164539
+            expected_get_reverse_api_output = {"features": [{}]}
+
+            mock_get.return_value.json.return_value = expected_get_reverse_api_output
+
+            expected_output = {}
+            response = geocoder.get_location_from_coordinates(latitude, longitude)
+
+            assert mock_get.called
+            assert response == expected_output
