@@ -1,11 +1,10 @@
 import json
 import sys
 import os
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 from collections import Counter
 import requests
 from logger.logging import logging
-
 
 import geocoder_module
 from geocoder_module.utils import (
@@ -146,9 +145,8 @@ class Geocoder:
                 params={"country": country.lower(), "local_location": location.lower()},
             )
             response = response.json()
-        except Exception as e:
-            logging.error("Error in querying location {} ".format(location))
-            logging.error(e)
+        except Exception as error:
+            logging.error(f"Error in querying location {location}: {error} ")
         results = []
         # Create location object with results
         location = {}
@@ -182,8 +180,36 @@ class Geocoder:
 
         return location
 
+    def check_valid_location(self, location: str) -> Union[str, bool]:
+        """
+        Checks if a location is valid and can be queried
+        :params location:       String representing a location to be checked
+
+        """
+        # Check format is correct
+        if check_location_can_be_processed(location) is False:
+            logging.error(
+                f"Error: Location {location} is in wrong format. Returning empty location"
+            )
+            return False
+        # Check for acronyms
+        location = self._handle_acronyms(location)
+        # Check that location is not in blacklist
+        if location.lower() in self.config["blacklist"]:
+            logging.warning(
+                f"Location is in blacklist: {location}. Returning empty location"
+            )
+            return False
+        return location
+
     def _get_geocode_info(
-        self, location: str, best_matching: bool = True, country: str = None
+        self,
+        location: str,
+        best_matching: bool = True,
+        country: str = None,
+        lat: float = None,
+        lon: float = None,
+        location_bias_scale: float = 0.1,
     ) -> List[Dict[str, any]]:
         """
         This function returns a list of dictionaries representing the
@@ -194,7 +220,7 @@ class Geocoder:
         longitude and latitude (field "coordinates").
         The best_matching parameter is used to specify if the method will return
         only the first result or all the results obtained querying Photon.
-        The paramter country specifies the country where to search in for the
+        The parameter country specifies the country where to search in for the
         given location.
 
         :param location:       string that represents the location to query for
@@ -203,18 +229,37 @@ class Geocoder:
                                (default True)
         :param country:        string that represents the country where to search
                                the input location (default None)
+        :params lat:        float representing the latitude coordinates
+        :params lon:        float representing the longiture coordinates
         """
+        query_params = {
+            "q": location,
+            "lang": self.config["lang"],
+            "osm_tag": self.config["osm_keys"],
+        }
+        if lat and lon:
+            query_params["lat"] = lat
+            query_params["lon"] = lon
+            # Check location bias is correct
+            # Location bias is a parameter that can be set up when using coordinates
+            # to give preference to matching locations closer to the coordinates provided
+            if location_bias_scale < 0.1:
+                logging.warning(
+                    "location bias scale used below min value. Setting to 0.1"
+                )
+                location_bias_scale = 0.1
+            if location_bias_scale > 1:
+                logging.warning(
+                    "location bias scale used above max value. Setting to 1.0"
+                )
+                location_bias_scale = 1.0
+
+            query_params["location_bias_scale"] = location_bias_scale
+
         try:
             url_api = os.environ["PHOTON_SERVER"] + self.config["url_api_endpoint"]
 
-            response = requests.get(
-                url_api,
-                params={
-                    "q": location,
-                    "lang": self.config["lang"],
-                    "osm_tag": self.config["osm_keys"],
-                },
-            )
+            response = requests.get(url_api, params=query_params)
             response = response.json()
         except Exception as error:
             logging.error(f"Error in querying location {location} : {error}")
@@ -226,17 +271,20 @@ class Geocoder:
             features = response["features"][i]
 
             # avoid data with missing fields
-            if not "name" in features["properties"].keys():
+            if "name" not in features["properties"].keys():
                 continue
-            if not "extent" in features["properties"].keys():
+            if "extent" not in features["properties"].keys():
                 continue
-            if not "country" in features["properties"].keys():
+            if "country" not in features["properties"].keys():
                 continue
-            if not "coordinates" in features["geometry"].keys():
+            if "coordinates" not in features["geometry"].keys():
                 continue
 
             # check if a country is provided and filter other locations
-            if country and features["properties"]["country"] != country:
+            if country and features["properties"]["country"].lower() != country.lower():
+                logging.debug(
+                    f'For location {location} with result: {features["properties"]["name"]} . Country provided {country} is different from obtained country {features["properties"]["country"]}'
+                )
                 continue
 
             # If the location queried is a country,
@@ -244,7 +292,7 @@ class Geocoder:
             if (
                 features["properties"]["name"].lower()
                 == features["properties"]["country"].lower()
-            ):
+            ) and features["properties"]["country"].lower() in self.country_bbox:
                 location["bounding_box"] = self.country_bbox[
                     features["properties"]["country"].lower()
                 ]
@@ -264,8 +312,50 @@ class Geocoder:
 
         return results
 
+    def _validate_locations(
+        self, initial_results: List[Dict[str, any]], location: str
+    ) -> List[Dict[str, Any]]:
+        """
+        This function validates any geocoder hits with the geonames service.
+        This mainly used for validating locations from entities resulting from the NLP pipeline
+
+        :params initial_results:        List of locations obtained from the Photon geocoder
+        :params locations:              String of containing location to be validated
+
+        """
+        validated_results = []
+        for geocode_hit in initial_results:
+            logging.info(f"Validating location {location}. Geocoder hit: {geocode_hit}")
+            # Validate with geonames
+            validated_hits = self._get_geonames_info(
+                geocode_hit["name"], geocode_hit["country"]
+            )
+            for validated_hit in validated_hits:
+                # where the geonames validation magic happens
+                if validated_hit["name"].lower() == geocode_hit["name"].lower():
+                    if (
+                        validated_hit["country"].lower()
+                        == geocode_hit["country"].lower()
+                    ):
+                        validated_results.append(geocode_hit)
+                else:
+                    continue
+            if not validated_results:
+                validated_results = [{}]
+                logging.warning(
+                    f"Location validation failed for {location}. Returning empty result"
+                )
+        return validated_results
+
     def get_location_info(
-        self, location: str, best_matching: bool = True, country: str = None
+        self,
+        location: str,
+        best_matching: bool = True,
+        country: str = None,
+        lat: str = None,
+        lon: str = None,
+        location_bias_scale: float = 0.1,
+        validate: bool = True,
     ) -> List[Dict[str, any]]:
         """
         This function returns a list of dictionaries representing the
@@ -285,47 +375,88 @@ class Geocoder:
                                (default True)
         :param country:        string that represents the country where to search
                                the input location (default None)
+        :params lat:           float representing the latitude coordinates
+        :params lon:           float representing the longiture coordinates
+        :location_bias_scale:  float representing the amount of location bias
+                               desired towards coordinates. lower values represent more narrow search
+        :validate:             boolean that trigger validation process using geonames server
         """
-        # Check format is correct
-        if check_location_can_be_processed(location) == False:
-            logging.error(
-                f"Error: Location {location} is in wrong format. Returning empty location"
-            )
-            return [{}]
-        # Check for acronyms
-        location = self._handle_acronyms(location)
-        # Check that location is not in blacklist
-        if location.lower() in self.config["blacklist"]:
-            logging.warning(
-                f"Location is in blacklist: {location}. Returning empty location"
-            )
+        # Check validity of location
+        location = self.check_valid_location(location)
+        if location is False:
             return [{}]
         # Query geocoder to find the best location in photon for that particular query
-        initial_results = self._get_geocode_info(location, best_matching, country)
+        initial_results = self._get_geocode_info(
+            location, best_matching, country, lat, lon, location_bias_scale
+        )
         # Validate result with geonames service
-        validated_results = []
-        for geocode_hit in initial_results:
-            # Validate with geonames
-            validated_hits = self._get_geonames_info(
-                geocode_hit["name"], geocode_hit["country"]
+        if validate:
+            return self._validate_locations(initial_results, location)
+
+        return initial_results
+
+    def _get_reverse_info(self, lat: float, lon: float, radius: float = 50):
+        """
+        This function takes a set of coordinates and tries to infer the location using those.
+        If the location is within a city it will return the city name instead of the actual location name
+        :params lat:        float representing the latitude coordinates
+        :params lon:        float representing the longiture coordinates
+        :params radius:     float representing the radius around the coordinates
+        """
+        try:
+            url_api = os.environ["PHOTON_SERVER"] + self.config["url_reverse_endpoint"]
+
+            response = requests.get(
+                url_api,
+                params={
+                    "lat": lat,
+                    "lon": lon,
+                    "radius": radius,
+                    "lang": self.config["lang"],
+                },
             )
-            for validated_hit in validated_hits:
-                # where the geonames validation magic happens
-                if validated_hit["name"].lower() == geocode_hit["name"].lower():
-                    if (
-                        validated_hit["country"].lower()
-                        == geocode_hit["country"].lower()
-                    ):
-                        validated_results.append(geocode_hit)
-                else:
-                    continue
-        if validated_results == []:
-            validated_results = [{}]
+            response = response.json()
+        except Exception as error:
+            logging.error(
+                f"Error in querying latitude: {lat} - longitude: {lon} : {error}"
+            )
+            return {}
+
+        location = {}
+        try:
+            features = response["features"][0]
+            location["city"] = features["properties"]["city"]
+            location["country"] = features["properties"]["country"]
+            location["coordinates"] = features["geometry"]["coordinates"]
+            # In order to create a bounding box from a point
+            # We take the point coordinates [0, 0] and we create a square version of it
+            # bbox = [[0, 0] [0, 0]]. Then our magical function will increase the corners
+            # X kms to make them [[X,X],[X,X]] or similar.
+            location["bounding_box"] = edit_bounding_box(
+                location["coordinates"] + location["coordinates"]
+            )
+        except Exception as error:
             logging.warning(
-                f"Location validation failed for {location}. Returning empty result"
+                f"Error in querying latitude {lat} - longitude {lon}: No results from API {error}"
             )
 
-        return validated_results
+        return location
+
+    def get_location_from_coordinates(
+        self,
+        lat: float,
+        lon: float,
+    ) -> Dict[str, Any]:
+        """
+        This function takes a set of coordinates to find the right location associate to those coordinates.
+
+        :params lat:                    float representing the latitude coordinates
+        :params lon:                    float representing the longiture coordinates
+
+        """
+        # Init queries
+        result = self._get_reverse_info(lat, lon)
+        return result
 
     def get_country_neighbors(self, country: str) -> List[str]:
         """
