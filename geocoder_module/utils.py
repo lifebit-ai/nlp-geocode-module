@@ -155,7 +155,7 @@ def calculate_distance(
 
 def edit_bounding_box(
     coordinates: List[float],
-    distance_to_add: float,
+    distance_to_add: float = 50000,
     add: bool = True,
 ) -> List[float]:
     """

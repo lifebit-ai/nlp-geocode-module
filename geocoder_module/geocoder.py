@@ -243,7 +243,7 @@ class Geocoder:
             # Check location bias is correct
             # Location bias is a parameter that can be set up when using coordinates
             # to give preference to matching locations closer to the coordinates provided
-            if 0.1 < location_bias_scale:
+            if location_bias_scale < 0.1:
                 logging.warning(
                     "location bias scale used below min value. Setting to 0.1"
                 )
@@ -312,6 +312,41 @@ class Geocoder:
 
         return results
 
+    def _validate_locations(
+        self, initial_results: List[Dict[str, any]], location: str
+    ) -> List[Dict[str, Any]]:
+        """
+        This function validates any geocoder hits with the geonames service.
+        This mainly used for validating locations from entities resulting from the NLP pipeline
+
+        :params initial_results:        List of locations obtained from the Photon geocoder
+        :params locations:              String of containing location to be validated
+
+        """
+        validated_results = []
+        for geocode_hit in initial_results:
+            logging.info(f"Validating location {location}. Geocoder hit: {geocode_hit}")
+            # Validate with geonames
+            validated_hits = self._get_geonames_info(
+                geocode_hit["name"], geocode_hit["country"]
+            )
+            for validated_hit in validated_hits:
+                # where the geonames validation magic happens
+                if validated_hit["name"].lower() == geocode_hit["name"].lower():
+                    if (
+                        validated_hit["country"].lower()
+                        == geocode_hit["country"].lower()
+                    ):
+                        validated_results.append(geocode_hit)
+                else:
+                    continue
+            if not validated_results:
+                validated_results = [{}]
+                logging.warning(
+                    f"Location validation failed for {location}. Returning empty result"
+                )
+        return validated_results
+
     def get_location_info(
         self,
         location: str,
@@ -320,6 +355,7 @@ class Geocoder:
         lat: str = None,
         lon: str = None,
         location_bias_scale: float = 0.1,
+        validate: bool = True,
     ) -> List[Dict[str, any]]:
         """
         This function returns a list of dictionaries representing the
@@ -343,6 +379,7 @@ class Geocoder:
         :params lon:           float representing the longiture coordinates
         :location_bias_scale:  float representing the amount of location bias
                                desired towards coordinates. lower values represent more narrow search
+        :validate:             boolean that trigger validation process using geonames server
         """
         # Check validity of location
         location = self.check_valid_location(location)
@@ -353,36 +390,18 @@ class Geocoder:
             location, best_matching, country, lat, lon, location_bias_scale
         )
         # Validate result with geonames service
-        validated_results = []
-        for geocode_hit in initial_results:
-            # Validate with geonames
-            validated_hits = self._get_geonames_info(
-                geocode_hit["name"], geocode_hit["country"]
-            )
-            for validated_hit in validated_hits:
-                # where the geonames validation magic happens
-                if validated_hit["name"].lower() == geocode_hit["name"].lower():
-                    if (
-                        validated_hit["country"].lower()
-                        == geocode_hit["country"].lower()
-                    ):
-                        validated_results.append(geocode_hit)
-                else:
-                    continue
-        if not validated_results:
-            validated_results = [{}]
-            logging.warning(
-                f"Location validation failed for {location}. Returning empty result"
-            )
+        if validate:
+            return self._validate_locations(initial_results, location)
 
-        return validated_results
+        return initial_results
 
-    def _get_reverse_info(self, lat: float, lon: float):
+    def _get_reverse_info(self, lat: float, lon: float, radius: float = 50):
         """
         This function takes a set of coordinates and tries to infer the location using those.
         If the location is within a city it will return the city name instead of the actual location name
         :params lat:        float representing the latitude coordinates
         :params lon:        float representing the longiture coordinates
+        :params radius:     float representing the radius around the coordinates
         """
         try:
             url_api = os.environ["PHOTON_SERVER"] + self.config["url_reverse_endpoint"]
@@ -392,6 +411,8 @@ class Geocoder:
                 params={
                     "lat": lat,
                     "lon": lon,
+                    "radius": radius,
+                    "lang": self.config["lang"],
                 },
             )
             response = response.json()
@@ -400,100 +421,36 @@ class Geocoder:
                 f"Error in querying latitude: {lat} - longitude: {lon} : {error}"
             )
 
-        results = []
-        for i in range(len(response["features"])):
-            location = {}
-            features = response["features"][i]
+        location = {}
+        features = response["features"][0]
+        location["city"] = features["properties"]["city"]
+        location["country"] = features["properties"]["country"]
+        location["coordinates"] = features["geometry"]["coordinates"]
+        # In order to create a bounding box from a point
+        # We take the point coordinates [0, 0] and we create a square version of it
+        # bbox = [[0, 0] [0, 0]]. Then our magical function will increase the corners
+        # X kms to make them [[X,X],[X,X]] or similar.
+        location["bounding_box"] = edit_bounding_box(
+            location["coordinates"] + location["coordinates"]
+        )
 
-            # avoid data with missing fields
-            if (
-                "city" not in features["properties"].keys()
-                or "name" not in features["properties"].keys()
-            ):
-                continue
-            if "extent" not in features["properties"].keys():
-                continue
-            if "country" not in features["properties"].keys():
-                continue
-            if "coordinates" not in features["geometry"].keys():
-                continue
-
-            # If the location queried is a country,
-            # then retrieve the bounding box from countries_bbox.json
-            if (
-                features["properties"]["name"].lower()
-                == features["properties"]["country"].lower()
-            ) and features["properties"]["country"].lower() in self.country_bbox:
-                location["bounding_box"] = self.country_bbox[
-                    features["properties"]["country"].lower()
-                ]
-                location["name"] = features["properties"]["name"]
-            else:
-                location["bounding_box"] = features["properties"]["extent"]
-                location["name"] = features["properties"]["city"]
-
-            location["country"] = features["properties"]["country"]
-            location["coordinates"] = features["geometry"]["coordinates"]
-
-            # Add results
-            results.append(location)
-        return results
+        return location
 
     def get_location_from_coordinates(
         self,
         lat: float,
         lon: float,
-        location: str,
-        country: str,
-        best_matching: bool = True,
-    ):
+    ) -> Dict[str, Any]:
         """
-        This function takes a set of coordinates as well as a query location and country
-        and runs an initial scan using the coordinates only.
+        This function takes a set of coordinates to find the right location associate to those coordinates.
 
-        If no results are found, then
-        it runs a second query using the get_location_info function to attempt to rescue
-        the query by also giving as input the coordinates to narrow down the query.
-
-        If results are found in the initial query, then a second query confirms the results
-        using the get_location_info function providing the coordinates
-
-        :param location:       string that represents the location to query for
-        :param best_matching:  bool, if True the first results is returend,
-                               otherwise all the results are returned
-                               (default True)
-        :param country:        string that represents the country where to search
-                               the input location (default None)
-        :params lat:           float representing the latitude coordinates
-        :params lon:           float representing the longiture coordinates
-        :location_bias_scale:  float representing the amount of location bias
-                               desired towards coordinates. lower values represent more narrow search
+        :params lat:                    float representing the latitude coordinates
+        :params lon:                    float representing the longiture coordinates
 
         """
-        # Check validity of location
-        location = self.check_valid_location(location)
-        if location is False:
-            return [{}]
         # Init queries
-        results = []
-        coordinates_results = self._get_reverse_info(lat, lon)
-        if not coordinates_results:
-            # Attempt to save the query
-            location_with_coordinates = self.get_location_info(
-                location, best_matching, country, lat, lon
-            )
-            results = results + location_with_coordinates
-        if coordinates_results:
-            # Take the first result
-            for coordinates_result in coordinates_results:
-                if coordinates_result["country"].lower() != country.lower():
-                    continue
-                # Confirm that the results from the get reverse info is correct
-                location_with_coordinates = self.get_location_info(
-                    coordinates_result["name"], best_matching, country, lat, lon
-                )
-                results = results + location_with_coordinates
-        return results
+        result = self._get_reverse_info(lat, lon)
+        return result
 
     def get_country_neighbors(self, country: str) -> List[str]:
         """
