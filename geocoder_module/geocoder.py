@@ -339,6 +339,10 @@ class Geocoder:
                                (default True)
         :param country:        string that represents the country where to search
                                the input location (default None)
+        :params lat:           float representing the latitude coordinates
+        :params lon:           float representing the longiture coordinates
+        :location_bias_scale:  float representing the amount of location bias
+                               desired towards coordinates. lower values represent more narrow search
         """
         # Check validity of location
         location = self.check_valid_location(location)
@@ -443,6 +447,29 @@ class Geocoder:
         country: str,
         best_matching: bool = True,
     ):
+        """
+        This function takes a set of coordinates as well as a query location and country
+        and runs an initial scan using the coordinates only.
+
+        If no results are found, then
+        it runs a second query using the get_location_info function to attempt to rescue
+        the query by also giving as input the coordinates to narrow down the query.
+
+        If results are found in the initial query, then a second query confirms the results
+        using the get_location_info function providing the coordinates
+
+        :param location:       string that represents the location to query for
+        :param best_matching:  bool, if True the first results is returend,
+                               otherwise all the results are returned
+                               (default True)
+        :param country:        string that represents the country where to search
+                               the input location (default None)
+        :params lat:           float representing the latitude coordinates
+        :params lon:           float representing the longiture coordinates
+        :location_bias_scale:  float representing the amount of location bias
+                               desired towards coordinates. lower values represent more narrow search
+
+        """
         # Check validity of location
         location = self.check_valid_location(location)
         if location is False:
@@ -455,6 +482,7 @@ class Geocoder:
             location_with_coordinates = self.get_location_info(
                 location, best_matching, country, lat, lon
             )
+            results = results + location_with_coordinates
         if coordinates_results:
             # Take the first result
             for coordinates_result in coordinates_results:
