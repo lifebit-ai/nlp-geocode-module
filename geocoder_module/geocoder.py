@@ -420,6 +420,7 @@ class Geocoder:
             logging.error(
                 f"Error in querying latitude: {lat} - longitude: {lon} : {error}"
             )
+            return {}
 
         location = {}
         try:
