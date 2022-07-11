@@ -148,7 +148,7 @@ class TestGetGeocoderInfo:
                         "osm_key": "place",
                         "countrycode": "AU",
                         "osm_value": "country",
-                        "name": "Sidney",
+                        "name": "Sydney",
                         "type": "country",
                     },
                 }
@@ -159,7 +159,7 @@ class TestGetGeocoderInfo:
         mock_get.return_value.json.return_value = expected_get_geocoder_api_output
 
         expected_output = []
-        response = geocoder._get_geocode_info("Sidney")
+        response = geocoder._get_geocode_info("Sydney")
 
         assert mock_get.called
         assert response == expected_output
