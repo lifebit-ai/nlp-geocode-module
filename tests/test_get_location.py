@@ -130,6 +130,41 @@ class TestGetGeocoderInfo:
         assert response == expected_output
 
     @patch("requests.get")
+    def test_returns_empty_location_when_local_location_result_has_no_extent(
+        self, mock_get
+    ):
+        expected_get_geocoder_api_output = {
+            "features": [
+                {
+                    "geometry": {
+                        "coordinates": [151.2164539, -33.8548157],
+                        "type": "Point",
+                    },
+                    "type": "Feature",
+                    "properties": {
+                        "osm_id": 5750005,
+                        "osm_type": "R",
+                        "country": "Australia",
+                        "osm_key": "place",
+                        "countrycode": "AU",
+                        "osm_value": "country",
+                        "name": "Sidney",
+                        "type": "country",
+                    },
+                }
+            ]
+        }
+
+        # Generate expected output from both get requests
+        mock_get.return_value.json.return_value = expected_get_geocoder_api_output
+
+        expected_output = []
+        response = geocoder._get_geocode_info("Sidney")
+
+        assert mock_get.called
+        assert response == expected_output
+
+    @patch("requests.get")
     def test_returns_right_location_when_country_queried_with_country_field_but_result_has_no_extent(
         self, mock_get
     ):
