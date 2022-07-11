@@ -270,12 +270,25 @@ class Geocoder:
             location = {}
             features = response["features"][i]
 
+            # Essential check - name and country
             # avoid data with missing fields
+            # This order is important to avoid issues with countries with no extent field like Switzerland
             if "name" not in features["properties"].keys():
                 continue
-            if "extent" not in features["properties"].keys():
-                continue
             if "country" not in features["properties"].keys():
+                continue
+            # If the location queried is a country,
+            # then retrieve the bounding box from countries_bbox.json
+            if (
+                features["properties"]["name"].lower()
+                == features["properties"]["country"].lower()
+            ) and features["properties"]["country"].lower() in self.country_bbox:
+                features["properties"]["extent"] = self.country_bbox[
+                    features["properties"]["country"].lower()
+                ]
+
+            # Secondary check
+            if "extent" not in features["properties"].keys():
                 continue
             if "coordinates" not in features["geometry"].keys():
                 continue
@@ -287,18 +300,7 @@ class Geocoder:
                 )
                 continue
 
-            # If the location queried is a country,
-            # then retrieve the bounding box from countries_bbox.json
-            if (
-                features["properties"]["name"].lower()
-                == features["properties"]["country"].lower()
-            ) and features["properties"]["country"].lower() in self.country_bbox:
-                location["bounding_box"] = self.country_bbox[
-                    features["properties"]["country"].lower()
-                ]
-            else:
-                location["bounding_box"] = features["properties"]["extent"]
-
+            location["bounding_box"] = features["properties"]["extent"]
             location["name"] = features["properties"]["name"]
             location["country"] = features["properties"]["country"]
             location["coordinates"] = features["geometry"]["coordinates"]
