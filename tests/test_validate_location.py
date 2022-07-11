@@ -303,13 +303,13 @@ class TestDoubleCheckCountries:
 class TestFilterNerCountries:
     def test_filter_ner_tags_return_list_of_locations(self):
         ner_tags = [
-            {"name": "Sidney", "label": "location"},
+            {"name": "Sydney", "label": "location"},
             {"name": "Australia", "label": "location"},
             {"name": "cow", "label": "host"},
         ]
         response_country, response_local = geocoder.filter_ner_countries(ner_tags)
         expected_countries = [{"name": "Australia", "label": "location"}]
-        expected_local = [{"name": "Sidney", "label": "location"}]
+        expected_local = [{"name": "Sydney", "label": "location"}]
 
         assert response_country == expected_countries
         assert response_local == expected_local
