@@ -300,6 +300,45 @@ class TestDoubleCheckCountries:
         assert response == expected_output
 
 
+class TestFilterNerCountries:
+    def test_filter_ner_tags_return_list_of_locations(self):
+        ner_tags = [
+            {"name": "Sidney", "label": "location"},
+            {"name": "Australia", "label": "location"},
+            {"name": "cow", "label": "host"},
+        ]
+        response_country, response_local = geocoder.filter_ner_countries(ner_tags)
+        expected_countries = [{"name": "Australia", "label": "location"}]
+        expected_local = [{"name": "Sidney", "label": "location"}]
+
+        assert response_country == expected_countries
+        assert response_local == expected_local
+
+    def test_filter_ner_tags_return_empty_if_no_location(self):
+        ner_tags = [
+            {"name": "cow", "label": "host"},
+        ]
+        response_country, response_local = geocoder.filter_ner_countries(ner_tags)
+        expected_countries = []
+        expected_local = []
+
+        assert response_country == expected_countries
+        assert response_local == expected_local
+
+    def test_filter_ner_tags_return_puerto_rico_as_local(self):
+        ner_tags = [
+            {"name": "Puerto Rico", "label": "location"},
+            {"name": "Australia", "label": "location"},
+            {"name": "cow", "label": "host"},
+        ]
+        response_country, response_local = geocoder.filter_ner_countries(ner_tags)
+        expected_countries = [{"name": "Australia", "label": "location"}]
+        expected_local = [{"name": "Puerto Rico", "label": "location"}]
+
+        assert response_country == expected_countries
+        assert response_local == expected_local
+
+
 class TestCountCountries:
     def test_count_countries_when_country_given_and_no_top_countries(self):
         response = geocoder.count_countries(countries)
