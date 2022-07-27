@@ -29,13 +29,6 @@ mom
 dad
 fitz
 hagyar
-usa
-us
-u.s.
-u.s
-u.k.
-uk
-u.k
 mo
 rescue
 bera
@@ -54,7 +47,5 @@ north eastern
 northeastern
 bl4
 ds2
-bb
-ng
 dlcs
 des
