@@ -44,88 +44,78 @@ class Geocoder:
         }
 
         try:
-            self.blacklist = json.load(
-                open(
-                    os.path.join(
-                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                        "geocoder_module",
-                        self.config["blacklist_path"],
-                    ),
-                    "r",
-                )
+            blacklist_path = os.path.join(
+                os.path.dirname(os.path.dirname(geocoder_module.__file__)),
+                "geocoder_module",
+                self.config["blacklist_path"],
             )
-        except:
+            with open(blacklist_path, "r", encoding="utf-8") as blacklist_file:
+                self.blacklist = json.load(blacklist_file)
+        except Exception as error:
             logging.error(
-                "The json file {} specified in the configuration can't be read.".format(
-                    self.config["blacklist_path"]
-                )
+                f"{error} The json file {self.config['blacklist_path']} specified in the configuration can't be read."
             )
         try:
-            self.map_country_neighbors = json.load(
-                open(
-                    os.path.join(
-                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                        "geocoder_module",
-                        self.config["country_neighbors_path"],
-                    ),
-                    "r",
-                )
+            map_country_neighbors_path = os.path.join(
+                os.path.dirname(os.path.dirname(geocoder_module.__file__)),
+                "geocoder_module",
+                self.config["country_neighbors_path"],
             )
-        except:
+            with open(
+                map_country_neighbors_path, "r", encoding="utf-8"
+            ) as map_country_neighbors_file:
+                self.map_country_neighbors = json.load(map_country_neighbors_file)
+
+        except Exception as error:
             logging.error(
-                "The json file {} specified in the configuration can't be read.".format(
-                    self.config["country_neighbors_path"]
-                )
+                f"{error}: The json file {self.config['country_neighbors_path']} specified in the configuration can't be read."
             )
+
         try:
-            self.country_bbox = json.load(
-                open(
-                    os.path.join(
-                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                        "geocoder_module",
-                        self.config["country_bounding_box_path"],
-                    ),
-                    "r",
-                )
+            country_bbox_path = os.path.join(
+                os.path.dirname(os.path.dirname(geocoder_module.__file__)),
+                "geocoder_module",
+                self.config["country_bounding_box_path"],
             )
-        except:
+            with open(country_bbox_path, "r", encoding="utf-8") as country_bbox_file:
+                self.country_bbox = json.load(country_bbox_file)
+
+        except Exception as error:
             logging.error(
-                "The json file {} specified in the configuration can't be read.".format(
-                    self.config["country_bounding_box_path"]
-                )
+                f"{error}: The json file {self.config['country_bounding_box_path']} specified in the configuration can't be read."
             )
+
         try:
-            self.country_acronyms = json.load(
-                open(
-                    os.path.join(
-                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                        "geocoder_module",
-                        self.config["country_acronyms_path"],
-                    ),
-                    "r",
-                )
+            country_acronyms_path = os.path.join(
+                os.path.dirname(os.path.dirname(geocoder_module.__file__)),
+                "geocoder_module",
+                self.config["country_acronyms_path"],
             )
-        except:
+            with open(
+                country_acronyms_path, "r", encoding="utf-8"
+            ) as country_acronyms_file:
+                self.country_acronyms = json.load(country_acronyms_file)
+
+        except Exception as error:
             logging.error(
-                "The json file {} specified in the configuration can't be read.".format(
-                    self.config["country_acronyms_path"]
-                )
+                f"{error}: The json file {self.config['country_acronyms_path']} specified in the configuration can't be read."
             )
+
         try:
             logging.debug(
                 "Using Photon Geocoder server on: " + os.environ["PHOTON_SERVER"]
             )
-        except:
+        except Exception as error:
             logging.error(
-                "The environment variable PHOTON_SERVER has not been specified"
+                f"{error} - The environment variable PHOTON_SERVER has not been specified"
             )
             sys.exit(-1)
 
         try:
             logging.debug("Using Geonames server on: " + os.environ["GEONAMES_SERVER"])
-        except:
+        except Exception as error:
             logging.error(
-                "The environment variable GEONAMES_SERVER has not been specified"
+                f"{error} - The environment variable GEONAMES_SERVER has not been specified"
             )
             sys.exit(-1)
 
@@ -205,7 +195,7 @@ class Geocoder:
         # Check for acronyms
         location = self._handle_acronyms(location)
         # Check that location is not in blacklist
-        if location.lower() in self.blacklist[0]["data"]:
+        if location.lower() in self.blacklist:
             logging.warning(
                 f"Location is in blacklist: {location}. Returning empty location"
             )

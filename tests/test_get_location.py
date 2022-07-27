@@ -399,7 +399,7 @@ class TestValidateLocations:
 
 class TestBlacklist:
     def test_get_location_blacklist_returns_empty_location(self):
-        for i in geocoder.blacklist[0]["data"]:
+        for i in geocoder.blacklist:
             response = geocoder.get_location_info(i)
             assert response == []
 
