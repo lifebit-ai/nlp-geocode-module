@@ -47,7 +47,9 @@ class Geocoder:
                     "blacklist.txt",
                 ),
                 "r",
-            ).readlines(),
+            )
+            .read()
+            .splitlines(),
         }
 
         try:
@@ -311,7 +313,6 @@ class Geocoder:
             # the first results is the always the best matching one
             if best_matching:
                 break
-
         return results
 
     def _validate_locations(
@@ -326,6 +327,11 @@ class Geocoder:
 
         """
         validated_results = []
+        if initial_results == []:
+            logging.warn(
+                f"Can't validate location {location}. Empty Geocoder hits: {initial_results}"
+            )
+            return []
         for geocode_hit in initial_results:
             logging.info(f"Validating location {location}. Geocoder hit: {geocode_hit}")
             # Validate with geonames
@@ -343,7 +349,7 @@ class Geocoder:
                 else:
                     continue
             if not validated_results:
-                validated_results = [{}]
+                validated_results = []
                 logging.warning(
                     f"Location validation failed for {location}. Returning empty result"
                 )
@@ -386,7 +392,7 @@ class Geocoder:
         # Check validity of location
         location = self.check_valid_location(location)
         if location is False:
-            return [{}]
+            return []
         # Query geocoder to find the best location in photon for that particular query
         initial_results = self._get_geocode_info(
             location, best_matching, country, lat, lon, location_bias_scale
@@ -531,7 +537,7 @@ class Geocoder:
                 name, country=new_country, best_matching=True
             )
             # check if the reference country can be used for this location
-            if new_location != [{}]:
+            if new_location:
                 mapping_countries[name] = new_location[0]["country"]
 
         return mapping_countries
@@ -602,7 +608,7 @@ class Geocoder:
                 logging.warning(
                     "Location Edge Case 0.1 detected: Local location empty - returning empty location"
                 )
-                return [{}]
+                return []
 
         ## Edge case 1: If there are few locations and 1 is a country
         ## We assume that the few locations belong to that country,
