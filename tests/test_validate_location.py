@@ -490,7 +490,7 @@ class TestUpdateCountryForLocations:
         response = geocoder.update_country_for_locations(
             locations, mapping_countries, only_countries
         )
-        expected_output = [{}]
+        expected_output = []
 
         assert response == expected_output
 
@@ -505,7 +505,7 @@ class TestUpdateCountryForLocations:
         response = geocoder.update_country_for_locations(
             locations, mapping_countries, only_countries
         )
-        expected_output = [{}]
+        expected_output = []
 
         assert response == expected_output
 
@@ -523,6 +523,6 @@ class TestUpdateCountryForLocations:
         response = geocoder.update_country_for_locations(
             locations, mapping_countries, only_countries
         )
-        expected_output = [{}]
+        expected_output = []
 
         assert response == expected_output

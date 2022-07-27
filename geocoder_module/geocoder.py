@@ -40,18 +40,26 @@ class Geocoder:
             "country_neighbors_path": "country_neighbors.json",
             "country_bounding_box_path": "countries_bbox.json",
             "country_acronyms_path": "countries_acronyms.json",
-            "blacklist": open(
-                os.path.join(
-                    os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                    "geocoder_module",
-                    "blacklist.txt",
-                ),
-                "r",
-            )
-            .read()
-            .splitlines(),
+            "blacklist_path": "blacklist.json",
         }
 
+        try:
+            self.blacklist = json.load(
+                open(
+                    os.path.join(
+                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
+                        "geocoder_module",
+                        self.config["blacklist_path"],
+                    ),
+                    "r",
+                )
+            )
+        except:
+            logging.error(
+                "The json file {} specified in the configuration can't be read.".format(
+                    self.config["blacklist_path"]
+                )
+            )
         try:
             self.map_country_neighbors = json.load(
                 open(
@@ -197,7 +205,7 @@ class Geocoder:
         # Check for acronyms
         location = self._handle_acronyms(location)
         # Check that location is not in blacklist
-        if location.lower() in self.config["blacklist"]:
+        if location.lower() in self.blacklist[0]["data"]:
             logging.warning(
                 f"Location is in blacklist: {location}. Returning empty location"
             )
@@ -326,12 +334,14 @@ class Geocoder:
         :params locations:              String of containing location to be validated
 
         """
-        validated_results = []
-        if initial_results == []:
-            logging.warn(
+        # Check for initial results
+        if not initial_results:
+            logging.warning(
                 f"Can't validate location {location}. Empty Geocoder hits: {initial_results}"
             )
             return []
+        # Init list
+        validated_results = []
         for geocode_hit in initial_results:
             logging.info(f"Validating location {location}. Geocoder hit: {geocode_hit}")
             # Validate with geonames
@@ -349,7 +359,6 @@ class Geocoder:
                 else:
                     continue
             if not validated_results:
-                validated_results = []
                 logging.warning(
                     f"Location validation failed for {location}. Returning empty result"
                 )
@@ -604,7 +613,7 @@ class Geocoder:
             logging.info(
                 "Location Edge Case 0 detected: Only one country detected in event locations"
             )
-            if not locations or not "name" in locations[0]:
+            if not locations or "name" not in locations[0]:
                 logging.warning(
                     "Location Edge Case 0.1 detected: Local location empty - returning empty location"
                 )
@@ -705,17 +714,17 @@ class Geocoder:
 
         :return new_locations:      List of new locations after update has been completed
         """
+        if not locations:
+            logging.warning(
+                f"Locations list empty. Returning empty location with mapping countries {mapping_countries}"
+            )
+            return []
         new_locations = []
 
         for location in locations:
-            if not location or not "name" in location:
-                new_locations.append({})
-                continue
-            if location == []:
-                new_locations.append({})
+            if not location or "name" not in location:
                 continue
             if location["name"] not in mapping_countries:
-                new_locations.append({})
                 continue
             new_country = mapping_countries[location["name"]]
             new_location = None

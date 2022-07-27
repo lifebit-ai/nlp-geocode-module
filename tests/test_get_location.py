@@ -347,7 +347,29 @@ class TestGetLocationInfo:
 class TestValidateLocations:
     @patch("requests.get")
     def test_returns_validated_location(self, mock_get):
-        expected_output = []
+        location_input = [
+            {
+                "coordinates": [151.2164539, -33.8548157],
+                "bounding_box": [
+                    150.260825,
+                    -33.3641481,
+                    151.343898,
+                    -34.1732416,
+                ],
+                "country": "Australia",
+                "name": "Sydney",
+            },
+        ]
+
+        expected_output = [
+            {
+                "bounding_box": location_input[0]["bounding_box"],
+                "name": location_input[0]["name"],
+                "country": location_input[0]["country"],
+                "coordinates": location_input[0]["coordinates"],
+            }
+        ]
+
         expected_get_geonames_api_output = {
             "name": "Sydney",
             "latitude": "-33.86778",
@@ -355,17 +377,15 @@ class TestValidateLocations:
             "country": "Australia",
             "continent": "Oceania",
         }
-        mock_get.return_value.json = expected_get_geonames_api_output
-        response = geocoder._validate_locations(
-            [{"name": "Sydney", "country": "Australia"}], "Sydney"
-        )
+        mock_get.return_value.json.side_effect = [expected_get_geonames_api_output]
+        response = geocoder._validate_locations(location_input, "Sydney")
         assert response == expected_output
 
     @patch("requests.get")
     def test_returns_empty_value_when_given_empty_value(self, mock_get):
         expected_output = []
         expected_get_geonames_api_output = {}
-        mock_get.return_value.json = expected_get_geonames_api_output
+        mock_get.return_value.json.side_effect = [expected_get_geonames_api_output]
         response = geocoder._validate_locations(
             [{"name": "Paris", "country": "Poland"}], "Paris"
         )
@@ -379,7 +399,7 @@ class TestValidateLocations:
 
 class TestBlacklist:
     def test_get_location_blacklist_returns_empty_location(self):
-        for i in geocoder.config["blacklist"]:
+        for i in geocoder.blacklist[0]["data"]:
             response = geocoder.get_location_info(i)
             assert response == []
 
