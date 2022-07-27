@@ -29,7 +29,6 @@ mom
 dad
 fitz
 hagyar
-mo
 rescue
 bera
 county
