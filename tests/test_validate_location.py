@@ -206,7 +206,7 @@ class TestDoubleCheckCountries:
         self,
         mock_get_location_info,
     ):
-        locations = [{}]
+        locations = []
         ner_tags = [ner_tag_belgium, ner_tag_paris]
         # Create dummy return value, though this should not be called
         mock_get_location_info.json.return_value = "test"
@@ -235,7 +235,7 @@ class TestDoubleCheckCountries:
 
         # Expected output
 
-        expected_output = [{}]
+        expected_output = []
 
         assert response == expected_output
 

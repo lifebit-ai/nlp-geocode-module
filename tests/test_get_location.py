@@ -338,7 +338,7 @@ class TestGetLocationInfo:
             expected_get_geocoder_api_output_2,
             expected_get_geonames_api_output_2,
         ]
-        expected_output = [{}]
+        expected_output = []
         response = geocoder.get_location_info("asia petroleum hub")
         assert mock_get.called
         assert response == expected_output
@@ -348,7 +348,7 @@ class TestBlacklist:
     def test_get_location_blacklist_returns_empty_location(self):
         for i in geocoder.config["blacklist"]:
             response = geocoder.get_location_info(i)
-            assert response == [{}]
+            assert response == []
 
 
 class TestHandleAcronyms:
