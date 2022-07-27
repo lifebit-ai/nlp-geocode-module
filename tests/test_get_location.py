@@ -344,6 +344,39 @@ class TestGetLocationInfo:
         assert response == expected_output
 
 
+class TestValidateLocations:
+    @patch("requests.get")
+    def test_returns_validated_location(self, mock_get):
+        expected_output = []
+        expected_get_geonames_api_output = {
+            "name": "Sydney",
+            "latitude": "-33.86778",
+            "longitude": "151.20844",
+            "country": "Australia",
+            "continent": "Oceania",
+        }
+        mock_get.return_value.json = expected_get_geonames_api_output
+        response = geocoder._validate_locations(
+            [{"name": "Sydney", "country": "Australia"}], "Sydney"
+        )
+        assert response == expected_output
+
+    @patch("requests.get")
+    def test_returns_empty_value_when_given_empty_value(self, mock_get):
+        expected_output = []
+        expected_get_geonames_api_output = {}
+        mock_get.return_value.json = expected_get_geonames_api_output
+        response = geocoder._validate_locations(
+            [{"name": "Paris", "country": "Poland"}], "Paris"
+        )
+        assert response == expected_output
+
+    def test_return_empty_value_when_given_wrong_value(self):
+        expected_output = []
+        response = geocoder._validate_locations([], "Paris")
+        assert response == expected_output
+
+
 class TestBlacklist:
     def test_get_location_blacklist_returns_empty_location(self):
         for i in geocoder.config["blacklist"]:
