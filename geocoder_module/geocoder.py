@@ -1,12 +1,9 @@
-import json
-import sys
 import os
 from typing import Any, Dict, List, Tuple, Union
 from collections import Counter
 import requests
 from logger.logging import logging
 
-import geocoder_module
 from geocoder_module.utils import (
     calculate_distance,
     edit_bounding_box,
@@ -483,7 +480,7 @@ class Geocoder:
         locations: List[Dict[str, any]],
         ner_tags: List[Dict[str, any]],
         top_countries: int = None,
-    ) -> List[Tuple[int, Dict[str, any]]]:
+    ) -> List[Dict[str, any]]:
         """
         This function tries to detect a reference set of countries from
         a list of locations, assigning misrepresented locations to them.
