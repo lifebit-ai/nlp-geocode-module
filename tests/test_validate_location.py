@@ -56,10 +56,8 @@ class TestDoubleCheckCountries:
 
         assert response == expected_output
 
-    @patch("geocoder_module.geocoder.Geocoder.get_location_info")
-    def test_no_location_is_returned_when_locations_have_no_majority_no_ner_majority(
+    def test_original_locations_are_returned_when_locations_have_no_majority_no_ner_majority(
         self,
-        mock_get_location_info,
     ):
         locations = [
             location_output_london_uk,
@@ -68,12 +66,35 @@ class TestDoubleCheckCountries:
         ner_tags = []
         # Generate expected output from nlp-api response and add it to mock
 
-        mock_get_location_info.return_value = [location_output_london_uk]
+        # Get response
+        response = geocoder.double_check_countries(locations, ner_tags)
+
+        expected_output = [
+            location_output_london_uk,
+            location_output_san_antonio,
+        ]
+
+        assert response == expected_output
+
+    def test_single_location_is_returned_when_one_location_cannot_be_validated(
+        self,
+    ):
+        # Simulating response from geocoder in which one location has failed
+        # and returned an empty object for one location.
+        # This is testing that no IndexError would be triggered
+        locations = [
+            location_output_london_uk,
+            [],
+        ]
+        ner_tags = []
 
         # Get response
         response = geocoder.double_check_countries(locations, ner_tags)
 
-        expected_output = [location_output_london_uk, location_output_san_antonio]
+        expected_output = [
+            location_output_london_uk,
+            {},
+        ]
 
         assert response == expected_output
 
@@ -206,7 +227,7 @@ class TestDoubleCheckCountries:
         self,
         mock_get_location_info,
     ):
-        locations = [{}]
+        locations = []
         ner_tags = [ner_tag_belgium, ner_tag_paris]
         # Create dummy return value, though this should not be called
         mock_get_location_info.json.return_value = "test"
@@ -235,7 +256,7 @@ class TestDoubleCheckCountries:
 
         # Expected output
 
-        expected_output = [{}]
+        expected_output = []
 
         assert response == expected_output
 

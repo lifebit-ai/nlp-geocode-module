@@ -1,19 +1,20 @@
-import json
-import sys
 import os
 from typing import Any, Dict, List, Tuple, Union
 from collections import Counter
 import requests
 from logger.logging import logging
 
-import geocoder_module
 from geocoder_module.utils import (
     calculate_distance,
     edit_bounding_box,
     gps_sanity_check,
     bbox2point_coord,
 )
-from geocoder_module.helpers import check_location_can_be_processed
+from geocoder_module.helpers import (
+    check_env_vars,
+    check_location_can_be_processed,
+    load_json_file,
+)
 
 _wrap_latitude = lambda x: x + 90
 
@@ -40,84 +41,17 @@ class Geocoder:
             "country_neighbors_path": "country_neighbors.json",
             "country_bounding_box_path": "countries_bbox.json",
             "country_acronyms_path": "countries_acronyms.json",
-            "blacklist": open(
-                os.path.join(
-                    os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                    "geocoder_module",
-                    "blacklist.txt",
-                ),
-                "r",
-            ).readlines(),
+            "blacklist_path": "blacklist.json",
         }
 
-        try:
-            self.map_country_neighbors = json.load(
-                open(
-                    os.path.join(
-                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                        "geocoder_module",
-                        self.config["country_neighbors_path"],
-                    ),
-                    "r",
-                )
-            )
-        except:
-            logging.error(
-                "The json file {} specified in the configuration can't be read.".format(
-                    self.config["country_neighbors_path"]
-                )
-            )
-        try:
-            self.country_bbox = json.load(
-                open(
-                    os.path.join(
-                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                        "geocoder_module",
-                        self.config["country_bounding_box_path"],
-                    ),
-                    "r",
-                )
-            )
-        except:
-            logging.error(
-                "The json file {} specified in the configuration can't be read.".format(
-                    self.config["country_bounding_box_path"]
-                )
-            )
-        try:
-            self.country_acronyms = json.load(
-                open(
-                    os.path.join(
-                        os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                        "geocoder_module",
-                        self.config["country_acronyms_path"],
-                    ),
-                    "r",
-                )
-            )
-        except:
-            logging.error(
-                "The json file {} specified in the configuration can't be read.".format(
-                    self.config["country_acronyms_path"]
-                )
-            )
-        try:
-            logging.debug(
-                "Using Photon Geocoder server on: " + os.environ["PHOTON_SERVER"]
-            )
-        except:
-            logging.error(
-                "The environment variable PHOTON_SERVER has not been specified"
-            )
-            sys.exit(-1)
+        self.blacklist = load_json_file(self.config["blacklist_path"])
+        self.map_country_neighbors = load_json_file(
+            self.config["country_neighbors_path"]
+        )
+        self.country_bbox = load_json_file(self.config["country_bounding_box_path"])
+        self.country_acronyms = load_json_file(self.config["country_acronyms_path"])
 
-        try:
-            logging.debug("Using Geonames server on: " + os.environ["GEONAMES_SERVER"])
-        except:
-            logging.error(
-                "The environment variable GEONAMES_SERVER has not been specified"
-            )
-            sys.exit(-1)
+        check_env_vars()
 
     def _get_geonames_info(self, location: str, country: str) -> List[Dict[str, any]]:
         """
@@ -195,7 +129,7 @@ class Geocoder:
         # Check for acronyms
         location = self._handle_acronyms(location)
         # Check that location is not in blacklist
-        if location.lower() in self.config["blacklist"]:
+        if location.lower() in self.blacklist:
             logging.warning(
                 f"Location is in blacklist: {location}. Returning empty location"
             )
@@ -311,7 +245,6 @@ class Geocoder:
             # the first results is the always the best matching one
             if best_matching:
                 break
-
         return results
 
     def _validate_locations(
@@ -325,6 +258,13 @@ class Geocoder:
         :params locations:              String of containing location to be validated
 
         """
+        # Check for initial results
+        if not initial_results:
+            logging.warning(
+                f"Can't validate location {location}. Empty Geocoder hits: {initial_results}"
+            )
+            return []
+        # Init list
         validated_results = []
         for geocode_hit in initial_results:
             logging.info(f"Validating location {location}. Geocoder hit: {geocode_hit}")
@@ -343,7 +283,6 @@ class Geocoder:
                 else:
                     continue
             if not validated_results:
-                validated_results = [{}]
                 logging.warning(
                     f"Location validation failed for {location}. Returning empty result"
                 )
@@ -386,7 +325,7 @@ class Geocoder:
         # Check validity of location
         location = self.check_valid_location(location)
         if location is False:
-            return [{}]
+            return []
         # Query geocoder to find the best location in photon for that particular query
         initial_results = self._get_geocode_info(
             location, best_matching, country, lat, lon, location_bias_scale
@@ -531,7 +470,7 @@ class Geocoder:
                 name, country=new_country, best_matching=True
             )
             # check if the reference country can be used for this location
-            if new_location != [{}]:
+            if new_location:
                 mapping_countries[name] = new_location[0]["country"]
 
         return mapping_countries
@@ -576,15 +515,17 @@ class Geocoder:
         ]
         # Normalise country name
         if ner_countries:
-            ner_countries = [
-                self.get_location_info(
+            ner_countries_norm = []
+            for tag in ner_countries:
+                tag_norm = self.get_location_info(
                     tag["name"], country=tag["name"], best_matching=True
-                )[0]
-                for tag in ner_countries
-            ]
+                )
+                if tag_norm:
+                    ner_countries_norm.append(tag_norm[0])
+
             # Create ner countries list
-            for ner_country in ner_countries:
-                if ner_country:
+            if ner_countries_norm:
+                for ner_country in ner_countries_norm:
                     ner_countries_count.append(ner_country["country"])
 
         # create a default mapping and extract all the countries
@@ -598,11 +539,11 @@ class Geocoder:
             logging.info(
                 "Location Edge Case 0 detected: Only one country detected in event locations"
             )
-            if not locations[0] or not "name" in locations[0]:
+            if not locations or "name" not in locations[0]:
                 logging.warning(
                     "Location Edge Case 0.1 detected: Local location empty - returning empty location"
                 )
-                return [{}]
+                return []
 
         ## Edge case 1: If there are few locations and 1 is a country
         ## We assume that the few locations belong to that country,
@@ -699,13 +640,15 @@ class Geocoder:
 
         :return new_locations:      List of new locations after update has been completed
         """
+        if not locations:
+            logging.warning(
+                f"Locations list empty. Returning empty location with mapping countries {mapping_countries}"
+            )
+            return []
         new_locations = []
 
         for location in locations:
-            if not location or not "name" in location:
-                new_locations.append({})
-                continue
-            if location == []:
+            if not location or "name" not in location:
                 new_locations.append({})
                 continue
             if location["name"] not in mapping_countries:
