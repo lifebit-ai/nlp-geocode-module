@@ -56,10 +56,8 @@ class TestDoubleCheckCountries:
 
         assert response == expected_output
 
-    @patch("geocoder_module.geocoder.Geocoder.get_location_info")
     def test_original_locations_are_returned_when_locations_have_no_majority_no_ner_majority(
         self,
-        mock_get_location_info,
     ):
         locations = [
             location_output_london_uk,
@@ -67,8 +65,6 @@ class TestDoubleCheckCountries:
         ]
         ner_tags = []
         # Generate expected output from nlp-api response and add it to mock
-
-        mock_get_location_info.return_value = [location_output_london_uk]
 
         # Get response
         response = geocoder.double_check_countries(locations, ner_tags)
@@ -80,19 +76,17 @@ class TestDoubleCheckCountries:
 
         assert response == expected_output
 
-    @patch("geocoder_module.geocoder.Geocoder.get_location_info")
     def test_single_location_is_returned_when_one_location_cannot_be_validated(
         self,
-        mock_get_location_info,
     ):
+        # Simulating response from geocoder in which one location has failed
+        # and returned an empty object for one location.
+        # This is testing that no IndexError would be triggered
         locations = [
             location_output_london_uk,
             [],
         ]
         ner_tags = []
-        # Generate expected output from nlp-api response and add it to mock
-
-        mock_get_location_info.return_value = [location_output_london_uk]
 
         # Get response
         response = geocoder.double_check_countries(locations, ner_tags)
