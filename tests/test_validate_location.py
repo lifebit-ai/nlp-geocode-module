@@ -57,7 +57,7 @@ class TestDoubleCheckCountries:
         assert response == expected_output
 
     @patch("geocoder_module.geocoder.Geocoder.get_location_info")
-    def test_no_location_is_returned_when_locations_have_no_majority_no_ner_majority(
+    def test_original_locations_are_returned_when_locations_have_no_majority_no_ner_majority(
         self,
         mock_get_location_info,
     ):
@@ -73,7 +73,34 @@ class TestDoubleCheckCountries:
         # Get response
         response = geocoder.double_check_countries(locations, ner_tags)
 
-        expected_output = [location_output_london_uk, location_output_san_antonio]
+        expected_output = [
+            location_output_london_uk,
+            location_output_san_antonio,
+        ]
+
+        assert response == expected_output
+
+    @patch("geocoder_module.geocoder.Geocoder.get_location_info")
+    def test_single_location_is_returned_when_one_location_cannot_be_validated(
+        self,
+        mock_get_location_info,
+    ):
+        locations = [
+            location_output_london_uk,
+            [],
+        ]
+        ner_tags = []
+        # Generate expected output from nlp-api response and add it to mock
+
+        mock_get_location_info.return_value = [location_output_london_uk]
+
+        # Get response
+        response = geocoder.double_check_countries(locations, ner_tags)
+
+        expected_output = [
+            location_output_london_uk,
+            {},
+        ]
 
         assert response == expected_output
 
@@ -490,7 +517,7 @@ class TestUpdateCountryForLocations:
         response = geocoder.update_country_for_locations(
             locations, mapping_countries, only_countries
         )
-        expected_output = []
+        expected_output = [{}]
 
         assert response == expected_output
 
@@ -505,7 +532,7 @@ class TestUpdateCountryForLocations:
         response = geocoder.update_country_for_locations(
             locations, mapping_countries, only_countries
         )
-        expected_output = []
+        expected_output = [{}]
 
         assert response == expected_output
 
@@ -523,6 +550,6 @@ class TestUpdateCountryForLocations:
         response = geocoder.update_country_for_locations(
             locations, mapping_countries, only_countries
         )
-        expected_output = []
+        expected_output = [{}]
 
         assert response == expected_output

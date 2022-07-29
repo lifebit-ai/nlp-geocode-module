@@ -13,7 +13,11 @@ from geocoder_module.utils import (
     gps_sanity_check,
     bbox2point_coord,
 )
-from geocoder_module.helpers import check_location_can_be_processed
+from geocoder_module.helpers import (
+    check_env_vars,
+    check_location_can_be_processed,
+    load_json_file,
+)
 
 _wrap_latitude = lambda x: x + 90
 
@@ -43,81 +47,14 @@ class Geocoder:
             "blacklist_path": "blacklist.json",
         }
 
-        try:
-            blacklist_path = os.path.join(
-                os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                "geocoder_module",
-                self.config["blacklist_path"],
-            )
-            with open(blacklist_path, "r", encoding="utf-8") as blacklist_file:
-                self.blacklist = json.load(blacklist_file)
-        except Exception as error:
-            logging.error(
-                f"{error} The json file {self.config['blacklist_path']} specified in the configuration can't be read."
-            )
-        try:
-            map_country_neighbors_path = os.path.join(
-                os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                "geocoder_module",
-                self.config["country_neighbors_path"],
-            )
-            with open(
-                map_country_neighbors_path, "r", encoding="utf-8"
-            ) as map_country_neighbors_file:
-                self.map_country_neighbors = json.load(map_country_neighbors_file)
+        self.blacklist = load_json_file(self.config["blacklist_path"])
+        self.map_country_neighbors = load_json_file(
+            self.config["country_neighbors_path"]
+        )
+        self.country_bbox = load_json_file(self.config["country_bounding_box_path"])
+        self.country_acronyms = load_json_file(self.config["country_acronyms_path"])
 
-        except Exception as error:
-            logging.error(
-                f"{error}: The json file {self.config['country_neighbors_path']} specified in the configuration can't be read."
-            )
-
-        try:
-            country_bbox_path = os.path.join(
-                os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                "geocoder_module",
-                self.config["country_bounding_box_path"],
-            )
-            with open(country_bbox_path, "r", encoding="utf-8") as country_bbox_file:
-                self.country_bbox = json.load(country_bbox_file)
-
-        except Exception as error:
-            logging.error(
-                f"{error}: The json file {self.config['country_bounding_box_path']} specified in the configuration can't be read."
-            )
-
-        try:
-            country_acronyms_path = os.path.join(
-                os.path.dirname(os.path.dirname(geocoder_module.__file__)),
-                "geocoder_module",
-                self.config["country_acronyms_path"],
-            )
-            with open(
-                country_acronyms_path, "r", encoding="utf-8"
-            ) as country_acronyms_file:
-                self.country_acronyms = json.load(country_acronyms_file)
-
-        except Exception as error:
-            logging.error(
-                f"{error}: The json file {self.config['country_acronyms_path']} specified in the configuration can't be read."
-            )
-
-        try:
-            logging.debug(
-                "Using Photon Geocoder server on: " + os.environ["PHOTON_SERVER"]
-            )
-        except Exception as error:
-            logging.error(
-                f"{error} - The environment variable PHOTON_SERVER has not been specified"
-            )
-            sys.exit(-1)
-
-        try:
-            logging.debug("Using Geonames server on: " + os.environ["GEONAMES_SERVER"])
-        except Exception as error:
-            logging.error(
-                f"{error} - The environment variable GEONAMES_SERVER has not been specified"
-            )
-            sys.exit(-1)
+        check_env_vars()
 
     def _get_geonames_info(self, location: str, country: str) -> List[Dict[str, any]]:
         """
@@ -546,7 +483,7 @@ class Geocoder:
         locations: List[Dict[str, any]],
         ner_tags: List[Dict[str, any]],
         top_countries: int = None,
-    ) -> List[Dict[str, any]]:
+    ) -> List[Tuple[int, Dict[str, any]]]:
         """
         This function tries to detect a reference set of countries from
         a list of locations, assigning misrepresented locations to them.
@@ -581,15 +518,17 @@ class Geocoder:
         ]
         # Normalise country name
         if ner_countries:
-            ner_countries = [
-                self.get_location_info(
+            ner_countries_norm = []
+            for tag in ner_countries:
+                tag_norm = self.get_location_info(
                     tag["name"], country=tag["name"], best_matching=True
-                )[0]
-                for tag in ner_countries
-            ]
+                )
+                if tag_norm:
+                    ner_countries_norm.append(tag_norm[0])
+
             # Create ner countries list
-            for ner_country in ner_countries:
-                if ner_country:
+            if ner_countries_norm:
+                for ner_country in ner_countries_norm:
                     ner_countries_count.append(ner_country["country"])
 
         # create a default mapping and extract all the countries
@@ -713,8 +652,10 @@ class Geocoder:
 
         for location in locations:
             if not location or "name" not in location:
+                new_locations.append({})
                 continue
             if location["name"] not in mapping_countries:
+                new_locations.append({})
                 continue
             new_country = mapping_countries[location["name"]]
             new_location = None
